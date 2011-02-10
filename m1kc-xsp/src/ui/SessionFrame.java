@@ -968,6 +968,7 @@ public class SessionFrame extends javax.swing.JFrame implements XSPConstants, UI
             Logger.getLogger(SessionFrame.class.getName()).log(Level.SEVERE, null, ex);
         }
         byte[] z = bs.byteString;
+        // for great justice.
         //Sender.sendBytes(os, FILEPART, z, this);
         /*
          * AND THEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEN?????
