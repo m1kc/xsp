@@ -23,7 +23,6 @@ public class Connector
         Socket voiceSocket = null;
         try {
             ServerSocket server = new ServerSocket(port);
-            //ServerSocket server2 = new ServerSocket(port2);
             mainSocket = server.accept();
             fileSocket = server.accept();
             voiceSocket = server.accept();
