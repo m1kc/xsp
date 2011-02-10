@@ -19,38 +19,30 @@ public interface UIProxy
 
     // Обработка пакетов
 
-    public void textReceived(int type, String sbody);
-    public void binaryReceived(int type, byte[] bbody);
-    public void textSent(int type, String sbody);
-    public void binarySent(int type, byte[] bbody);
+    public void packReceived(int type, String[] utf, byte[] bytes);
+    public void packSent(int type, String[] utf, byte[] bytes);
 
     // Обработка ошибочных пакетов
 
-    public void errorUnknownLook(byte look);
-    public void errorUnknownTextType(int type);
-    public void errorUnknownBinaryType(int type);
+    public void errorUnknownType(int type);
 
-    // Обработка текстовых пакетов
+    // Обработка пакетов
 
-    public void handleOK(String body);
-    public void handleInvalid(String body);
-    public void handleError(String body);
-    public void handleRefused(String body);
-    public void handlePing(String s);
-    public void handleCapsCheck(String body);
-    public void handleMessage(String s);
-    public void handleTerminal(String body);
-    public void handleFileRq(String body);
-    public void handleFileDone(String body);
-    public void handleMicrophoneRq(String body);
-    public void handleDialogRq(String body);
-    public void handleMicrophoneStop(String body);
-    public void handleDialogStop(String body);
-    public void handleMouse(String body);
-
-    // Обработка бинарных пакетов
-
-    public void handleFilePart(byte[] body);
+    public void handleOK(String[] body, byte[] bytes);
+    public void handleInvalid(String[] body, byte[] bytes);
+    public void handleError(String[] body, byte[] bytes);
+    public void handleRefused(String[] body, byte[] bytes);
+    public void handlePing(String[] s, byte[] bytes);
+    public void handleCapsCheck(String[] body, byte[] bytes);
+    public void handleMessage(String[] s, byte[] bytes);
+    public void handleTerminal(String[] body, byte[] bytes);
+    public void handleFileRq(String[] body, byte[] bytes);
+    public void handleFileDone(String[] body, byte[] bytes);
+    public void handleMicrophoneRq(String[] body, byte[] bytes);
+    public void handleDialogRq(String[] body, byte[] bytes);
+    public void handleMicrophoneStop(String[] body, byte[] bytes);
+    public void handleDialogStop(String[] body, byte[] bytes);
+    public void handleMouse(String[] body, byte[] bytes);
 
     // DirectTransfer
 

@@ -48,13 +48,34 @@ public class Session extends Thread implements XSPConstants
         {
             try {
                 if (is.available() > 0) {
-                    // Еще раз, структура пакета:
-                    // [byte:вид][int:тип][содержимое]
-                    // В итоге:
-                    // [byte:1][int:тип][UTF:содержимое]
-                    // или
-                    // [byte:2][int:тип][int:длина][bytes:содержимое]
 
+                    // Next generation:
+                    // [int:тип][int:кол-во UTF][UTF]...[UTF][int:кол-во байт][byte[]:байты]
+
+                    // Прочитать тип пакета
+                    int type = is.readInt();
+                    // Читаем UTF
+                    int utfl = is.readInt();
+                    String[] utf = null;
+                    if (utfl>0) utf = new String[utfl];
+                    if (utf != null) for (int i=0; i<utf.length; i++) utf[i]=is.readUTF();
+                    // Байты
+                    int bytel = is.readInt();
+                    byte[] bytes = null;
+                    if (bytel>0) bytes = new byte[bytel];
+                    if (bytes != null)
+                    {
+                        int received = 0;
+                        while (received < bytel)
+                        {
+                            received += is.read(bytes, received, bytel-received);
+                        }
+                    }
+                    uiproxy.packReceived(type, utf, bytes);
+                    callHandler(type, utf, bytes);
+
+                    /*
+                     *
                     // Прочитать вид пакета
                     byte look = is.readByte();
                     // Прочитать тип пакета
@@ -91,6 +112,8 @@ public class Session extends Thread implements XSPConstants
                             uiproxy.errorUnknownLook(look);
                             break;
                     }
+                     *
+                     */
                 }
             } catch (IOException ex) {
                 Logger.getLogger(Session.class.getName()).log(Level.SEVERE, null, ex);
@@ -103,7 +126,7 @@ public class Session extends Thread implements XSPConstants
         }
     }
 
-    private void callTextHandler(int type, String body)
+    private void callHandler(int type, String[] body, byte[] bytes)
     {
         // KEEP IT SIMPLE, STUPID!!!
         // Ради скорости убрал класс обработчика пакетов. Пусть их обрабатывает
@@ -112,66 +135,53 @@ public class Session extends Thread implements XSPConstants
         switch(type)
         {
             case OK:
-                uiproxy.handleOK(body);
+                uiproxy.handleOK(body, bytes);
                 break;
             case INVALID:
-                uiproxy.handleInvalid(body);
+                uiproxy.handleInvalid(body, bytes);
                 break;
             case ERROR:
-                uiproxy.handleError(body);
+                uiproxy.handleError(body, bytes);
                 break;
             case REFUSED:
-                uiproxy.handleRefused(body);
+                uiproxy.handleRefused(body, bytes);
                 break;
 
             case PING:
-                uiproxy.handlePing(body);
+                uiproxy.handlePing(body, bytes);
                 break;
             case CAPSCHECK:
-                uiproxy.handleCapsCheck(body);
+                uiproxy.handleCapsCheck(body, bytes);
                 break;
             case MESSAGE:
-                uiproxy.handleMessage(body);
+                uiproxy.handleMessage(body, bytes);
                 break;
             case TERMINAL:
-                uiproxy.handleTerminal(body);
+                uiproxy.handleTerminal(body, bytes);
                 break;
             case FILERQ:
-                uiproxy.handleFileRq(body);
+                uiproxy.handleFileRq(body, bytes);
                 break;
             case MICROPHONERQ:
-                uiproxy.handleMicrophoneRq(body);
+                uiproxy.handleMicrophoneRq(body, bytes);
                 break;
             case DIALOGRQ:
-                uiproxy.handleDialogRq(body);
+                uiproxy.handleDialogRq(body, bytes);
                 break;
             case MICROPHONESTOP:
-                uiproxy.handleMicrophoneStop(body);
+                uiproxy.handleMicrophoneStop(body, bytes);
                 break;
             case DIALOGSTOP:
-                uiproxy.handleDialogStop(body);
+                uiproxy.handleDialogStop(body, bytes);
                 break;
             case MOUSE:
-                uiproxy.handleMouse(body);
+                uiproxy.handleMouse(body, bytes);
                 break;
 
             default:
-                uiproxy.errorUnknownTextType(type);
+                uiproxy.errorUnknownType(type);
                 break;
         }
     }
 
-    private void callBinaryHandler(int type, byte[] body)
-    {
-        switch(type)
-        {
-            case FILEPART:
-                uiproxy.handleFilePart(body);
-                break;
-
-            default:
-                uiproxy.errorUnknownBinaryType(type);
-                break;
-        }
-    }
 }
