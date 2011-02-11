@@ -32,6 +32,11 @@ public class Sender implements XSPConstants
         sendPack(os, type, (String[])null, body, u);
     }
 
+    public static void sendPack(DataOutputStream os, int type, UIProxy u)
+    {
+        sendPack(os, type, (String[])null, null, u);
+    }
+
     public static void sendPack(DataOutputStream os, int type, String utf, byte[] bytes, UIProxy u)
     {
         if (utf == null) sendPack(os, type, (String[]) null, bytes, u);

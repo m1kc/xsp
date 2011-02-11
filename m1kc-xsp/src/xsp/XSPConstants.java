@@ -33,9 +33,6 @@ public interface XSPConstants {
     final static int DIALOGSTOP = 12;
     final static int MOUSE = 13;
 
-    // Бинарные типы
-    final static int FILEPART = 0;
-
     // Возможности клиента
     final static String[] CAPS = {"PING","MESSAGE","TERMINAL","FILERQ",
     "MICROPHONERQ","DIALOGRQ","MICROPHONESTOP","DIALOGSTOP","DIALOG","FILE",

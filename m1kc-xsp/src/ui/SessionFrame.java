@@ -1079,7 +1079,7 @@ public class SessionFrame extends javax.swing.JFrame implements XSPConstants, UI
         log("Trying to ping...");
         mode = WAITING_PING;
         pingTime = System.currentTimeMillis();
-        Sender.sendUTF(os, PING, null, this);
+        Sender.sendPack(os, PING, this);
     }
 
     public void sendMessage(String s)
@@ -1090,20 +1090,20 @@ public class SessionFrame extends javax.swing.JFrame implements XSPConstants, UI
 
     public void updateTerminal()
     {
-        Sender.sendUTF(os, TERMINAL, jTextArea2.getCaretPosition()+";#$#;"+jTextArea2.getText(), this);
+        Sender.sendPack(os, TERMINAL, new String[]{""+jTextArea2.getCaretPosition(), jTextArea2.getText()}, null, this);
     }
 
     public void checkCaps(String s)
     {
         mode = WAITING_CAPS;
-        Sender.sendUTF(os, CAPSCHECK, s, this);
+        Sender.sendPack(os, CAPSCHECK, s, null, this);
     }
 
     public void sendFileRq()
     {
         mode = WAITING_CONFIRM_FILE;
         File ff = new File(jTextField4.getText());
-        Sender.sendUTF(os, FILERQ, ff.getName(), this);
+        Sender.sendPack(os, FILERQ, ff.getName(), null, this);
     }
 
     public void sendFile()
@@ -1142,7 +1142,7 @@ public class SessionFrame extends javax.swing.JFrame implements XSPConstants, UI
         {
             netSound.buffer = -1;
         }
-        Sender.sendUTF(os, MICROPHONERQ, ""+netSound.sampleRate+";"+netSound.sampleSizeInBits+";"+netSound.channels+";"+netSound.buffer, this);
+        Sender.sendPack(os, MICROPHONERQ, new String[]{""+netSound.sampleRate,""+netSound.sampleSizeInBits,""+netSound.channels,""+netSound.buffer}, null, this);
     }
 
     public void sendDialogRq()
@@ -1159,17 +1159,17 @@ public class SessionFrame extends javax.swing.JFrame implements XSPConstants, UI
         {
             netSound.buffer = -1;
         }
-        Sender.sendUTF(os, DIALOGRQ, ""+netSound.sampleRate+";"+netSound.sampleSizeInBits+";"+netSound.channels+";"+netSound.buffer, this);
+        Sender.sendPack(os, DIALOGRQ, new String[]{""+netSound.sampleRate,""+netSound.sampleSizeInBits,""+netSound.channels,""+netSound.buffer}, null, this);
     }
 
     public void sendMicrophoneStop()
     {
-        Sender.sendUTF(os, MICROPHONESTOP, null, this);
+        Sender.sendPack(os, MICROPHONESTOP, this);
     }
 
     public void sendDialogStop()
     {
-        Sender.sendUTF(os, DIALOGSTOP, null, this);
+        Sender.sendPack(os, DIALOGSTOP, this);
     }
 
     public void startVoiceStreaming()
@@ -1221,7 +1221,7 @@ public class SessionFrame extends javax.swing.JFrame implements XSPConstants, UI
 
     public void sendMouse(int x,int y,String event,int mask)
     {
-        Sender.sendUTF(os, MOUSE, ""+x+";"+y+";"+event+";"+mask, this);
+        Sender.sendPack(os, MOUSE, new String[]{""+x, ""+y, ""+event, ""+mask}, null, this);
     }
 
     // РЕАЛИЗАЦИЯ UIProxy ======================================================
@@ -1234,16 +1234,31 @@ public class SessionFrame extends javax.swing.JFrame implements XSPConstants, UI
         if (type==MOUSE) return; // Тем более забить
         if (jCheckBox5.isSelected())
         {
-            log(">> FIXME!!! текст, тип "+type+":");
+            StringBuilder z = new StringBuilder();
+            z.append(">> тип "+type+", UTF: ");
+            if (utf==null) z.append("null, ");
+            else for (int i=0; i<utf.length; i++) z.append(utf[i]+"; ");
+            z.append("байты: ");
+            if (bytes==null) z.append("null");
+            else for (int i=0; i<bytes.length; i++) z.append((char)bytes[i]);
+            log(z.toString());
         }
     }
 
-    public void packSent(int type, String[] utf, byte[] bytes) {
+    public void packSent(int type, String[] utf, byte[] bytes)
+    {
         if (type==TERMINAL) return; // Забить
         if (type==MOUSE) return; // Тем более забить
         if (jCheckBox5.isSelected())
         {
-            log("<< FIXME!!! текст, тип "+type+":");
+            StringBuilder z = new StringBuilder();
+            z.append(">> тип "+type+", UTF: ");
+            if (utf==null) z.append("null, ");
+            else for (int i=0; i<utf.length; i++) z.append(utf[i]+"; ");
+            z.append("байты: ");
+            if (bytes==null) z.append("null");
+            else for (int i=0; i<bytes.length; i++) z.append((char)bytes[i]);
+            log(z.toString());
         }
     }
 
@@ -1272,7 +1287,7 @@ public class SessionFrame extends javax.swing.JFrame implements XSPConstants, UI
                 mode = NONE;
                 break;
             case WAITING_CAPS:
-                log("Supported: "+body);
+                log("Supported: "+body[0]);
                 mode = NONE;
                 break;
             case WAITING_CONFIRM_FILE:
@@ -1289,7 +1304,7 @@ public class SessionFrame extends javax.swing.JFrame implements XSPConstants, UI
                 startVoiceStreaming();
                 break;
             default:
-                log("Получен пакет: OK: "+body);
+                log("Получен пакет: OK");
         }
     }
 
@@ -1298,14 +1313,14 @@ public class SessionFrame extends javax.swing.JFrame implements XSPConstants, UI
     }
 
     public void handleError(String[] body, byte[] bytes) {
-        log("Получено сообение об ошибке");
+        log("Получено сообение об ошибке.");
     }
 
     public void handleRefused(String[] body, byte[] bytes) {
         switch(mode)
         {
             case WAITING_CAPS:
-                log("Not supported: "+body);
+                log("Not supported: "+body[0]);
                 mode = NONE;
                 break;
             default:
@@ -1316,7 +1331,7 @@ public class SessionFrame extends javax.swing.JFrame implements XSPConstants, UI
     
 
     public void handlePing(String[] body, byte[] bytes) {
-        Sender.sendUTF(os, OK, null, this);
+        Sender.sendPack(os, OK, this);
         log("Командир, нас пингуют!");
     }
 
@@ -1326,8 +1341,8 @@ public class SessionFrame extends javax.swing.JFrame implements XSPConstants, UI
         {
             if (CAPS[i].hashCode()==body[0].hashCode()) flag=true;
         }
-        if (flag) Sender.sendUTF(os, OK, body[0], this);
-        else Sender.sendUTF(os, REFUSED, body[0], this);
+        if (flag) Sender.sendPack(os, OK, body[0], null, this);
+        else Sender.sendPack(os, REFUSED, body[0], null, this);
     }
     
     public void handleMessage(String[] body, byte[] bytes)
@@ -1342,44 +1357,39 @@ public class SessionFrame extends javax.swing.JFrame implements XSPConstants, UI
     }
 
     public void handleTerminal(String[] body, byte[] bytes) {
-        String[] z = body[0].split("[;][#][$][#][;]");
-        int p = Integer.parseInt(z[0]);
-        jTextArea2.setText(z[1]);
+        int p = Integer.parseInt(body[0]);
+        jTextArea2.setText(body[1]);
         jTextArea2.setCaretPosition(p);
     }
 
     public void handleFileRq(String[] body, byte[] bytes) {
-        Sender.sendUTF(os, OK, body[0], this);
+        Sender.sendPack(os, OK, body, null, this);
         receiveFile();
-    }
-
-    public void handleFileDone(String[] body, byte[] bytes) {
-        log("Принят файл.");
     }
 
     public void handleMicrophoneRq(String[] body, byte[] bytes)
     {
-        String[] args = body[0].split(";");
-        log("Начат прием голоса, параметры: "+args[0]+" Гц, "+args[1]+" бит, каналов: "+args[2]);
-        netSound.sampleRate = Float.parseFloat(args[0]);
-        netSound.sampleSizeInBits = Integer.parseInt(args[1]);
-        netSound.channels = (Integer.parseInt(args[2]));
-        netSound.buffer = (Integer.parseInt(args[3]));
+        log("Начат прием голоса, параметры: "+body[0]+" Гц, "+body[1]+" бит, каналов: "+
+                body[2]+", размер буфера: "+(body[3].hashCode()=="-1".hashCode() ? "авто":body[3]));
+        netSound.sampleRate = Float.parseFloat(body[0]);
+        netSound.sampleSizeInBits = Integer.parseInt(body[1]);
+        netSound.channels = (Integer.parseInt(body[2]));
+        netSound.buffer = (Integer.parseInt(body[3]));
         startVoiceListening();
-        Sender.sendUTF(os, OK, null, this);
+        Sender.sendPack(os, OK, this);
     }
 
     public void handleDialogRq(String[] body, byte[] bytes)
     {
-        String[] args = body[0].split(";");
-        log("Начат голосовой диалог, параметры: "+args[0]+" Гц, "+args[1]+" бит, каналов: "+args[2]);
-        netSound.sampleRate = Float.parseFloat(args[0]);
-        netSound.sampleSizeInBits = Integer.parseInt(args[1]);
-        netSound.channels = (Integer.parseInt(args[2]));
-        netSound.buffer = (Integer.parseInt(args[3]));
+        log("Начат голосовой диалог, параметры: "+body[0]+" Гц, "+body[1]+" бит, каналов: "+
+                body[2]+", размер буфера: "+(body[3].hashCode()=="-1".hashCode() ? "авто":body[3]));
+        netSound.sampleRate = Float.parseFloat(body[0]);
+        netSound.sampleSizeInBits = Integer.parseInt(body[1]);
+        netSound.channels = (Integer.parseInt(body[2]));
+        netSound.buffer = (Integer.parseInt(body[3]));
         startVoiceStreaming();
         startVoiceListening();
-        Sender.sendUTF(os, OK, null, this);
+        Sender.sendPack(os, OK, this);
     }
 
     public void handleMicrophoneStop(String[] body, byte[] bytes)
@@ -1397,18 +1407,17 @@ public class SessionFrame extends javax.swing.JFrame implements XSPConstants, UI
 
     public void handleMouse(String[] body, byte[] bytes)
     {
-        String[] s = body[0].split("[;]");
-        robot.mouseMove(Integer.parseInt(s[0]), Integer.parseInt(s[1]));
-        if (s[2].hashCode()=="PRESS".hashCode())
+        robot.mouseMove(Integer.parseInt(body[0]), Integer.parseInt(body[1]));
+        if (body[2].hashCode()=="PRESS".hashCode())
         {
-            int z = Integer.parseInt(s[3]);
+            int z = Integer.parseInt(body[3]);
             if (z==MouseEvent.BUTTON1) robot.mousePress(InputEvent.BUTTON1_MASK);
             if (z==MouseEvent.BUTTON2) robot.mousePress(InputEvent.BUTTON2_MASK);
             if (z==MouseEvent.BUTTON3) robot.mousePress(InputEvent.BUTTON3_MASK);
         }
-        if (s[2].hashCode()=="RELEASE".hashCode())
+        if (body[2].hashCode()=="RELEASE".hashCode())
         {
-            int z = Integer.parseInt(s[3]);
+            int z = Integer.parseInt(body[3]);
             if (z==MouseEvent.BUTTON1) robot.mouseRelease(InputEvent.BUTTON1_MASK);
             if (z==MouseEvent.BUTTON2) robot.mouseRelease(InputEvent.BUTTON2_MASK);
             if (z==MouseEvent.BUTTON3) robot.mouseRelease(InputEvent.BUTTON3_MASK);
@@ -1419,7 +1428,7 @@ public class SessionFrame extends javax.swing.JFrame implements XSPConstants, UI
 
     public void sendDone()
     {
-        jLabel4.setText("done");
+        jLabel4.setText("Передача завершена.");
         jProgressBar1.setMaximum(100);
         jProgressBar1.setValue(100);
     }
@@ -1433,7 +1442,7 @@ public class SessionFrame extends javax.swing.JFrame implements XSPConstants, UI
 
     public void receiveDone()
     {
-        jLabel5.setText("done");
+        jLabel5.setText("Прием завершен.");
         jProgressBar2.setMaximum(100);
         jProgressBar2.setValue(100);
 
