@@ -32,6 +32,7 @@ public interface XSPConstants {
     final static int MICROPHONESTOP = 11;
     final static int DIALOGSTOP = 12;
     final static int MOUSE = 13;
+    final static int SCREEN = 14;
 
     // Возможности клиента
     final static String[] CAPS = {"PING","MESSAGE","TERMINAL","FILERQ",

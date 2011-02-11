@@ -41,7 +41,8 @@ public class SessionFrame extends javax.swing.JFrame implements XSPConstants, UI
     long pingTime = 0;
     NetSound netSound;
     Robot robot;
-    BufferedImage screen;
+    Image screen;
+    Graphics screenGraphics;
 
     /** Creates new form MainFrame */
     public SessionFrame()
@@ -55,6 +56,7 @@ public class SessionFrame extends javax.swing.JFrame implements XSPConstants, UI
         } catch (AWTException ex) {
             Logger.getLogger(SessionFrame.class.getName()).log(Level.SEVERE, null, ex);
         }
+        screenGraphics = jPanel16.getGraphics();
     }
 
     public void init(Session session)
@@ -968,13 +970,9 @@ public class SessionFrame extends javax.swing.JFrame implements XSPConstants, UI
             Logger.getLogger(SessionFrame.class.getName()).log(Level.SEVERE, null, ex);
         }
         byte[] z = bs.byteString;
-        // for great justice.
-        //Sender.sendBytes(os, FILEPART, z, this);
-        /*
-         * AND THEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEN?????
-         * WHAT'S THEN?
-         *
-         */
+        //Sender.sendPack(os, SCREEN, "full", z, this);
+        Image i = Toolkit.getDefaultToolkit().createImage(z);
+        screenGraphics.drawImage(i, 0, 0, null);
     }//GEN-LAST:event_jButton15ActionPerformed
 
     // <editor-fold defaultstate="collapsed" desc="Generated Code">
@@ -1085,7 +1083,7 @@ public class SessionFrame extends javax.swing.JFrame implements XSPConstants, UI
     public void sendMessage(String s)
     {
         chat(s,false);
-        Sender.sendUTF(os, MESSAGE, s, this);
+        Sender.sendPack(os, MESSAGE, s, null, this);
     }
 
     public void updateTerminal()
@@ -1273,7 +1271,7 @@ public class SessionFrame extends javax.swing.JFrame implements XSPConstants, UI
 
     public void errorUnknownType(int type) {
         log("Неизвестный тип пакета: "+type);
-        Sender.sendUTF(os, INVALID, null, this);
+        Sender.sendPack(os, INVALID, this);
     }
 
     // Обработка текстовых пакетов
@@ -1422,6 +1420,15 @@ public class SessionFrame extends javax.swing.JFrame implements XSPConstants, UI
             if (z==MouseEvent.BUTTON2) robot.mouseRelease(InputEvent.BUTTON2_MASK);
             if (z==MouseEvent.BUTTON3) robot.mouseRelease(InputEvent.BUTTON3_MASK);
         }
+    }
+
+    public void handleScreen(String[] body, byte[] bytes)
+    {
+        if (body[0].hashCode()=="full".hashCode())
+        {
+            screen = Toolkit.getDefaultToolkit().createImage(bytes);
+        }
+        screenGraphics.drawImage(screen, 0, 0, null);
     }
 
     // DirectTransfer

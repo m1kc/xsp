@@ -177,6 +177,10 @@ public class Session extends Thread implements XSPConstants
             case MOUSE:
                 uiproxy.handleMouse(body, bytes);
                 break;
+            case SCREEN:
+                uiproxy.handleScreen(body, bytes);
+                break;
+
 
             default:
                 uiproxy.errorUnknownType(type);

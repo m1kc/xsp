@@ -11,8 +11,6 @@ package xsp;
  */
 public interface UIProxy
 {
-    // Стандартные функции
-
     // Ошибки
 
     public void errorWhileSending(Throwable ex);
@@ -42,6 +40,7 @@ public interface UIProxy
     public void handleMicrophoneStop(String[] body, byte[] bytes);
     public void handleDialogStop(String[] body, byte[] bytes);
     public void handleMouse(String[] body, byte[] bytes);
+    public void handleScreen(String[] body, byte[] bytes);
 
     // DirectTransfer
 
