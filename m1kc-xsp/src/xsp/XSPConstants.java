@@ -12,7 +12,8 @@ package xsp;
 public interface XSPConstants
 {
 
-    // Текстовые типы
+    // Типы пакетов
+    
     // Служебные
     final static int OK = 0;
     final static int INVALID = 1;
