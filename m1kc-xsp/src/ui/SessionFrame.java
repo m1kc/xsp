@@ -1226,38 +1226,32 @@ public class SessionFrame extends javax.swing.JFrame implements XSPConstants, UI
 
     // Обработка пакетов
 
-    public void packReceived(int type, String[] utf, byte[] bytes) 
+    public void logPack(boolean incoming, int type, String[] utf, byte[] bytes)
     {
         if (type==TERMINAL) return; // Забить
         if (type==MOUSE) return; // Тем более забить
         if (jCheckBox5.isSelected())
         {
             StringBuilder z = new StringBuilder();
-            z.append(">> тип "+type+", UTF: ");
-            if (utf==null) z.append("null, ");
+            if (incoming) z.append(">> "); else z.append("<< ");
+            z.append("тип "+type+"; UTF: ");
+            if (utf==null) z.append("нет; ");
             else for (int i=0; i<utf.length; i++) z.append(utf[i]+"; ");
             z.append("байты: ");
-            if (bytes==null) z.append("null");
+            if (bytes==null) z.append("нет");
             else for (int i=0; i<bytes.length; i++) z.append((char)bytes[i]);
             log(z.toString());
         }
     }
 
+    public void packReceived(int type, String[] utf, byte[] bytes) 
+    {
+        logPack(true, type, utf, bytes);
+    }
+
     public void packSent(int type, String[] utf, byte[] bytes)
     {
-        if (type==TERMINAL) return; // Забить
-        if (type==MOUSE) return; // Тем более забить
-        if (jCheckBox5.isSelected())
-        {
-            StringBuilder z = new StringBuilder();
-            z.append(">> тип "+type+", UTF: ");
-            if (utf==null) z.append("null, ");
-            else for (int i=0; i<utf.length; i++) z.append(utf[i]+"; ");
-            z.append("байты: ");
-            if (bytes==null) z.append("null");
-            else for (int i=0; i<bytes.length; i++) z.append((char)bytes[i]);
-            log(z.toString());
-        }
+        logPack(false, type, utf, bytes);
     }
 
     // Ошибки
