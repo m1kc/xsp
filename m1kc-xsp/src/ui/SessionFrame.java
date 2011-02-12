@@ -872,7 +872,7 @@ public class SessionFrame extends javax.swing.JFrame implements XSPConstants, UI
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         try {
-            os.writeByte(TEXT);
+            //os.writeByte(TEXT);
             os.writeInt(100500);
             os.writeUTF("");
         } catch (IOException ex) {
@@ -882,7 +882,7 @@ public class SessionFrame extends javax.swing.JFrame implements XSPConstants, UI
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
         try {
-            os.writeByte(BINARY);
+            //os.writeByte(BINARY);
             os.writeInt(100500);
             os.writeInt(0);
             os.write(new byte[0]);

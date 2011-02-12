@@ -9,11 +9,8 @@ package xsp;
  *
  * @author m1kc
  */
-public interface XSPConstants {
-
-    // Виды пакетов
-    final static byte TEXT = 1;
-    final static byte BINARY = 2;
+public interface XSPConstants
+{
 
     // Текстовые типы
     // Служебные
@@ -35,7 +32,6 @@ public interface XSPConstants {
     final static int SCREEN = 14;
 
     // Возможности клиента
-    final static String[] CAPS = {"PING","MESSAGE","TERMINAL","FILERQ",
-    "MICROPHONERQ","DIALOGRQ","MICROPHONESTOP","DIALOGSTOP","DIALOG","FILE",
-    "MICROPHONE"};
+    final static String[] CAPS = {"PING","MESSAGE","TERMINAL","FILE",
+    "MICROPHONE","DIALOG"};
 }
