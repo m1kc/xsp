@@ -41,7 +41,7 @@ public class SessionFrame extends javax.swing.JFrame implements XSPConstants, UI
     final static int WAITING_CONFIRM_DIALOG = 5;
     long pingTime = 0;
     NetSound netSound;
-    Robot robot;
+    static Robot robot;
     Image screen;
 
     /** Creates new form MainFrame */
@@ -109,6 +109,36 @@ public class SessionFrame extends javax.swing.JFrame implements XSPConstants, UI
         if (size>=1024L*1024L*1024L*10L) return ""+size/(1024L*1024L*1024L)+" Гб";
         if (size>=1024L*1024L*10L) return ""+size/(1024L*1024L)+" Мб";
         return ""+size/1024L+" Кб";
+    }
+
+    public static byte[] getScreen(Rectangle r)
+    {
+        final ByteString bs = new ByteString();
+        OutputStream s = new OutputStream() {
+            @Override
+            public void write(int b) throws IOException
+            {
+                bs.append(new byte[]{(byte)b});
+            }
+
+            @Override
+            public void write(byte[] b)
+            {
+                bs.append(b);
+            }
+        };
+
+        BufferedImage ss;
+        if (r==null) ss = robot.createScreenCapture(new Rectangle(Toolkit.getDefaultToolkit().getScreenSize()));
+        else ss = robot.createScreenCapture(r);
+
+        try {
+            ImageIO.write(ss, "GIF", s);
+        } catch (IOException ex) {
+            Logger.getLogger(SessionFrame.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        return bs.byteString;
     }
 
     /** This method is called from within the constructor to
@@ -926,33 +956,8 @@ public class SessionFrame extends javax.swing.JFrame implements XSPConstants, UI
 }//GEN-LAST:event_jTextArea2KeyReleased
 
     private void jButton15ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton15ActionPerformed
-        final ByteString bs = new ByteString();
-        OutputStream s = new OutputStream() {
-            @Override
-            public void write(int b) throws IOException
-            {
-                bs.append(new byte[]{(byte)b});
-            }
-
-            @Override
-            public void write(byte[] b)
-            {
-                bs.append(b);
-            }
-        };
-        BufferedImage ss = robot.createScreenCapture(new Rectangle(Toolkit.getDefaultToolkit().getScreenSize()));
-
-        try {
-            ImageIO.write(ss, "GIF", s);
-        } catch (IOException ex) {
-            Logger.getLogger(SessionFrame.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
-        byte[] z = bs.byteString;
-        Sender.sendPack(os, SCREEN, "full", z, this);
-        //Image i = Toolkit.getDefaultToolkit().createImage(z);
-        //jLabel10.setIcon(new ImageIcon(i));
-        //screenGraphics.drawImage(i, 0, 0, null);
+        updateScreen(null);
+        //updateScreen(new Rectangle(0,0,100,100));
     }//GEN-LAST:event_jButton15ActionPerformed
 
     private void jLabel10MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel10MousePressed
@@ -1214,6 +1219,12 @@ public class SessionFrame extends javax.swing.JFrame implements XSPConstants, UI
         Sender.sendPack(os, MOUSE, new String[]{""+x, ""+y, ""+event, ""+mask}, null, this);
     }
 
+    public void updateScreen(Rectangle r)
+    {
+        if (r==null) Sender.sendPack(os, SCREEN, "full", getScreen(r), this);
+        else Sender.sendPack(os, SCREEN, new String[]{"part",""+r.getX(),""+r.getY()}, getScreen(r), this);
+    }
+
     // РЕАЛИЗАЦИЯ UIProxy ======================================================
 
     // Обработка пакетов
@@ -1413,6 +1424,13 @@ public class SessionFrame extends javax.swing.JFrame implements XSPConstants, UI
         if (body[0].hashCode()=="full".hashCode())
         {
             screen = Toolkit.getDefaultToolkit().createImage(bytes);
+        }
+        if (body[0].hashCode()=="partial".hashCode())
+        {
+            int x = (int) Double.parseDouble(body[1]);
+            int y = (int) Double.parseDouble(body[2]);
+            Image i = Toolkit.getDefaultToolkit().createImage(bytes);
+            screen.getGraphics().drawImage(i, x, y, null);
         }
         jLabel10.setIcon(new ImageIcon(screen));
         //screenGraphics.drawImage(screen, 0, 0, null);
