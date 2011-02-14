@@ -16,9 +16,9 @@ import java.awt.event.*;
 import java.awt.image.*;
 import java.io.*;
 import java.util.logging.*;
-import javax.imageio.ImageIO;
+import javax.imageio.*;
 import javax.sound.sampled.*;
-import javax.swing.ImageIcon;
+import javax.swing.*;
 import xsp.*;
 
 /**
@@ -42,7 +42,7 @@ public class SessionFrame extends javax.swing.JFrame implements XSPConstants, UI
     long pingTime = 0;
     NetSound netSound;
     static Robot robot;
-    Image screen;
+    BufferedImage screen;
 
     /** Creates new form MainFrame */
     public SessionFrame()
@@ -141,6 +141,11 @@ public class SessionFrame extends javax.swing.JFrame implements XSPConstants, UI
         return bs.byteString;
     }
 
+    public static Image makeGoodImage(Image i)
+    {
+        return new ImageIcon(i).getImage();
+    }
+
     /** This method is called from within the constructor to
      * initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is
@@ -210,7 +215,6 @@ public class SessionFrame extends javax.swing.JFrame implements XSPConstants, UI
         jPanel15 = new javax.swing.JPanel();
         jCheckBox6 = new javax.swing.JCheckBox();
         jCheckBox7 = new javax.swing.JCheckBox();
-        jCheckBox8 = new javax.swing.JCheckBox();
         jButton15 = new javax.swing.JButton();
         jLabel10 = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
@@ -759,9 +763,7 @@ public class SessionFrame extends javax.swing.JFrame implements XSPConstants, UI
 
         jCheckBox7.setText("Контролировать мышь");
 
-        jCheckBox8.setText("Отдавать экран");
-
-        jButton15.setText("Отдать экран");
+        jButton15.setText("Начать отдачу экрана");
         jButton15.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton15ActionPerformed(evt);
@@ -796,8 +798,6 @@ public class SessionFrame extends javax.swing.JFrame implements XSPConstants, UI
                     .addGroup(jPanel15Layout.createSequentialGroup()
                         .addComponent(jCheckBox6)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jCheckBox8)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton15)))
                 .addContainerGap())
         );
@@ -807,7 +807,6 @@ public class SessionFrame extends javax.swing.JFrame implements XSPConstants, UI
                 .addContainerGap()
                 .addGroup(jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jCheckBox6)
-                    .addComponent(jCheckBox8)
                     .addComponent(jButton15))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jCheckBox7)
@@ -956,8 +955,31 @@ public class SessionFrame extends javax.swing.JFrame implements XSPConstants, UI
 }//GEN-LAST:event_jTextArea2KeyReleased
 
     private void jButton15ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton15ActionPerformed
-        updateScreen(null);
-        //updateScreen(new Rectangle(0,0,100,100));
+        //updateScreen(null);
+        new Thread(){
+            @Override
+            public void run()
+            {
+                final int w = Toolkit.getDefaultToolkit().getScreenSize().width;
+                final int h = Toolkit.getDefaultToolkit().getScreenSize().height;
+                final int sx = w/4;
+                final int sy = h/4;
+                while(true)
+                {
+                    long start = System.currentTimeMillis();
+                    for (int i=0; i<w; i+=sx)
+                        for (int j=0; j<h; j+=sy)
+                            updateScreen(new Rectangle(i,j,sx,sy));
+                    long ago = System.currentTimeMillis() - start;
+                    System.out.println(ago);
+                    try {
+                        Thread.sleep(100);
+                    } catch (InterruptedException ex) {
+                        Logger.getLogger(SessionFrame.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
+            }
+        }.start();
     }//GEN-LAST:event_jButton15ActionPerformed
 
     private void jLabel10MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel10MousePressed
@@ -996,7 +1018,6 @@ public class SessionFrame extends javax.swing.JFrame implements XSPConstants, UI
     private javax.swing.JCheckBox jCheckBox5;
     private javax.swing.JCheckBox jCheckBox6;
     private javax.swing.JCheckBox jCheckBox7;
-    private javax.swing.JCheckBox jCheckBox8;
     private javax.swing.JComboBox jComboBox1;
     private javax.swing.JComboBox jComboBox2;
     private javax.swing.JComboBox jComboBox3;
@@ -1221,8 +1242,9 @@ public class SessionFrame extends javax.swing.JFrame implements XSPConstants, UI
 
     public void updateScreen(Rectangle r)
     {
-        if (r==null) Sender.sendPack(os, SCREEN, "full", getScreen(r), this);
-        else Sender.sendPack(os, SCREEN, new String[]{"part",""+r.getX(),""+r.getY()}, getScreen(r), this);
+        Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
+        if (r==null) Sender.sendPack(os, SCREEN, new String[]{""+d.width,""+d.height,"full"}, getScreen(r), this);
+        else Sender.sendPack(os, SCREEN, new String[]{""+d.width,""+d.height,"part",""+r.getX(),""+r.getY()}, getScreen(r), this);
     }
 
     // РЕАЛИЗАЦИЯ UIProxy ======================================================
@@ -1233,6 +1255,7 @@ public class SessionFrame extends javax.swing.JFrame implements XSPConstants, UI
     {
         if (type==TERMINAL) return; // Забить
         if (type==MOUSE) return; // Тем более забить
+        if (type==SCREEN) return; // Стопудово забить!
         if (jCheckBox5.isSelected())
         {
             StringBuilder z = new StringBuilder();
@@ -1421,19 +1444,27 @@ public class SessionFrame extends javax.swing.JFrame implements XSPConstants, UI
 
     public void handleScreen(String[] body, byte[] bytes)
     {
-        if (body[0].hashCode()=="full".hashCode())
+        if (screen==null)
         {
-            screen = Toolkit.getDefaultToolkit().createImage(bytes);
+            int w = (int) Double.parseDouble(body[0]);
+            int h = (int) Double.parseDouble(body[1]);
+            screen = new BufferedImage(w,h,BufferedImage.TYPE_INT_RGB);
         }
-        if (body[0].hashCode()=="partial".hashCode())
+
+        if (body[2].hashCode()=="full".hashCode())
         {
-            int x = (int) Double.parseDouble(body[1]);
-            int y = (int) Double.parseDouble(body[2]);
-            Image i = Toolkit.getDefaultToolkit().createImage(bytes);
+            Image i = makeGoodImage(Toolkit.getDefaultToolkit().createImage(bytes));
+            screen.createGraphics().drawImage(i, 0, 0, null);
+        }
+        if (body[2].hashCode()=="part".hashCode())
+        {
+            int x = (int) Double.parseDouble(body[3]);
+            int y = (int) Double.parseDouble(body[4]);
+            Image i = makeGoodImage(Toolkit.getDefaultToolkit().createImage(bytes));
             screen.getGraphics().drawImage(i, x, y, null);
         }
+
         jLabel10.setIcon(new ImageIcon(screen));
-        //screenGraphics.drawImage(screen, 0, 0, null);
     }
 
     // DirectTransfer

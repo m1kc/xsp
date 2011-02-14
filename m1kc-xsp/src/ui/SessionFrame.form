@@ -960,8 +960,6 @@
                           <Group type="102" alignment="0" attributes="0">
                               <Component id="jCheckBox6" min="-2" max="-2" attributes="1"/>
                               <EmptySpace max="-2" attributes="0"/>
-                              <Component id="jCheckBox8" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace max="-2" attributes="0"/>
                               <Component id="jButton15" min="-2" max="-2" attributes="0"/>
                           </Group>
                       </Group>
@@ -975,7 +973,6 @@
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="jCheckBox6" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="jCheckBox8" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="jButton15" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
@@ -1000,14 +997,9 @@
                 <Property name="text" type="java.lang.String" value="&#x41a;&#x43e;&#x43d;&#x442;&#x440;&#x43e;&#x43b;&#x438;&#x440;&#x43e;&#x432;&#x430;&#x442;&#x44c; &#x43c;&#x44b;&#x448;&#x44c;"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JCheckBox" name="jCheckBox8">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="&#x41e;&#x442;&#x434;&#x430;&#x432;&#x430;&#x442;&#x44c; &#x44d;&#x43a;&#x440;&#x430;&#x43d;"/>
-              </Properties>
-            </Component>
             <Component class="javax.swing.JButton" name="jButton15">
               <Properties>
-                <Property name="text" type="java.lang.String" value="&#x41e;&#x442;&#x434;&#x430;&#x442;&#x44c; &#x44d;&#x43a;&#x440;&#x430;&#x43d;"/>
+                <Property name="text" type="java.lang.String" value="&#x41d;&#x430;&#x447;&#x430;&#x442;&#x44c; &#x43e;&#x442;&#x434;&#x430;&#x447;&#x443; &#x44d;&#x43a;&#x440;&#x430;&#x43d;&#x430;"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton15ActionPerformed"/>
