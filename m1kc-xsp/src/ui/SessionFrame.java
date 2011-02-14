@@ -18,6 +18,7 @@ import java.io.*;
 import java.util.logging.*;
 import javax.imageio.ImageIO;
 import javax.sound.sampled.*;
+import javax.swing.ImageIcon;
 import xsp.*;
 
 /**
@@ -42,7 +43,6 @@ public class SessionFrame extends javax.swing.JFrame implements XSPConstants, UI
     NetSound netSound;
     Robot robot;
     Image screen;
-    Graphics screenGraphics;
 
     /** Creates new form MainFrame */
     public SessionFrame()
@@ -56,7 +56,6 @@ public class SessionFrame extends javax.swing.JFrame implements XSPConstants, UI
         } catch (AWTException ex) {
             Logger.getLogger(SessionFrame.class.getName()).log(Level.SEVERE, null, ex);
         }
-        screenGraphics = jPanel16.getGraphics();
     }
 
     public void init(Session session)
@@ -181,9 +180,9 @@ public class SessionFrame extends javax.swing.JFrame implements XSPConstants, UI
         jPanel15 = new javax.swing.JPanel();
         jCheckBox6 = new javax.swing.JCheckBox();
         jCheckBox7 = new javax.swing.JCheckBox();
-        jPanel16 = new javax.swing.JPanel();
         jCheckBox8 = new javax.swing.JCheckBox();
         jButton15 = new javax.swing.JButton();
+        jLabel10 = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
         jScrollPane4 = new javax.swing.JScrollPane();
         jTextArea3 = new javax.swing.JTextArea();
@@ -241,7 +240,7 @@ public class SessionFrame extends javax.swing.JFrame implements XSPConstants, UI
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 313, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 353, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton1)
@@ -292,7 +291,7 @@ public class SessionFrame extends javax.swing.JFrame implements XSPConstants, UI
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 313, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 353, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -368,7 +367,7 @@ public class SessionFrame extends javax.swing.JFrame implements XSPConstants, UI
                 .addComponent(jButton5)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton10)
-                .addContainerGap(233, Short.MAX_VALUE))
+                .addContainerGap(273, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Эксплоиты ", new javax.swing.ImageIcon(getClass().getResource("/image/expl.png")), jPanel3); // NOI18N
@@ -419,7 +418,7 @@ public class SessionFrame extends javax.swing.JFrame implements XSPConstants, UI
                     .addComponent(jButton7))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jCheckBox1)
-                .addContainerGap(63, Short.MAX_VALUE))
+                .addContainerGap(83, Short.MAX_VALUE))
         );
 
         jPanel5.add(jPanel6);
@@ -475,7 +474,7 @@ public class SessionFrame extends javax.swing.JFrame implements XSPConstants, UI
                 .addComponent(jLabel3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton9)
-                .addContainerGap(26, Short.MAX_VALUE))
+                .addContainerGap(46, Short.MAX_VALUE))
         );
 
         jPanel5.add(jPanel7);
@@ -502,7 +501,7 @@ public class SessionFrame extends javax.swing.JFrame implements XSPConstants, UI
                 .addComponent(jLabel5)
                 .addGap(18, 18, 18)
                 .addComponent(jProgressBar2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(95, Short.MAX_VALUE))
+                .addContainerGap(115, Short.MAX_VALUE))
         );
 
         jPanel5.add(jPanel13);
@@ -529,7 +528,7 @@ public class SessionFrame extends javax.swing.JFrame implements XSPConstants, UI
                 .addComponent(jLabel4)
                 .addGap(18, 18, 18)
                 .addComponent(jProgressBar1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(95, Short.MAX_VALUE))
+                .addContainerGap(115, Short.MAX_VALUE))
         );
 
         jPanel5.add(jPanel14);
@@ -583,7 +582,7 @@ public class SessionFrame extends javax.swing.JFrame implements XSPConstants, UI
                 .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton11)
                     .addComponent(jButton14))
-                .addContainerGap(86, Short.MAX_VALUE))
+                .addContainerGap(106, Short.MAX_VALUE))
         );
 
         jPanel8.add(jPanel9);
@@ -644,7 +643,7 @@ public class SessionFrame extends javax.swing.JFrame implements XSPConstants, UI
                 .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel9)
                     .addComponent(jComboBox3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(29, Short.MAX_VALUE))
+                .addContainerGap(49, Short.MAX_VALUE))
         );
 
         jPanel8.add(jPanel10);
@@ -694,7 +693,7 @@ public class SessionFrame extends javax.swing.JFrame implements XSPConstants, UI
                 .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton12)
                     .addComponent(jButton13))
-                .addContainerGap(86, Short.MAX_VALUE))
+                .addContainerGap(106, Short.MAX_VALUE))
         );
 
         jPanel8.add(jPanel12);
@@ -717,7 +716,7 @@ public class SessionFrame extends javax.swing.JFrame implements XSPConstants, UI
             .addGroup(jPanel11Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel6)
-                .addContainerGap(133, Short.MAX_VALUE))
+                .addContainerGap(153, Short.MAX_VALUE))
         );
 
         jPanel8.add(jPanel11);
@@ -730,38 +729,28 @@ public class SessionFrame extends javax.swing.JFrame implements XSPConstants, UI
 
         jCheckBox7.setText("Контролировать мышь");
 
-        jPanel16.setBackground(new java.awt.Color(254, 254, 254));
-        jPanel16.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mousePressed(java.awt.event.MouseEvent evt) {
-                jPanel16MousePressed(evt);
-            }
-            public void mouseReleased(java.awt.event.MouseEvent evt) {
-                jPanel16MouseReleased(evt);
-            }
-        });
-        jPanel16.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
-            public void mouseMoved(java.awt.event.MouseEvent evt) {
-                jPanel16MouseMoved(evt);
-            }
-        });
-
-        javax.swing.GroupLayout jPanel16Layout = new javax.swing.GroupLayout(jPanel16);
-        jPanel16.setLayout(jPanel16Layout);
-        jPanel16Layout.setHorizontalGroup(
-            jPanel16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 798, Short.MAX_VALUE)
-        );
-        jPanel16Layout.setVerticalGroup(
-            jPanel16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 292, Short.MAX_VALUE)
-        );
-
         jCheckBox8.setText("Отдавать экран");
 
         jButton15.setText("Отдать экран");
         jButton15.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton15ActionPerformed(evt);
+            }
+        });
+
+        jLabel10.setBackground(new java.awt.Color(255, 255, 255));
+        jLabel10.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        jLabel10.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                jLabel10MousePressed(evt);
+            }
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                jLabel10MouseReleased(evt);
+            }
+        });
+        jLabel10.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
+            public void mouseMoved(java.awt.event.MouseEvent evt) {
+                jLabel10MouseMoved(evt);
             }
         });
 
@@ -772,14 +761,14 @@ public class SessionFrame extends javax.swing.JFrame implements XSPConstants, UI
             .addGroup(jPanel15Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel16, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel10, javax.swing.GroupLayout.DEFAULT_SIZE, 798, Short.MAX_VALUE)
+                    .addComponent(jCheckBox7)
                     .addGroup(jPanel15Layout.createSequentialGroup()
                         .addComponent(jCheckBox6)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jCheckBox8)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton15))
-                    .addComponent(jCheckBox7))
+                        .addComponent(jButton15)))
                 .addContainerGap())
         );
         jPanel15Layout.setVerticalGroup(
@@ -793,7 +782,7 @@ public class SessionFrame extends javax.swing.JFrame implements XSPConstants, UI
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jCheckBox7)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel16, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel10, javax.swing.GroupLayout.DEFAULT_SIZE, 332, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -820,7 +809,7 @@ public class SessionFrame extends javax.swing.JFrame implements XSPConstants, UI
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 355, Short.MAX_VALUE)
+                .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 395, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -839,7 +828,7 @@ public class SessionFrame extends javax.swing.JFrame implements XSPConstants, UI
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 422, Short.MAX_VALUE)
+                .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 462, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -936,44 +925,47 @@ public class SessionFrame extends javax.swing.JFrame implements XSPConstants, UI
         updateTerminal();
 }//GEN-LAST:event_jTextArea2KeyReleased
 
-    private void jPanel16MouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel16MouseMoved
-        if (jCheckBox7.isSelected()) sendMouse(evt.getX(),evt.getY());
-    }//GEN-LAST:event_jPanel16MouseMoved
-
-    private void jPanel16MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel16MousePressed
-        if (jCheckBox7.isSelected()) sendMouse(evt.getX(),evt.getY(),"PRESS",evt.getButton());
-    }//GEN-LAST:event_jPanel16MousePressed
-
-    private void jPanel16MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel16MouseReleased
-        if (jCheckBox7.isSelected()) sendMouse(evt.getX(),evt.getY(),"RELEASE",evt.getButton());
-    }//GEN-LAST:event_jPanel16MouseReleased
-
     private void jButton15ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton15ActionPerformed
         final ByteString bs = new ByteString();
         OutputStream s = new OutputStream() {
             @Override
-            public void write(int b) throws IOException 
+            public void write(int b) throws IOException
             {
                 bs.append(new byte[]{(byte)b});
             }
 
             @Override
-            public void write(byte[] b) throws IOException
+            public void write(byte[] b)
             {
                 bs.append(b);
             }
         };
         BufferedImage ss = robot.createScreenCapture(new Rectangle(Toolkit.getDefaultToolkit().getScreenSize()));
+
         try {
             ImageIO.write(ss, "GIF", s);
         } catch (IOException ex) {
             Logger.getLogger(SessionFrame.class.getName()).log(Level.SEVERE, null, ex);
         }
+
         byte[] z = bs.byteString;
-        //Sender.sendPack(os, SCREEN, "full", z, this);
-        Image i = Toolkit.getDefaultToolkit().createImage(z);
-        screenGraphics.drawImage(i, 0, 0, null);
+        Sender.sendPack(os, SCREEN, "full", z, this);
+        //Image i = Toolkit.getDefaultToolkit().createImage(z);
+        //jLabel10.setIcon(new ImageIcon(i));
+        //screenGraphics.drawImage(i, 0, 0, null);
     }//GEN-LAST:event_jButton15ActionPerformed
+
+    private void jLabel10MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel10MousePressed
+        if (jCheckBox7.isSelected()) sendMouse(evt.getX(),evt.getY(),"PRESS",evt.getButton());
+    }//GEN-LAST:event_jLabel10MousePressed
+
+    private void jLabel10MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel10MouseReleased
+        if (jCheckBox7.isSelected()) sendMouse(evt.getX(),evt.getY(),"RELEASE",evt.getButton());
+    }//GEN-LAST:event_jLabel10MouseReleased
+
+    private void jLabel10MouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel10MouseMoved
+        if (jCheckBox7.isSelected()) sendMouse(evt.getX(),evt.getY());
+    }//GEN-LAST:event_jLabel10MouseMoved
 
     // <editor-fold defaultstate="collapsed" desc="Generated Code">
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -1004,6 +996,7 @@ public class SessionFrame extends javax.swing.JFrame implements XSPConstants, UI
     private javax.swing.JComboBox jComboBox2;
     private javax.swing.JComboBox jComboBox3;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -1019,7 +1012,6 @@ public class SessionFrame extends javax.swing.JFrame implements XSPConstants, UI
     private javax.swing.JPanel jPanel13;
     private javax.swing.JPanel jPanel14;
     private javax.swing.JPanel jPanel15;
-    private javax.swing.JPanel jPanel16;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
@@ -1422,7 +1414,8 @@ public class SessionFrame extends javax.swing.JFrame implements XSPConstants, UI
         {
             screen = Toolkit.getDefaultToolkit().createImage(bytes);
         }
-        screenGraphics.drawImage(screen, 0, 0, null);
+        jLabel10.setIcon(new ImageIcon(screen));
+        //screenGraphics.drawImage(screen, 0, 0, null);
     }
 
     // DirectTransfer
