@@ -15,16 +15,17 @@ import java.util.logging.*;
  */
 public class Session extends Thread implements XSPConstants
 {
-    Socket socket,fileSocket,voiceSocket;
-    public DataInputStream is, fis, vis;
-    public DataOutputStream os, fos, vos;
+    Socket socket,fileSocket,voiceSocket,screenSocket;
+    public DataInputStream is, fis, vis, sis;
+    public DataOutputStream os, fos, vos, sos;
     public UIProxy uiproxy;
 
-    public Session(Socket socket, Socket fileSocket, Socket voiceSocket, UIProxy uiproxy)
+    public Session(Socket socket, Socket fileSocket, Socket voiceSocket, Socket screenSocket, UIProxy uiproxy)
     {
         this.socket = socket;
         this.fileSocket = fileSocket;
         this.voiceSocket = voiceSocket;
+        this.screenSocket = screenSocket;
         this.uiproxy = uiproxy;
 
         this.setName("XSP Session");
@@ -36,6 +37,8 @@ public class Session extends Thread implements XSPConstants
             fos = new DataOutputStream(fileSocket.getOutputStream());
             vis = new DataInputStream(voiceSocket.getInputStream());
             vos = new DataOutputStream(voiceSocket.getOutputStream());
+            sis = new DataInputStream(screenSocket.getInputStream());
+            sos = new DataOutputStream(screenSocket.getOutputStream());
         } catch (IOException ex) {
             Logger.getLogger(Session.class.getName()).log(Level.SEVERE, null, ex);
         }

@@ -21,15 +21,17 @@ public class Connector
         Socket mainSocket = null;
         Socket fileSocket = null;
         Socket voiceSocket = null;
+        Socket screenSocket = null;
         try {
             ServerSocket server = new ServerSocket(port);
             mainSocket = server.accept();
             fileSocket = server.accept();
             voiceSocket = server.accept();
+            screenSocket = server.accept();
         } catch (IOException ex) {
             Logger.getLogger(Connector.class.getName()).log(Level.SEVERE, null, ex);
         }
-        Session ss = new Session(mainSocket, fileSocket, voiceSocket, u);
+        Session ss = new Session(mainSocket, fileSocket, voiceSocket, screenSocket, u);
         ss.start();
         return ss;
     }
@@ -39,16 +41,18 @@ public class Connector
         Socket mainSocket = null;
         Socket fileSocket = null;
         Socket voiceSocket = null;
+        Socket screenSocket = null;
         try {
             mainSocket = new Socket(host, port);
             fileSocket = new Socket(host, port);
             voiceSocket = new Socket(host, port);
+            screenSocket = new Socket(host, port);
         } catch (UnknownHostException ex) {
             Logger.getLogger(Connector.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
             Logger.getLogger(Connector.class.getName()).log(Level.SEVERE, null, ex);
         }
-        Session ss = new Session(mainSocket, fileSocket, voiceSocket, u);
+        Session ss = new Session(mainSocket, fileSocket, voiceSocket, screenSocket, u);
         ss.start();
         return ss;
     }

@@ -5,6 +5,8 @@
 
 package xsp;
 
+import java.awt.image.BufferedImage;
+
 /**
  *
  * @author m1kc
@@ -48,5 +50,9 @@ public interface UIProxy
     public void sendDone();
     public void receiveProgress(long got, long size, int speed);
     public void receiveDone();
+
+    // ScreenStreaming
+
+    public void screenUpdated(BufferedImage inputBuf);
 
 }
