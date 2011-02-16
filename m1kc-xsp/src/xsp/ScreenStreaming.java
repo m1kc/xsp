@@ -29,10 +29,12 @@ public class ScreenStreaming
             @Override
             public void run()
             {
+                ImageIO.setUseCache(false);
                 final int w = Toolkit.getDefaultToolkit().getScreenSize().width;
                 final int h = Toolkit.getDefaultToolkit().getScreenSize().height;
-                final int wx = w/4;
-                final int wy = h/4;
+                final int div = 2;
+                final int wx = w/div;
+                final int wy = h/div;
                 DataOutputStream dos = new DataOutputStream(os);
                 Robot robot = null;
                 try {
@@ -40,7 +42,7 @@ public class ScreenStreaming
                 } catch (AWTException ex) {
                     Logger.getLogger(ScreenStreaming.class.getName()).log(Level.SEVERE, null, ex);
                 }
-                outBuf = new BufferedImage[4][4];//robot.createScreenCapture(new Rectangle(Toolkit.getDefaultToolkit().getScreenSize()));
+                outBuf = new BufferedImage[div][div];//robot.createScreenCapture(new Rectangle(Toolkit.getDefaultToolkit().getScreenSize()));
                 for (int i=0; i<w; i+=wx)
                 {
                     for (int j=0; j<h; j+=wy)
@@ -82,15 +84,19 @@ public class ScreenStreaming
                                     dos.writeInt(j);
                                     ImageIO.write(img, "GIF", os);
                                     outBuf[i/wx][j/wy] = img;
-                                    System.out.println("Tansmitted: "+i+","+j);
+                                    //System.out.println("Tansmitted: "+i+","+j);
                                 }
-                                else System.out.println("Skipped: "+i+","+j);
                             } catch (IOException ex) {
                                 Logger.getLogger(ScreenStreaming.class.getName()).log(Level.SEVERE, null, ex);
                             }
                         }
                     }
                     System.out.println("full transfer: "+(System.currentTimeMillis()-time));
+                    try {
+                        Thread.sleep(250);
+                    } catch (InterruptedException ex) {
+                        Logger.getLogger(ScreenStreaming.class.getName()).log(Level.SEVERE, null, ex);
+                    }
                 }
             }
         }.start();
@@ -102,6 +108,7 @@ public class ScreenStreaming
             @Override
             public void run()
             {
+                ImageIO.setUseCache(false);
                 DataInputStream dis = new DataInputStream(is);
                 receiving = true;
 
