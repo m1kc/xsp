@@ -18,6 +18,7 @@ import javax.imageio.ImageIO;
 public class ScreenStreaming
 {
     boolean streaming = false;
+    BufferedImage[][] outBuf = null;
 
     boolean receiving = false;
     BufferedImage inputBuf = null;
@@ -31,13 +32,21 @@ public class ScreenStreaming
                 final int w = Toolkit.getDefaultToolkit().getScreenSize().width;
                 final int h = Toolkit.getDefaultToolkit().getScreenSize().height;
                 final int wx = w/4;
-                final int wy = w/4;
+                final int wy = h/4;
                 DataOutputStream dos = new DataOutputStream(os);
                 Robot robot = null;
                 try {
                      robot = new Robot();
                 } catch (AWTException ex) {
                     Logger.getLogger(ScreenStreaming.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                outBuf = new BufferedImage[4][4];//robot.createScreenCapture(new Rectangle(Toolkit.getDefaultToolkit().getScreenSize()));
+                for (int i=0; i<w; i+=wx)
+                {
+                    for (int j=0; j<h; j+=wy)
+                    {
+                        outBuf[i/wx][j/wy] = robot.createScreenCapture(new Rectangle(i,j,wx,wy));
+                    }
                 }
                 streaming = true;
 
@@ -52,21 +61,36 @@ public class ScreenStreaming
                      *
                      */
 
+                    long time = System.currentTimeMillis();
+
                     for (int i=0; i<w; i+=wx)
                     {
                         for (int j=0; j<h; j+=wy)
                         {
                             try {
-                                dos.writeInt(w);
-                                dos.writeInt(h);
-                                dos.writeInt(i);
-                                dos.writeInt(j);
-                                ImageIO.write(robot.createScreenCapture(new Rectangle(i,j,wx,wy)), "GIF", os);
+                                BufferedImage img = robot.createScreenCapture(new Rectangle(i,j,wx,wy));
+                                BufferedImage comp = outBuf[i/wx][j/wy];
+                                boolean flag = true;
+                                for (int ii = 0; ii<img.getWidth(); ii++)
+                                    for (int jj = 0; jj<img.getHeight(); jj++)
+                                        if (img.getRGB(ii, jj) != comp.getRGB(ii, jj)) flag = false;
+                                if (!flag)
+                                {
+                                    dos.writeInt(w);
+                                    dos.writeInt(h);
+                                    dos.writeInt(i);
+                                    dos.writeInt(j);
+                                    ImageIO.write(img, "GIF", os);
+                                    outBuf[i/wx][j/wy] = img;
+                                    System.out.println("Tansmitted: "+i+","+j);
+                                }
+                                else System.out.println("Skipped: "+i+","+j);
                             } catch (IOException ex) {
                                 Logger.getLogger(ScreenStreaming.class.getName()).log(Level.SEVERE, null, ex);
                             }
                         }
                     }
+                    System.out.println("full transfer: "+(System.currentTimeMillis()-time));
                 }
             }
         }.start();
@@ -102,7 +126,7 @@ public class ScreenStreaming
                             inputBuf.createGraphics().drawImage(img, i, j, null);
                             u.screenUpdated(inputBuf);
                         }
-                        else Thread.sleep(10);
+                        else Thread.sleep(1);
                     } catch (IOException ex) {
                         Logger.getLogger(ScreenStreaming.class.getName()).log(Level.SEVERE, null, ex);
                     } catch (InterruptedException ex) {
