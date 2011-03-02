@@ -19,30 +19,30 @@ public interface UIProxy
 
     // Обработка пакетов
 
-    public void packReceived(int type, String[] utf, byte[] bytes);
-    public void packSent(int type, String[] utf, byte[] bytes);
+    public void packReceived(int type, int subtype, String[] utf, byte[] bytes);
+    public void packSent(int type, int subtype, String[] utf, byte[] bytes);
 
     // Обработка ошибочных пакетов
 
-    public void errorUnknownType(int type);
+    public void errorUnknownType(int type, int subtype);
 
     // Обработка пакетов
 
-    public void handleOK(String[] body, byte[] bytes);
-    public void handleInvalid(String[] body, byte[] bytes);
-    public void handleError(String[] body, byte[] bytes);
-    public void handleRefused(String[] body, byte[] bytes);
-    public void handlePing(String[] s, byte[] bytes);
-    public void handleCapsCheck(String[] body, byte[] bytes);
-    public void handleMessage(String[] s, byte[] bytes);
-    public void handleTerminal(String[] body, byte[] bytes);
-    public void handleFileRq(String[] body, byte[] bytes);
-    public void handleMicrophoneRq(String[] body, byte[] bytes);
-    public void handleDialogRq(String[] body, byte[] bytes);
-    public void handleMicrophoneStop(String[] body, byte[] bytes);
-    public void handleDialogStop(String[] body, byte[] bytes);
-    public void handleMouse(String[] body, byte[] bytes);
-    public void handleScreen(String[] body, byte[] bytes);
+    public void handleOK(int subtype, String[] body, byte[] bytes);
+    public void handleInvalid(int subtype, String[] body, byte[] bytes);
+    public void handleError(int subtype, String[] body, byte[] bytes);
+    public void handleRefused(int subtype, String[] body, byte[] bytes);
+    public void handlePing(int subtype, String[] s, byte[] bytes);
+    public void handleCapsCheck(int subtype, String[] body, byte[] bytes);
+    public void handleMessage(int subtype, String[] s, byte[] bytes);
+    public void handleTerminal(int subtype, String[] body, byte[] bytes);
+    public void handleFileRq(int subtype, String[] body, byte[] bytes);
+    public void handleMicrophoneRq(int subtype, String[] body, byte[] bytes);
+    public void handleDialogRq(int subtype, String[] body, byte[] bytes);
+    public void handleMicrophoneStop(int subtype, String[] body, byte[] bytes);
+    public void handleDialogStop(int subtype, String[] body, byte[] bytes);
+    public void handleMouse(int subtype, String[] body, byte[] bytes);
+    public void handleScreen(int subtype, String[] body, byte[] bytes);
 
     // DirectTransfer
 

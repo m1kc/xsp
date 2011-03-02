@@ -53,7 +53,7 @@ public class Session extends Thread implements XSPConstants
                 if (is.available() > 0) {
 
                     // Next generation:
-                    // [int:тип][int:кол-во UTF][UTF]...[UTF][int:кол-во байт][byte[]:байты]
+                    // [int:тип][int:подтип][int:кол-во UTF][UTF]...[UTF][int:кол-во байт][byte[]:байты]
 
                     // Прочитать тип пакета
                     int type = is.readInt();
@@ -76,49 +76,8 @@ public class Session extends Thread implements XSPConstants
                             received += is.read(bytes, received, bytel-received);
                         }
                     }
-                    uiproxy.packReceived(type, utf, bytes);
-                    callHandler(type, utf, bytes);
-
-                    /*
-                     *
-                    // Прочитать вид пакета
-                    byte look = is.readByte();
-                    // Прочитать тип пакета
-                    int type = is.readInt();
-                    switch(look)
-                    {
-                        case TEXT:
-                            // Прочитать тело пакета
-                            String sbody = is.readUTF();
-                            // Оповестить
-                            uiproxy.textReceived(type,sbody);
-                            // Обработать
-                            callTextHandler(type,sbody);
-                            break;
-                        case BINARY:
-                            // Прочитать длину пакета
-                            int length = is.readInt();
-                            // Прочитать тело пакета
-                            byte[] bbody = new byte[length];
-                            int received = 0;
-                            while (received < length)
-                            {
-                                received += is.read(bbody, received, length-received);
-                            }
-                            //is.read(bbody);
-                            // Оповестить
-                            uiproxy.binaryReceived(type,bbody);
-                            // Обработать
-                            callBinaryHandler(type,bbody);
-                            break;
-                        default:
-                            // Неизвестный вид пакета! Шоковое чтение.
-                            while (is.available()>0) is.read();
-                            uiproxy.errorUnknownLook(look);
-                            break;
-                    }
-                     *
-                     */
+                    uiproxy.packReceived(type, subtype, utf, bytes);
+                    callHandler(type, subtype, utf, bytes);
                 }
             } catch (IOException ex) {
                 Logger.getLogger(Session.class.getName()).log(Level.SEVERE, null, ex);
@@ -131,7 +90,7 @@ public class Session extends Thread implements XSPConstants
         }
     }
 
-    private void callHandler(int type, String[] body, byte[] bytes)
+    private void callHandler(int type, int subtype, String[] body, byte[] bytes)
     {
         // KEEP IT SIMPLE, STUPID!!!
         // Ради скорости убрал класс обработчика пакетов. Пусть их обрабатывает
@@ -140,55 +99,55 @@ public class Session extends Thread implements XSPConstants
         switch(type)
         {
             case OK:
-                uiproxy.handleOK(body, bytes);
+                uiproxy.handleOK(subtype, body, bytes);
                 break;
             case INVALID:
-                uiproxy.handleInvalid(body, bytes);
+                uiproxy.handleInvalid(subtype, body, bytes);
                 break;
             case ERROR:
-                uiproxy.handleError(body, bytes);
+                uiproxy.handleError(subtype, body, bytes);
                 break;
             case REFUSED:
-                uiproxy.handleRefused(body, bytes);
+                uiproxy.handleRefused(subtype, body, bytes);
                 break;
 
             case PING:
-                uiproxy.handlePing(body, bytes);
+                uiproxy.handlePing(subtype, body, bytes);
                 break;
             case CAPSCHECK:
-                uiproxy.handleCapsCheck(body, bytes);
+                uiproxy.handleCapsCheck(subtype, body, bytes);
                 break;
             case MESSAGE:
-                uiproxy.handleMessage(body, bytes);
+                uiproxy.handleMessage(subtype, body, bytes);
                 break;
             case TERMINAL:
-                uiproxy.handleTerminal(body, bytes);
+                uiproxy.handleTerminal(subtype, body, bytes);
                 break;
             case FILERQ:
-                uiproxy.handleFileRq(body, bytes);
+                uiproxy.handleFileRq(subtype, body, bytes);
                 break;
             case MICROPHONERQ:
-                uiproxy.handleMicrophoneRq(body, bytes);
+                uiproxy.handleMicrophoneRq(subtype, body, bytes);
                 break;
             case DIALOGRQ:
-                uiproxy.handleDialogRq(body, bytes);
+                uiproxy.handleDialogRq(subtype, body, bytes);
                 break;
             case MICROPHONESTOP:
-                uiproxy.handleMicrophoneStop(body, bytes);
+                uiproxy.handleMicrophoneStop(subtype, body, bytes);
                 break;
             case DIALOGSTOP:
-                uiproxy.handleDialogStop(body, bytes);
+                uiproxy.handleDialogStop(subtype, body, bytes);
                 break;
             case MOUSE:
-                uiproxy.handleMouse(body, bytes);
+                uiproxy.handleMouse(subtype, body, bytes);
                 break;
             case SCREEN:
-                uiproxy.handleScreen(body, bytes);
+                uiproxy.handleScreen(subtype, body, bytes);
                 break;
 
 
             default:
-                uiproxy.errorUnknownType(type);
+                uiproxy.errorUnknownType(type, subtype);
                 break;
         }
     }

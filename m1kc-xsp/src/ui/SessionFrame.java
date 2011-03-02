@@ -34,8 +34,8 @@ public class SessionFrame extends javax.swing.JFrame implements XSPConstants, UI
 
     int mode = 0;
     final static int NONE = 0;
-    final static int WAITING_PING = 1;
-    final static int WAITING_CAPS = 2;
+    //final static int WAITING_PING = 1;
+    //final static int WAITING_CAPS = 2;
     final static int WAITING_CONFIRM_FILE = 3;
     final static int WAITING_CONFIRM_MICROPHONE = 4;
     final static int WAITING_CONFIRM_DIALOG = 5;
@@ -988,18 +988,9 @@ public class SessionFrame extends javax.swing.JFrame implements XSPConstants, UI
     public void chat(String s, boolean incoming)
     {
         String buf = jTextArea4.getText();
-
-        if (incoming)
-        {
-            buf += ">> ";
-        }
-        else
-        {
-            buf += "<< ";
-        }
+        buf+=(incoming?">> ":"<< ");
         buf += s;
         buf += "\n";
-
         jTextArea4.setText(buf);
     }
 
@@ -1008,9 +999,9 @@ public class SessionFrame extends javax.swing.JFrame implements XSPConstants, UI
     public void doPing()
     {
         log("Trying to ping...");
-        mode = WAITING_PING;
+        //mode = WAITING_PING;
         pingTime = System.currentTimeMillis();
-        Sender.sendPack(os, PING, UNKNOWN, this);
+        Sender.sendPack(os, PING, CALL, this);
     }
 
     public void sendMessage(String s)
@@ -1026,8 +1017,8 @@ public class SessionFrame extends javax.swing.JFrame implements XSPConstants, UI
 
     public void checkCaps(String s)
     {
-        mode = WAITING_CAPS;
-        Sender.sendPack(os, CAPSCHECK, UNKNOWN, s, null, this);
+        //mode = WAITING_CAPS;
+        Sender.sendPack(os, CAPSCHECK, ASK, s, null, this);
     }
 
     public void sendFileRq()
@@ -1166,16 +1157,16 @@ public class SessionFrame extends javax.swing.JFrame implements XSPConstants, UI
 
     // Обработка пакетов
 
-    public void logPack(boolean incoming, int type, String[] utf, byte[] bytes)
+    public void logPack(boolean incoming, int type, int subtype, String[] utf, byte[] bytes)
     {
-        if (type==TERMINAL) return; // Забить
-        if (type==MOUSE) return; // Тем более забить
-        if (type==SCREEN) return; // Стопудово забить!
+        if (type==TERMINAL) return;  // Забить
+        if (type==MOUSE) return;     // Тем более забить
+        if (type==SCREEN) return;    // Стопудово забить!
         if (jCheckBox5.isSelected())
         {
             StringBuilder z = new StringBuilder();
             if (incoming) z.append(">> "); else z.append("<< ");
-            z.append("тип "+type+"; UTF: ");
+            z.append("тип "+type+"; подтип "+subtype+"; UTF: ");
             if (utf==null) z.append("нет; ");
             else for (int i=0; i<utf.length; i++) z.append(utf[i]+"; ");
             z.append("байты: ");
@@ -1185,14 +1176,14 @@ public class SessionFrame extends javax.swing.JFrame implements XSPConstants, UI
         }
     }
 
-    public void packReceived(int type, String[] utf, byte[] bytes) 
+    public void packReceived(int type, int subtype, String[] utf, byte[] bytes)
     {
-        logPack(true, type, utf, bytes);
+        logPack(true, type, subtype, utf, bytes);
     }
 
-    public void packSent(int type, String[] utf, byte[] bytes)
+    public void packSent(int type, int subtype, String[] utf, byte[] bytes)
     {
-        logPack(false, type, utf, bytes);
+        logPack(false, type, subtype, utf, bytes);
     }
 
     // Ошибки
@@ -1204,16 +1195,17 @@ public class SessionFrame extends javax.swing.JFrame implements XSPConstants, UI
 
     // Обработка ошибочных пакетов
 
-    public void errorUnknownType(int type) {
+    public void errorUnknownType(int type, int subtype) {
         log("Неизвестный тип пакета: "+type);
         Sender.sendPack(os, INVALID, UNKNOWN, this);
     }
 
     // Обработка текстовых пакетов
 
-    public void handleOK(String[] body, byte[] bytes) {
+    public void handleOK(int subtype, String[] body, byte[] bytes) {
         switch(mode)
         {
+            /*
             case WAITING_PING:
                 long t = System.currentTimeMillis()-pingTime;
                 log("Ping OK, time: "+t+" ms.");
@@ -1223,6 +1215,8 @@ public class SessionFrame extends javax.swing.JFrame implements XSPConstants, UI
                 log("Supported: "+body[0]);
                 mode = NONE;
                 break;
+             *
+             */
             case WAITING_CONFIRM_FILE:
                 mode = NONE;
                 sendFile();
@@ -1241,21 +1235,24 @@ public class SessionFrame extends javax.swing.JFrame implements XSPConstants, UI
         }
     }
 
-    public void handleInvalid(String[] body, byte[] bytes) {
+    public void handleInvalid(int subtype, String[] body, byte[] bytes) {
         log("Получено сообщение о неверном пакете.");
     }
 
-    public void handleError(String[] body, byte[] bytes) {
+    public void handleError(int subtype, String[] body, byte[] bytes) {
         log("Получено сообение об ошибке.");
     }
 
-    public void handleRefused(String[] body, byte[] bytes) {
+    public void handleRefused(int subtype, String[] body, byte[] bytes) {
         switch(mode)
         {
+            /*
             case WAITING_CAPS:
                 log("Not supported: "+body[0]);
                 mode = NONE;
                 break;
+             *
+             */
             default:
                 log("Получено сообщение об отрицательном ответе.");
                 break;
@@ -1263,22 +1260,50 @@ public class SessionFrame extends javax.swing.JFrame implements XSPConstants, UI
     }
     
 
-    public void handlePing(String[] body, byte[] bytes) {
-        Sender.sendPack(os, OK, UNKNOWN, this);
-        log("Командир, нас пингуют!");
+    public void handlePing(int subtype, String[] body, byte[] bytes) {
+        switch(subtype)
+        {
+            case CALL:
+                Sender.sendPack(os, PING, ANSWER, this);
+                log("Командир, нас пингуют!");
+                break;
+            case ANSWER:
+                long t = System.currentTimeMillis()-pingTime;
+                log("Ping OK, time: "+t+" ms.");
+                break;
+            default:
+                log("PING: What the...?");
+                break;
+        }
     }
 
-    public void handleCapsCheck(String[] body, byte[] bytes) {
-        boolean flag = false;
-        for (int i=0; i<CAPS.length; i++)
+    public void handleCapsCheck(int subtype, String[] body, byte[] bytes) {
+        switch(subtype)
         {
-            if (CAPS[i].hashCode()==body[0].hashCode()) flag=true;
+            case ASK:
+                boolean flag = false;
+                for (int i=0; i<CAPS.length; i++)
+                {
+                    if (CAPS[i].toUpperCase().hashCode()==body[0].toUpperCase().hashCode()) flag=true;
+                }
+                if (flag) Sender.sendPack(os, CAPSCHECK, SUPPORTED, body[0], null, this);
+                else Sender.sendPack(os, CAPSCHECK, NOT_SUPPORTED, body[0], null, this);
+                break;
+            case SUPPORTED:
+                log("Supported: "+body[0]);
+                break;
+            case NOT_SUPPORTED:
+                log("Not supported: "+body[0]);
+                break;
+            default:
+                log("CAPSCHECK: What the...?");
+                break;
         }
-        if (flag) Sender.sendPack(os, OK, UNKNOWN, body[0], null, this);
-        else Sender.sendPack(os, REFUSED, UNKNOWN, body[0], null, this);
+
+        
     }
     
-    public void handleMessage(String[] body, byte[] bytes)
+    public void handleMessage(int subtype, String[] body, byte[] bytes)
     {
         chat(body[0], true);
         jTabbedPane1.setSelectedIndex(1);
@@ -1289,18 +1314,18 @@ public class SessionFrame extends javax.swing.JFrame implements XSPConstants, UI
         playSoundFromResource("/sound/login.wav");
     }
 
-    public void handleTerminal(String[] body, byte[] bytes) {
+    public void handleTerminal(int subtype, String[] body, byte[] bytes) {
         int p = Integer.parseInt(body[0]);
         jTextArea2.setText(body[1]);
         jTextArea2.setCaretPosition(p);
     }
 
-    public void handleFileRq(String[] body, byte[] bytes) {
+    public void handleFileRq(int subtype, String[] body, byte[] bytes) {
         Sender.sendPack(os, OK, UNKNOWN, body, null, this);
         receiveFile();
     }
 
-    public void handleMicrophoneRq(String[] body, byte[] bytes)
+    public void handleMicrophoneRq(int subtype, String[] body, byte[] bytes)
     {
         log("Начат прием голоса, параметры: "+body[0]+" Гц, "+body[1]+" бит, каналов: "+
                 body[2]+", размер буфера: "+(body[3].hashCode()=="-1".hashCode() ? "авто":body[3]));
@@ -1312,7 +1337,7 @@ public class SessionFrame extends javax.swing.JFrame implements XSPConstants, UI
         Sender.sendPack(os, OK, UNKNOWN, this);
     }
 
-    public void handleDialogRq(String[] body, byte[] bytes)
+    public void handleDialogRq(int subtype, String[] body, byte[] bytes)
     {
         log("Начат голосовой диалог, параметры: "+body[0]+" Гц, "+body[1]+" бит, каналов: "+
                 body[2]+", размер буфера: "+(body[3].hashCode()=="-1".hashCode() ? "авто":body[3]));
@@ -1325,20 +1350,20 @@ public class SessionFrame extends javax.swing.JFrame implements XSPConstants, UI
         Sender.sendPack(os, OK, UNKNOWN, this);
     }
 
-    public void handleMicrophoneStop(String[] body, byte[] bytes)
+    public void handleMicrophoneStop(int subtype, String[] body, byte[] bytes)
     {
         log("Закончен прием голоса");
         netSound.mustStopInput = true;
     }
 
-    public void handleDialogStop(String[] body, byte[] bytes)
+    public void handleDialogStop(int subtype, String[] body, byte[] bytes)
     {
         log("Закончен голосовой диалог");
         netSound.mustStopInput = true;
         netSound.mustStopOutput = true;
     }
 
-    public void handleMouse(String[] body, byte[] bytes)
+    public void handleMouse(int subtype, String[] body, byte[] bytes)
     {
         robot.mouseMove(Integer.parseInt(body[0]), Integer.parseInt(body[1]));
         if (body[2].hashCode()=="PRESS".hashCode())
@@ -1357,7 +1382,7 @@ public class SessionFrame extends javax.swing.JFrame implements XSPConstants, UI
         }
     }
 
-    public void handleScreen(String[] body, byte[] bytes)
+    public void handleScreen(int subtype, String[] body, byte[] bytes)
     {
         if (screen==null)
         {

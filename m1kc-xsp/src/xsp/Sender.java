@@ -74,6 +74,6 @@ public class Sender implements XSPConstants
             u.errorWhileSending(ex);
             Logger.getLogger(Sender.class.getName()).log(Level.SEVERE, null, ex);
         }
-        u.packSent(type, utf, bytes);
+        u.packSent(type, subtype, utf, bytes);
     }
 }
