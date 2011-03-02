@@ -32,6 +32,10 @@ public interface XSPConstants
     final static int MOUSE = 13;
     final static int SCREEN = 14;
 
+    // Подтипы
+
+    final static int UNKNOWN = 0;
+
     // Возможности клиента
     final static String[] CAPS = {"PING","MESSAGE","TERMINAL","FILE",
     "MICROPHONE","DIALOG"};

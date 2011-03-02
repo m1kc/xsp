@@ -21,32 +21,33 @@ public class Sender implements XSPConstants
      */
     public static void sendUTF(DataOutputStream os, int type, String body, UIProxy u)
     {
-        sendPack(os, type, body, null, u);
+        sendPack(os, type, UNKNOWN, body, null, u);
     }
 
     /**
      * @deprecated
      */
-    public static void sendBytes(DataOutputStream os, int type, byte[] body, UIProxy u)
+    public static void sendBytes(DataOutputStream os, int type, int subtype, byte[] body, UIProxy u)
     {
-        sendPack(os, type, (String[])null, body, u);
+        sendPack(os, type, subtype, (String[])null, body, u);
     }
 
-    public static void sendPack(DataOutputStream os, int type, UIProxy u)
+    public static void sendPack(DataOutputStream os, int type, int subtype, UIProxy u)
     {
-        sendPack(os, type, (String[])null, null, u);
+        sendPack(os, type, subtype, (String[])null, null, u);
     }
 
-    public static void sendPack(DataOutputStream os, int type, String utf, byte[] bytes, UIProxy u)
+    public static void sendPack(DataOutputStream os, int type, int subtype, String utf, byte[] bytes, UIProxy u)
     {
-        if (utf == null) sendPack(os, type, (String[]) null, bytes, u);
-        else sendPack(os, type, new String[]{utf}, bytes, u);
+        if (utf == null) sendPack(os, type, subtype, (String[]) null, bytes, u);
+        else sendPack(os, type, subtype, new String[]{utf}, bytes, u);
     }
 
-    public static void sendPack(DataOutputStream os, int type, String[] utf, byte[] bytes, UIProxy u)
+    public static void sendPack(DataOutputStream os, int type, int subtype, String[] utf, byte[] bytes, UIProxy u)
     {
         try {
             os.writeInt(type);
+            os.writeInt(subtype);
 
             if (utf==null)
             {

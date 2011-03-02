@@ -57,6 +57,8 @@ public class Session extends Thread implements XSPConstants
 
                     // Прочитать тип пакета
                     int type = is.readInt();
+                    // Прочитать подтип
+                    int subtype = is.readInt();
                     // Читаем UTF
                     int utfl = is.readInt();
                     String[] utf = null;
