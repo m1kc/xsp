@@ -32,6 +32,7 @@ public class SessionFrame extends javax.swing.JFrame implements XSPConstants, UI
     DataInputStream fis,vis,sis;
     DataOutputStream os,fos,vos,sos;
 
+    long traffic = 0;
     int mode = 0;
     final static int NONE = 0;
     //final static int WAITING_PING = 1;
@@ -149,6 +150,11 @@ public class SessionFrame extends javax.swing.JFrame implements XSPConstants, UI
         return new ImageIcon(i).getImage();
     }
 
+    public void updateCounter()
+    {
+        jLabel11.setText("Трафик: "+bestSize(traffic));
+    }
+
     /** This method is called from within the constructor to
      * initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is
@@ -166,6 +172,7 @@ public class SessionFrame extends javax.swing.JFrame implements XSPConstants, UI
         jButton6 = new javax.swing.JButton();
         jTextField2 = new javax.swing.JTextField();
         jCheckBox5 = new javax.swing.JCheckBox();
+        jLabel11 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         jTextField1 = new javax.swing.JTextField();
         jButton2 = new javax.swing.JButton();
@@ -251,6 +258,9 @@ public class SessionFrame extends javax.swing.JFrame implements XSPConstants, UI
         jCheckBox5.setSelected(true);
         jCheckBox5.setText("Журналировать все пакеты");
 
+        jLabel11.setText("Трафик: N/A");
+        jLabel11.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -258,12 +268,14 @@ public class SessionFrame extends javax.swing.JFrame implements XSPConstants, UI
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 728, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 734, Short.MAX_VALUE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jButton1)
                         .addGap(18, 18, 18)
                         .addComponent(jCheckBox5)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 121, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel11)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 28, Short.MAX_VALUE)
                         .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton6)))
@@ -279,7 +291,8 @@ public class SessionFrame extends javax.swing.JFrame implements XSPConstants, UI
                     .addComponent(jButton1)
                     .addComponent(jButton6)
                     .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jCheckBox5))
+                    .addComponent(jCheckBox5)
+                    .addComponent(jLabel11))
                 .addContainerGap())
         );
 
@@ -313,9 +326,9 @@ public class SessionFrame extends javax.swing.JFrame implements XSPConstants, UI
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 728, Short.MAX_VALUE)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 734, Short.MAX_VALUE)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(jTextField1, javax.swing.GroupLayout.DEFAULT_SIZE, 606, Short.MAX_VALUE)
+                        .addComponent(jTextField1, javax.swing.GroupLayout.DEFAULT_SIZE, 612, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton2)))
                 .addContainerGap())
@@ -334,8 +347,10 @@ public class SessionFrame extends javax.swing.JFrame implements XSPConstants, UI
 
         jTabbedPane1.addTab("Чат ", new javax.swing.ImageIcon(getClass().getResource("/image/messaging.png")), jPanel2); // NOI18N
 
+        jTextArea2.setBackground(new java.awt.Color(1, 1, 1));
         jTextArea2.setColumns(20);
-        jTextArea2.setFont(new java.awt.Font("Monospaced", 0, 13));
+        jTextArea2.setFont(new java.awt.Font("Monospaced", 0, 13)); // NOI18N
+        jTextArea2.setForeground(new java.awt.Color(204, 204, 204));
         jTextArea2.setLineWrap(true);
         jTextArea2.setRows(5);
         jTextArea2.setWrapStyleWord(true);
@@ -376,7 +391,7 @@ public class SessionFrame extends javax.swing.JFrame implements XSPConstants, UI
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel1)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
-                        .addComponent(jTextField3, javax.swing.GroupLayout.DEFAULT_SIZE, 241, Short.MAX_VALUE)
+                        .addComponent(jTextField3, javax.swing.GroupLayout.DEFAULT_SIZE, 244, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton7))
                     .addComponent(jCheckBox1))
@@ -427,13 +442,13 @@ public class SessionFrame extends javax.swing.JFrame implements XSPConstants, UI
             .addGroup(jPanel7Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, 340, Short.MAX_VALUE)
+                    .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, 343, Short.MAX_VALUE)
                     .addComponent(jLabel2)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel7Layout.createSequentialGroup()
-                        .addComponent(jTextField4, javax.swing.GroupLayout.DEFAULT_SIZE, 241, Short.MAX_VALUE)
+                        .addComponent(jTextField4, javax.swing.GroupLayout.DEFAULT_SIZE, 244, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton8))
-                    .addComponent(jButton9, javax.swing.GroupLayout.DEFAULT_SIZE, 340, Short.MAX_VALUE))
+                    .addComponent(jButton9, javax.swing.GroupLayout.DEFAULT_SIZE, 343, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jPanel7Layout.setVerticalGroup(
@@ -465,7 +480,7 @@ public class SessionFrame extends javax.swing.JFrame implements XSPConstants, UI
             .addGroup(jPanel13Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jProgressBar2, javax.swing.GroupLayout.DEFAULT_SIZE, 340, Short.MAX_VALUE)
+                    .addComponent(jProgressBar2, javax.swing.GroupLayout.DEFAULT_SIZE, 343, Short.MAX_VALUE)
                     .addComponent(jLabel5))
                 .addContainerGap())
         );
@@ -492,7 +507,7 @@ public class SessionFrame extends javax.swing.JFrame implements XSPConstants, UI
             .addGroup(jPanel14Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jProgressBar1, javax.swing.GroupLayout.DEFAULT_SIZE, 340, Short.MAX_VALUE)
+                    .addComponent(jProgressBar1, javax.swing.GroupLayout.DEFAULT_SIZE, 343, Short.MAX_VALUE)
                     .addComponent(jLabel4))
                 .addContainerGap())
         );
@@ -546,7 +561,7 @@ public class SessionFrame extends javax.swing.JFrame implements XSPConstants, UI
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton14))
                     .addComponent(jCheckBox2))
-                .addContainerGap(21, Short.MAX_VALUE))
+                .addContainerGap(24, Short.MAX_VALUE))
         );
         jPanel9Layout.setVerticalGroup(
             jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -589,16 +604,16 @@ public class SessionFrame extends javax.swing.JFrame implements XSPConstants, UI
                     .addGroup(jPanel10Layout.createSequentialGroup()
                         .addComponent(jLabel7)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jComboBox1, 0, 266, Short.MAX_VALUE))
+                        .addComponent(jComboBox1, 0, 269, Short.MAX_VALUE))
                     .addGroup(jPanel10Layout.createSequentialGroup()
                         .addComponent(jLabel8)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jComboBox2, 0, 298, Short.MAX_VALUE))
+                        .addComponent(jComboBox2, 0, 301, Short.MAX_VALUE))
                     .addComponent(jCheckBox4)
                     .addGroup(jPanel10Layout.createSequentialGroup()
                         .addComponent(jLabel9)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jComboBox3, 0, 281, Short.MAX_VALUE)))
+                        .addComponent(jComboBox3, 0, 284, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel10Layout.setVerticalGroup(
@@ -657,7 +672,7 @@ public class SessionFrame extends javax.swing.JFrame implements XSPConstants, UI
                         .addComponent(jButton12)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton13)))
-                .addContainerGap(43, Short.MAX_VALUE))
+                .addContainerGap(46, Short.MAX_VALUE))
         );
         jPanel12Layout.setVerticalGroup(
             jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -684,7 +699,7 @@ public class SessionFrame extends javax.swing.JFrame implements XSPConstants, UI
             .addGroup(jPanel11Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel6)
-                .addContainerGap(240, Short.MAX_VALUE))
+                .addContainerGap(243, Short.MAX_VALUE))
         );
         jPanel11Layout.setVerticalGroup(
             jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -748,7 +763,7 @@ public class SessionFrame extends javax.swing.JFrame implements XSPConstants, UI
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton16))
                     .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 247, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(135, Short.MAX_VALUE))
+                .addContainerGap(141, Short.MAX_VALUE))
         );
         jPanel15Layout.setVerticalGroup(
             jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -781,7 +796,7 @@ public class SessionFrame extends javax.swing.JFrame implements XSPConstants, UI
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 728, Short.MAX_VALUE)
+                .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 734, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanel4Layout.setVerticalGroup(
@@ -800,7 +815,7 @@ public class SessionFrame extends javax.swing.JFrame implements XSPConstants, UI
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 764, Short.MAX_VALUE)
+                .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 770, Short.MAX_VALUE)
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -938,6 +953,7 @@ public class SessionFrame extends javax.swing.JFrame implements XSPConstants, UI
     private javax.swing.JComboBox jComboBox3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -1158,6 +1174,14 @@ public class SessionFrame extends javax.swing.JFrame implements XSPConstants, UI
 
     public void logPack(boolean incoming, int type, int subtype, String[] utf, byte[] bytes)
     {
+        traffic+=4; // тип - int, 4 bytes
+        traffic+=4; // подтип - int, 4 bytes
+        traffic+=4; // utf.length - int, 4 bytes
+        if (utf != null) for (int i=0; i<utf.length; i++) traffic+=utf[i].length()*2;
+        traffic+=4; // bytes.length - int, 4 bytes
+        if (bytes != null) traffic+=bytes.length;
+        updateCounter();
+
         if (type==TERMINAL) return;  // Забить
         if (type==MOUSE) return;     // Тем более забить
         if (type==SCREEN) return;    // Стопудово забить!
@@ -1177,7 +1201,7 @@ public class SessionFrame extends javax.swing.JFrame implements XSPConstants, UI
 
     public void packReceived(int type, int subtype, String[] utf, byte[] bytes)
     {
-        logPack(true, type, subtype, utf, bytes);
+        logPack(true, type, subtype, utf, bytes);        
     }
 
     public void packSent(int type, int subtype, String[] utf, byte[] bytes)
