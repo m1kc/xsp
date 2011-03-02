@@ -123,8 +123,8 @@ public class Session extends Thread implements XSPConstants
             case TERMINAL:
                 uiproxy.handleTerminal(subtype, body, bytes);
                 break;
-            case FILERQ:
-                uiproxy.handleFileRq(subtype, body, bytes);
+            case FILE:
+                uiproxy.handleFile(subtype, body, bytes);
                 break;
             case MICROPHONERQ:
                 uiproxy.handleMicrophoneRq(subtype, body, bytes);

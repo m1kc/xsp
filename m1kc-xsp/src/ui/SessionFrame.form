@@ -352,8 +352,7 @@
                 <Component class="javax.swing.JCheckBox" name="jCheckBox1">
                   <Properties>
                     <Property name="selected" type="boolean" value="true"/>
-                    <Property name="text" type="java.lang.String" value="&#x41f;&#x440;&#x438;&#x43d;&#x438;&#x43c;&#x430;&#x442;&#x44c; &#x432;&#x441;&#x435; &#x444;&#x430;&#x439;&#x43b;&#x44b;"/>
-                    <Property name="enabled" type="boolean" value="false"/>
+                    <Property name="text" type="java.lang.String" value="&#x41f;&#x440;&#x438;&#x43d;&#x438;&#x43c;&#x430;&#x442;&#x44c; &#x444;&#x430;&#x439;&#x43b;&#x44b;"/>
                   </Properties>
                 </Component>
               </SubComponents>

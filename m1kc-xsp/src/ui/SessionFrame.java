@@ -36,7 +36,7 @@ public class SessionFrame extends javax.swing.JFrame implements XSPConstants, UI
     final static int NONE = 0;
     //final static int WAITING_PING = 1;
     //final static int WAITING_CAPS = 2;
-    final static int WAITING_CONFIRM_FILE = 3;
+    //final static int WAITING_CONFIRM_FILE = 3;
     final static int WAITING_CONFIRM_MICROPHONE = 4;
     final static int WAITING_CONFIRM_DIALOG = 5;
     long pingTime = 0;
@@ -365,8 +365,7 @@ public class SessionFrame extends javax.swing.JFrame implements XSPConstants, UI
         });
 
         jCheckBox1.setSelected(true);
-        jCheckBox1.setText("Принимать все файлы");
-        jCheckBox1.setEnabled(false);
+        jCheckBox1.setText("Принимать файлы");
 
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
@@ -1023,9 +1022,9 @@ public class SessionFrame extends javax.swing.JFrame implements XSPConstants, UI
 
     public void sendFileRq()
     {
-        mode = WAITING_CONFIRM_FILE;
+        //mode = WAITING_CONFIRM_FILE;
         File ff = new File(jTextField4.getText());
-        Sender.sendPack(os, FILERQ, UNKNOWN, ff.getName(), null, this);
+        Sender.sendPack(os, FILE, REQUEST, ff.getName(), null, this);
     }
 
     public void sendFile()
@@ -1215,12 +1214,12 @@ public class SessionFrame extends javax.swing.JFrame implements XSPConstants, UI
                 log("Supported: "+body[0]);
                 mode = NONE;
                 break;
-             *
-             */
             case WAITING_CONFIRM_FILE:
                 mode = NONE;
                 sendFile();
                 break;
+             *
+             */
             case WAITING_CONFIRM_MICROPHONE:
                 mode = NONE;
                 startVoiceStreaming();
@@ -1320,9 +1319,30 @@ public class SessionFrame extends javax.swing.JFrame implements XSPConstants, UI
         jTextArea2.setCaretPosition(p);
     }
 
-    public void handleFileRq(int subtype, String[] body, byte[] bytes) {
-        Sender.sendPack(os, OK, UNKNOWN, body, null, this);
-        receiveFile();
+    public void handleFile(int subtype, String[] body, byte[] bytes) {
+        switch(subtype)
+        {
+            case REQUEST:
+                if (jCheckBox1.isSelected())
+                {
+                    Sender.sendPack(os, FILE, AGREE, body, null, this);
+                    receiveFile();
+                }
+                else
+                {
+                    Sender.sendPack(os, FILE, DISAGREE, body, null, this);
+                }
+                break;
+            case AGREE:
+                sendFile();
+                break;
+            case DISAGREE:
+                log("Передача отменена принимающим.");
+                break;
+            default:
+                log("FILE: What the...?");
+                break;
+        }
     }
 
     public void handleMicrophoneRq(int subtype, String[] body, byte[] bytes)
@@ -1429,7 +1449,7 @@ public class SessionFrame extends javax.swing.JFrame implements XSPConstants, UI
         jProgressBar2.setMaximum(100);
         jProgressBar2.setValue(100);
 
-        jTabbedPane1.setSelectedIndex(4);
+        jTabbedPane1.setSelectedIndex(3);
         this.setExtendedState(javax.swing.JFrame.NORMAL);
         this.toFront();
         this.requestFocus();

@@ -36,7 +36,7 @@ public interface UIProxy
     public void handleCapsCheck(int subtype, String[] body, byte[] bytes);
     public void handleMessage(int subtype, String[] s, byte[] bytes);
     public void handleTerminal(int subtype, String[] body, byte[] bytes);
-    public void handleFileRq(int subtype, String[] body, byte[] bytes);
+    public void handleFile(int subtype, String[] body, byte[] bytes);
     public void handleMicrophoneRq(int subtype, String[] body, byte[] bytes);
     public void handleDialogRq(int subtype, String[] body, byte[] bytes);
     public void handleMicrophoneStop(int subtype, String[] body, byte[] bytes);

@@ -21,12 +21,12 @@ public interface XSPConstants
     final static int ERROR = 152;
     final static int REFUSED = 153;
     // Обычные NEW
-    final static int PING = 0;
-    final static int CAPSCHECK = 1;
+    final static int PING = 1;
+    final static int CAPSCHECK = 2;
+    final static int MESSAGE = 3;
+    final static int TERMINAL = 4;
+    final static int FILE = 5;
     // OLD
-    final static int MESSAGE = 156;
-    final static int TERMINAL = 157;
-    final static int FILERQ = 158;
     final static int MICROPHONERQ = 159;
     final static int DIALOGRQ = 1510;
     final static int MICROPHONESTOP = 1511;
@@ -45,6 +45,10 @@ public interface XSPConstants
     final static int ASK = 0;
     final static int SUPPORTED = 1;
     final static int NOT_SUPPORTED = 2;
+    // FILE
+    final static int REQUEST = 0;
+    final static int AGREE = 1;
+    final static int DISAGREE = 2;
 
     // Возможности клиента
     final static String[] CAPS = {"PING","MESSAGE","TERMINAL","FILE",
