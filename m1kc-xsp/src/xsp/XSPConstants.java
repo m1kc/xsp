@@ -45,6 +45,10 @@ public interface XSPConstants
     final static int ASK = 0;
     final static int SUPPORTED = 1;
     final static int NOT_SUPPORTED = 2;
+    // TERMINAL
+    final static int FULL = 0;
+    final static int ADD = 1;
+    final static int DEL = 2;
     // FILE
     final static int REQUEST = 0;
     final static int AGREE = 1;

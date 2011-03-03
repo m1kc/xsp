@@ -11,10 +11,8 @@
 
 package ui;
 
-import java.io.FileInputStream;
-import java.util.Locale;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.io.File;
+import java.util.logging.*;
 import javax.swing.*;
 
 /**
@@ -116,8 +114,9 @@ public class OpenDialog extends javax.swing.JFrame {
             if (mode==DIR)
             {
                 String s = jFileChooser1.getSelectedFile().getAbsolutePath();
-                if ((s.startsWith("/"))&&(!s.endsWith("/"))) s+="/";
-                if ((!s.startsWith("/"))&&(s.charAt(1)==':')&&(!s.endsWith("\\"))) s+="\\";
+                //if ((s.startsWith("/"))&&(!s.endsWith("/"))) s+="/";
+                //if ((!s.startsWith("/"))&&(s.charAt(1)==':')&&(!s.endsWith("\\"))) s+="\\";
+                if (!s.endsWith(File.separator)) s+=File.separator;
                 if (target!=null) target.setText(s);
             }
         }

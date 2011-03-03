@@ -41,6 +41,7 @@ public class SessionFrame extends javax.swing.JFrame implements XSPConstants, UI
     final static int WAITING_CONFIRM_MICROPHONE = 4;
     final static int WAITING_CONFIRM_DIALOG = 5;
     long pingTime = 0;
+    String term = "";
     NetSound netSound;
     static Robot robot;
     BufferedImage screen;
@@ -1027,7 +1028,25 @@ public class SessionFrame extends javax.swing.JFrame implements XSPConstants, UI
 
     public void updateTerminal()
     {
-        Sender.sendPack(os, TERMINAL, UNKNOWN, new String[]{""+jTextArea2.getCaretPosition(), jTextArea2.getText()}, null, this);
+        String newTerm = jTextArea2.getText();
+        int caret = jTextArea2.getCaretPosition();
+
+        int delta = newTerm.length()-term.length();
+        if (delta>0)
+        {
+            String diff = newTerm.substring(caret-delta, caret);
+            Sender.sendPack(os, TERMINAL, ADD, new String[]{""+(caret-delta), diff}, null, this);
+        }
+        if (delta<0)
+        {
+            Sender.sendPack(os, TERMINAL, DEL, new String[]{""+caret, ""+(-delta)}, null, this);
+        }
+        if ((delta==0) && (newTerm.hashCode() != term.hashCode()))
+        {
+            Sender.sendPack(os, TERMINAL, FULL, new String[]{""+jTextArea2.getCaretPosition(), jTextArea2.getText()}, null, this);
+        }
+
+        term = newTerm;
     }
 
     public void checkCaps(String s)
@@ -1338,9 +1357,29 @@ public class SessionFrame extends javax.swing.JFrame implements XSPConstants, UI
     }
 
     public void handleTerminal(int subtype, String[] body, byte[] bytes) {
-        int p = Integer.parseInt(body[0]);
-        jTextArea2.setText(body[1]);
-        jTextArea2.setCaretPosition(p);
+        switch(subtype)
+        {
+            case FULL:
+                int p = Integer.parseInt(body[0]);
+                jTextArea2.setText(body[1]);
+                jTextArea2.setCaretPosition(p);
+                break;
+            case ADD:
+                int pp = Integer.parseInt(body[0]);
+                jTextArea2.insert(body[1], pp);
+                jTextArea2.setCaretPosition(pp+body[1].length());
+                break;
+            case DEL:
+                int ppp = Integer.parseInt(body[0]);
+                int ppp2 = Integer.parseInt(body[1]);
+                jTextArea2.replaceRange("", ppp, ppp+ppp2);
+                jTextArea2.setCaretPosition(ppp);
+                break;
+            default:
+                log("TERMINAL: What the...?");
+                break;
+        }
+        term = jTextArea2.getText();
     }
 
     public void handleFile(int subtype, String[] body, byte[] bytes) {
