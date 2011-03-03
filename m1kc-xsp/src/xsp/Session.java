@@ -79,7 +79,7 @@ public class Session extends Thread implements XSPConstants
                     uiproxy.packReceived(type, subtype, utf, bytes);
                     callHandler(type, subtype, utf, bytes);
                 }
-            } catch (IOException ex) {
+            } catch (Throwable ex) {
                 Logger.getLogger(Session.class.getName()).log(Level.SEVERE, null, ex);
             }
             try {
