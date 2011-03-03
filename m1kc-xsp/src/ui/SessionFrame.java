@@ -33,13 +33,6 @@ public class SessionFrame extends javax.swing.JFrame implements XSPConstants, UI
     DataOutputStream os,fos,vos,sos;
 
     long traffic = 0;
-    int mode = 0;
-    final static int NONE = 0;
-    //final static int WAITING_PING = 1;
-    //final static int WAITING_CAPS = 2;
-    //final static int WAITING_CONFIRM_FILE = 3;
-    final static int WAITING_CONFIRM_MICROPHONE = 4;
-    final static int WAITING_CONFIRM_DIALOG = 5;
     long pingTime = 0;
     String term = "";
     NetSound netSound;
@@ -269,14 +262,14 @@ public class SessionFrame extends javax.swing.JFrame implements XSPConstants, UI
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 734, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 726, Short.MAX_VALUE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jButton1)
                         .addGap(18, 18, 18)
                         .addComponent(jCheckBox5)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel11)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 28, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 20, Short.MAX_VALUE)
                         .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton6)))
@@ -286,7 +279,7 @@ public class SessionFrame extends javax.swing.JFrame implements XSPConstants, UI
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 449, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 300, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton1)
@@ -327,9 +320,9 @@ public class SessionFrame extends javax.swing.JFrame implements XSPConstants, UI
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 734, Short.MAX_VALUE)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 726, Short.MAX_VALUE)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(jTextField1, javax.swing.GroupLayout.DEFAULT_SIZE, 612, Short.MAX_VALUE)
+                        .addComponent(jTextField1, javax.swing.GroupLayout.DEFAULT_SIZE, 604, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton2)))
                 .addContainerGap())
@@ -338,7 +331,7 @@ public class SessionFrame extends javax.swing.JFrame implements XSPConstants, UI
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 449, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 300, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -350,7 +343,7 @@ public class SessionFrame extends javax.swing.JFrame implements XSPConstants, UI
 
         jTextArea2.setBackground(new java.awt.Color(1, 1, 1));
         jTextArea2.setColumns(20);
-        jTextArea2.setFont(new java.awt.Font("Monospaced", 0, 13)); // NOI18N
+        jTextArea2.setFont(new java.awt.Font("Monospaced", 0, 13));
         jTextArea2.setForeground(new java.awt.Color(204, 204, 204));
         jTextArea2.setLineWrap(true);
         jTextArea2.setRows(5);
@@ -392,7 +385,7 @@ public class SessionFrame extends javax.swing.JFrame implements XSPConstants, UI
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel1)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
-                        .addComponent(jTextField3, javax.swing.GroupLayout.DEFAULT_SIZE, 244, Short.MAX_VALUE)
+                        .addComponent(jTextField3, javax.swing.GroupLayout.DEFAULT_SIZE, 240, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton7))
                     .addComponent(jCheckBox1))
@@ -409,7 +402,7 @@ public class SessionFrame extends javax.swing.JFrame implements XSPConstants, UI
                     .addComponent(jButton7))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jCheckBox1)
-                .addContainerGap(131, Short.MAX_VALUE))
+                .addContainerGap(57, Short.MAX_VALUE))
         );
 
         jPanel5.add(jPanel6);
@@ -443,13 +436,13 @@ public class SessionFrame extends javax.swing.JFrame implements XSPConstants, UI
             .addGroup(jPanel7Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, 343, Short.MAX_VALUE)
+                    .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, 339, Short.MAX_VALUE)
                     .addComponent(jLabel2)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel7Layout.createSequentialGroup()
-                        .addComponent(jTextField4, javax.swing.GroupLayout.DEFAULT_SIZE, 244, Short.MAX_VALUE)
+                        .addComponent(jTextField4, javax.swing.GroupLayout.DEFAULT_SIZE, 240, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton8))
-                    .addComponent(jButton9, javax.swing.GroupLayout.DEFAULT_SIZE, 343, Short.MAX_VALUE))
+                    .addComponent(jButton9, javax.swing.GroupLayout.DEFAULT_SIZE, 339, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jPanel7Layout.setVerticalGroup(
@@ -465,7 +458,7 @@ public class SessionFrame extends javax.swing.JFrame implements XSPConstants, UI
                 .addComponent(jLabel3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton9)
-                .addContainerGap(94, Short.MAX_VALUE))
+                .addContainerGap(20, Short.MAX_VALUE))
         );
 
         jPanel5.add(jPanel7);
@@ -481,7 +474,7 @@ public class SessionFrame extends javax.swing.JFrame implements XSPConstants, UI
             .addGroup(jPanel13Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jProgressBar2, javax.swing.GroupLayout.DEFAULT_SIZE, 343, Short.MAX_VALUE)
+                    .addComponent(jProgressBar2, javax.swing.GroupLayout.DEFAULT_SIZE, 339, Short.MAX_VALUE)
                     .addComponent(jLabel5))
                 .addContainerGap())
         );
@@ -492,7 +485,7 @@ public class SessionFrame extends javax.swing.JFrame implements XSPConstants, UI
                 .addComponent(jLabel5)
                 .addGap(18, 18, 18)
                 .addComponent(jProgressBar2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(163, Short.MAX_VALUE))
+                .addContainerGap(89, Short.MAX_VALUE))
         );
 
         jPanel5.add(jPanel13);
@@ -508,7 +501,7 @@ public class SessionFrame extends javax.swing.JFrame implements XSPConstants, UI
             .addGroup(jPanel14Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jProgressBar1, javax.swing.GroupLayout.DEFAULT_SIZE, 343, Short.MAX_VALUE)
+                    .addComponent(jProgressBar1, javax.swing.GroupLayout.DEFAULT_SIZE, 339, Short.MAX_VALUE)
                     .addComponent(jLabel4))
                 .addContainerGap())
         );
@@ -519,7 +512,7 @@ public class SessionFrame extends javax.swing.JFrame implements XSPConstants, UI
                 .addComponent(jLabel4)
                 .addGap(18, 18, 18)
                 .addComponent(jProgressBar1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(163, Short.MAX_VALUE))
+                .addContainerGap(89, Short.MAX_VALUE))
         );
 
         jPanel5.add(jPanel14);
@@ -540,7 +533,6 @@ public class SessionFrame extends javax.swing.JFrame implements XSPConstants, UI
 
         jCheckBox2.setSelected(true);
         jCheckBox2.setText("Принимать входящий звук");
-        jCheckBox2.setEnabled(false);
 
         jButton14.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/endbroadcast.png"))); // NOI18N
         jButton14.setText("Прервать вещание");
@@ -562,7 +554,7 @@ public class SessionFrame extends javax.swing.JFrame implements XSPConstants, UI
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton14))
                     .addComponent(jCheckBox2))
-                .addContainerGap(24, Short.MAX_VALUE))
+                .addContainerGap(20, Short.MAX_VALUE))
         );
         jPanel9Layout.setVerticalGroup(
             jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -573,7 +565,7 @@ public class SessionFrame extends javax.swing.JFrame implements XSPConstants, UI
                 .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton11)
                     .addComponent(jButton14))
-                .addContainerGap(154, Short.MAX_VALUE))
+                .addContainerGap(80, Short.MAX_VALUE))
         );
 
         jPanel8.add(jPanel9);
@@ -605,16 +597,16 @@ public class SessionFrame extends javax.swing.JFrame implements XSPConstants, UI
                     .addGroup(jPanel10Layout.createSequentialGroup()
                         .addComponent(jLabel7)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jComboBox1, 0, 269, Short.MAX_VALUE))
+                        .addComponent(jComboBox1, 0, 265, Short.MAX_VALUE))
                     .addGroup(jPanel10Layout.createSequentialGroup()
                         .addComponent(jLabel8)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jComboBox2, 0, 301, Short.MAX_VALUE))
+                        .addComponent(jComboBox2, 0, 297, Short.MAX_VALUE))
                     .addComponent(jCheckBox4)
                     .addGroup(jPanel10Layout.createSequentialGroup()
                         .addComponent(jLabel9)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jComboBox3, 0, 284, Short.MAX_VALUE)))
+                        .addComponent(jComboBox3, 0, 280, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel10Layout.setVerticalGroup(
@@ -634,7 +626,7 @@ public class SessionFrame extends javax.swing.JFrame implements XSPConstants, UI
                 .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel9)
                     .addComponent(jComboBox3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(97, Short.MAX_VALUE))
+                .addContainerGap(23, Short.MAX_VALUE))
         );
 
         jPanel8.add(jPanel10);
@@ -643,7 +635,6 @@ public class SessionFrame extends javax.swing.JFrame implements XSPConstants, UI
 
         jCheckBox3.setSelected(true);
         jCheckBox3.setText("Принимать входящие звонки");
-        jCheckBox3.setEnabled(false);
 
         jButton12.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/call.png"))); // NOI18N
         jButton12.setText("Начать диалог");
@@ -673,7 +664,7 @@ public class SessionFrame extends javax.swing.JFrame implements XSPConstants, UI
                         .addComponent(jButton12)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton13)))
-                .addContainerGap(46, Short.MAX_VALUE))
+                .addContainerGap(42, Short.MAX_VALUE))
         );
         jPanel12Layout.setVerticalGroup(
             jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -684,7 +675,7 @@ public class SessionFrame extends javax.swing.JFrame implements XSPConstants, UI
                 .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton12)
                     .addComponent(jButton13))
-                .addContainerGap(154, Short.MAX_VALUE))
+                .addContainerGap(80, Short.MAX_VALUE))
         );
 
         jPanel8.add(jPanel12);
@@ -700,14 +691,14 @@ public class SessionFrame extends javax.swing.JFrame implements XSPConstants, UI
             .addGroup(jPanel11Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel6)
-                .addContainerGap(243, Short.MAX_VALUE))
+                .addContainerGap(239, Short.MAX_VALUE))
         );
         jPanel11Layout.setVerticalGroup(
             jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel11Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel6)
-                .addContainerGap(201, Short.MAX_VALUE))
+                .addContainerGap(127, Short.MAX_VALUE))
         );
 
         jPanel8.add(jPanel11);
@@ -764,7 +755,7 @@ public class SessionFrame extends javax.swing.JFrame implements XSPConstants, UI
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton16))
                     .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 247, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(141, Short.MAX_VALUE))
+                .addContainerGap(133, Short.MAX_VALUE))
         );
         jPanel15Layout.setVerticalGroup(
             jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -778,7 +769,7 @@ public class SessionFrame extends javax.swing.JFrame implements XSPConstants, UI
                 .addComponent(jCheckBox7)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(300, Short.MAX_VALUE))
+                .addContainerGap(151, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Управление ", new javax.swing.ImageIcon(getClass().getResource("/image/logs.png")), jPanel15); // NOI18N
@@ -797,14 +788,14 @@ public class SessionFrame extends javax.swing.JFrame implements XSPConstants, UI
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 734, Short.MAX_VALUE)
+                .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 726, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 491, Short.MAX_VALUE)
+                .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 342, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -816,14 +807,14 @@ public class SessionFrame extends javax.swing.JFrame implements XSPConstants, UI
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 770, Short.MAX_VALUE)
+                .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 762, Short.MAX_VALUE)
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 558, Short.MAX_VALUE)
+                .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 409, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -1015,7 +1006,6 @@ public class SessionFrame extends javax.swing.JFrame implements XSPConstants, UI
     public void doPing()
     {
         log("Trying to ping...");
-        //mode = WAITING_PING;
         pingTime = System.currentTimeMillis();
         Sender.sendPack(os, PING, CALL, this);
     }
@@ -1051,13 +1041,11 @@ public class SessionFrame extends javax.swing.JFrame implements XSPConstants, UI
 
     public void checkCaps(String s)
     {
-        //mode = WAITING_CAPS;
         Sender.sendPack(os, CAPSCHECK, ASK, s, null, this);
     }
 
     public void sendFileRq()
     {
-        //mode = WAITING_CONFIRM_FILE;
         File ff = new File(jTextField4.getText());
         Sender.sendPack(os, FILE, REQUEST, ff.getName(), null, this);
     }
@@ -1086,7 +1074,6 @@ public class SessionFrame extends javax.swing.JFrame implements XSPConstants, UI
 
     public void sendMicrophoneRq()
     {
-        mode = WAITING_CONFIRM_MICROPHONE;
         netSound.sampleRate = Integer.parseInt(jComboBox1.getSelectedItem().toString());
         netSound.sampleSizeInBits = Integer.parseInt(jComboBox2.getSelectedItem().toString());
         netSound.channels = (jCheckBox4.isSelected() ? 2 : 1);
@@ -1098,12 +1085,11 @@ public class SessionFrame extends javax.swing.JFrame implements XSPConstants, UI
         {
             netSound.buffer = -1;
         }
-        Sender.sendPack(os, MICROPHONERQ, UNKNOWN, new String[]{""+netSound.sampleRate,""+netSound.sampleSizeInBits,""+netSound.channels,""+netSound.buffer}, null, this);
+        Sender.sendPack(os, MICROPHONE, REQUEST, new String[]{""+netSound.sampleRate,""+netSound.sampleSizeInBits,""+netSound.channels,""+netSound.buffer}, null, this);
     }
 
     public void sendDialogRq()
     {
-        mode = WAITING_CONFIRM_DIALOG;
         netSound.sampleRate = Integer.parseInt(jComboBox1.getSelectedItem().toString());
         netSound.sampleSizeInBits = Integer.parseInt(jComboBox2.getSelectedItem().toString());
         netSound.channels = (jCheckBox4.isSelected() ? 2 : 1);
@@ -1115,17 +1101,17 @@ public class SessionFrame extends javax.swing.JFrame implements XSPConstants, UI
         {
             netSound.buffer = -1;
         }
-        Sender.sendPack(os, DIALOGRQ, UNKNOWN, new String[]{""+netSound.sampleRate,""+netSound.sampleSizeInBits,""+netSound.channels,""+netSound.buffer}, null, this);
+        Sender.sendPack(os, DIALOG, REQUEST, new String[]{""+netSound.sampleRate,""+netSound.sampleSizeInBits,""+netSound.channels,""+netSound.buffer}, null, this);
     }
 
     public void sendMicrophoneStop()
     {
-        Sender.sendPack(os, MICROPHONESTOP, UNKNOWN, this);
+        Sender.sendPack(os, MICROPHONE, STOP, this);
     }
 
     public void sendDialogStop()
     {
-        Sender.sendPack(os, DIALOGSTOP, UNKNOWN, this);
+        Sender.sendPack(os, DIALOG, STOP, this);
     }
 
     public void startVoiceStreaming()
@@ -1239,68 +1225,18 @@ public class SessionFrame extends javax.swing.JFrame implements XSPConstants, UI
 
     public void errorUnknownType(int type, int subtype) {
         log("Неизвестный тип пакета: "+type);
-        Sender.sendPack(os, INVALID, UNKNOWN, this);
+        Sender.sendPack(os, SERVICE, UNKNOWN, "Unknown packet type", null, this);
     }
 
-    // Обработка текстовых пакетов
+    // Обработка пакетов
 
-    public void handleOK(int subtype, String[] body, byte[] bytes) {
-        switch(mode)
+    public void handleService(int subtype, String[] body, byte[] bytes)
+    {
+        for (int i=0; i<body.length; i++)
         {
-            /*
-            case WAITING_PING:
-                long t = System.currentTimeMillis()-pingTime;
-                log("Ping OK, time: "+t+" ms.");
-                mode = NONE;
-                break;
-            case WAITING_CAPS:
-                log("Supported: "+body[0]);
-                mode = NONE;
-                break;
-            case WAITING_CONFIRM_FILE:
-                mode = NONE;
-                sendFile();
-                break;
-             *
-             */
-            case WAITING_CONFIRM_MICROPHONE:
-                mode = NONE;
-                startVoiceStreaming();
-                break;
-            case WAITING_CONFIRM_DIALOG:
-                mode = NONE;
-                startVoiceListening();
-                startVoiceStreaming();
-                break;
-            default:
-                log("Получен пакет: OK");
+            log("Сервисное сообщение: "+body[i]);
         }
     }
-
-    public void handleInvalid(int subtype, String[] body, byte[] bytes) {
-        log("Получено сообщение о неверном пакете.");
-    }
-
-    public void handleError(int subtype, String[] body, byte[] bytes) {
-        log("Получено сообение об ошибке.");
-    }
-
-    public void handleRefused(int subtype, String[] body, byte[] bytes) {
-        switch(mode)
-        {
-            /*
-            case WAITING_CAPS:
-                log("Not supported: "+body[0]);
-                mode = NONE;
-                break;
-             *
-             */
-            default:
-                log("Получено сообщение об отрицательном ответе.");
-                break;
-        }
-    }
-    
 
     public void handlePing(int subtype, String[] body, byte[] bytes) {
         switch(subtype)
@@ -1408,42 +1344,68 @@ public class SessionFrame extends javax.swing.JFrame implements XSPConstants, UI
         }
     }
 
-    public void handleMicrophoneRq(int subtype, String[] body, byte[] bytes)
+    public void handleMicrophone(int subtype, String[] body, byte[] bytes)
     {
-        log("Начат прием голоса, параметры: "+body[0]+" Гц, "+body[1]+" бит, каналов: "+
+        switch(subtype)
+        {
+            case REQUEST:
+                log("Начат прием голоса, параметры: "+body[0]+" Гц, "+body[1]+" бит, каналов: "+
                 body[2]+", размер буфера: "+(body[3].hashCode()=="-1".hashCode() ? "авто":body[3]));
-        netSound.sampleRate = Float.parseFloat(body[0]);
-        netSound.sampleSizeInBits = Integer.parseInt(body[1]);
-        netSound.channels = (Integer.parseInt(body[2]));
-        netSound.buffer = (Integer.parseInt(body[3]));
-        startVoiceListening();
-        Sender.sendPack(os, OK, UNKNOWN, this);
+                netSound.sampleRate = Float.parseFloat(body[0]);
+                netSound.sampleSizeInBits = Integer.parseInt(body[1]);
+                netSound.channels = (Integer.parseInt(body[2]));
+                netSound.buffer = (Integer.parseInt(body[3]));
+                startVoiceListening();
+                if (jCheckBox2.isSelected()) Sender.sendPack(os, MICROPHONE, AGREE, this);
+                else Sender.sendPack(os, MICROPHONE, DISAGREE, this);
+                break;
+            case AGREE:
+                startVoiceStreaming();
+                break;
+            case DISAGREE:
+                log("Собеседник отказался от приема голоса.");
+                break;
+            case STOP:
+                log("Закончен прием голоса");
+                netSound.mustStopInput = true;
+                break;
+            default:
+                log("MICROPHONE: What the...?");
+                break;
+        }
     }
 
-    public void handleDialogRq(int subtype, String[] body, byte[] bytes)
+    public void handleDialog(int subtype, String[] body, byte[] bytes)
     {
-        log("Начат голосовой диалог, параметры: "+body[0]+" Гц, "+body[1]+" бит, каналов: "+
+        switch(subtype)
+        {
+            case REQUEST:
+                log("Начат голосовой диалог, параметры: "+body[0]+" Гц, "+body[1]+" бит, каналов: "+
                 body[2]+", размер буфера: "+(body[3].hashCode()=="-1".hashCode() ? "авто":body[3]));
-        netSound.sampleRate = Float.parseFloat(body[0]);
-        netSound.sampleSizeInBits = Integer.parseInt(body[1]);
-        netSound.channels = (Integer.parseInt(body[2]));
-        netSound.buffer = (Integer.parseInt(body[3]));
-        startVoiceStreaming();
-        startVoiceListening();
-        Sender.sendPack(os, OK, UNKNOWN, this);
-    }
-
-    public void handleMicrophoneStop(int subtype, String[] body, byte[] bytes)
-    {
-        log("Закончен прием голоса");
-        netSound.mustStopInput = true;
-    }
-
-    public void handleDialogStop(int subtype, String[] body, byte[] bytes)
-    {
-        log("Закончен голосовой диалог");
-        netSound.mustStopInput = true;
-        netSound.mustStopOutput = true;
+                netSound.sampleRate = Float.parseFloat(body[0]);
+                netSound.sampleSizeInBits = Integer.parseInt(body[1]);
+                netSound.channels = (Integer.parseInt(body[2]));
+                netSound.buffer = (Integer.parseInt(body[3]));
+                startVoiceStreaming();
+                startVoiceListening();
+                if (jCheckBox2.isSelected()) Sender.sendPack(os, MICROPHONE, AGREE, this);
+                else Sender.sendPack(os, MICROPHONE, DISAGREE, this);
+                break;
+            case AGREE:
+                startVoiceStreaming();
+                break;
+            case DISAGREE:
+                log("Собеседник отказался от диалога.");
+                break;
+            case STOP:
+                log("Закончен голосовой диалог");
+                netSound.mustStopInput = true;
+                netSound.mustStopOutput = true;
+                break;
+            default:
+                log("MICROPHONE: What the...?");
+                break;
+        }
     }
 
     public void handleMouse(int subtype, String[] body, byte[] bytes)

@@ -92,23 +92,10 @@ public class Session extends Thread implements XSPConstants
 
     private void callHandler(int type, int subtype, String[] body, byte[] bytes)
     {
-        // KEEP IT SIMPLE, STUPID!!!
-        // Ради скорости убрал класс обработчика пакетов. Пусть их обрабатывает
-        // uiproxy. Я понимаю, что масштабируемость, но когда я подумал,
-        // сколько это классов выйдет, я чуть не повесился.
         switch(type)
         {
-            case OK:
-                uiproxy.handleOK(subtype, body, bytes);
-                break;
-            case INVALID:
-                uiproxy.handleInvalid(subtype, body, bytes);
-                break;
-            case ERROR:
-                uiproxy.handleError(subtype, body, bytes);
-                break;
-            case REFUSED:
-                uiproxy.handleRefused(subtype, body, bytes);
+            case SERVICE:
+                uiproxy.handleService(subtype, body, bytes);
                 break;
 
             case PING:
@@ -126,17 +113,11 @@ public class Session extends Thread implements XSPConstants
             case FILE:
                 uiproxy.handleFile(subtype, body, bytes);
                 break;
-            case MICROPHONERQ:
-                uiproxy.handleMicrophoneRq(subtype, body, bytes);
+            case MICROPHONE:
+                uiproxy.handleMicrophone(subtype, body, bytes);
                 break;
-            case DIALOGRQ:
-                uiproxy.handleDialogRq(subtype, body, bytes);
-                break;
-            case MICROPHONESTOP:
-                uiproxy.handleMicrophoneStop(subtype, body, bytes);
-                break;
-            case DIALOGSTOP:
-                uiproxy.handleDialogStop(subtype, body, bytes);
+            case DIALOG:
+                uiproxy.handleDialog(subtype, body, bytes);
                 break;
             case MOUSE:
                 uiproxy.handleMouse(subtype, body, bytes);
@@ -144,7 +125,6 @@ public class Session extends Thread implements XSPConstants
             case SCREEN:
                 uiproxy.handleScreen(subtype, body, bytes);
                 break;
-
 
             default:
                 uiproxy.errorUnknownType(type, subtype);

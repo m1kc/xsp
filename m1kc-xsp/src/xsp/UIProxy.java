@@ -28,19 +28,14 @@ public interface UIProxy
 
     // Обработка пакетов
 
-    public void handleOK(int subtype, String[] body, byte[] bytes);
-    public void handleInvalid(int subtype, String[] body, byte[] bytes);
-    public void handleError(int subtype, String[] body, byte[] bytes);
-    public void handleRefused(int subtype, String[] body, byte[] bytes);
+    public void handleService(int subtype, String[] body, byte[] bytes);
     public void handlePing(int subtype, String[] s, byte[] bytes);
     public void handleCapsCheck(int subtype, String[] body, byte[] bytes);
     public void handleMessage(int subtype, String[] s, byte[] bytes);
     public void handleTerminal(int subtype, String[] body, byte[] bytes);
     public void handleFile(int subtype, String[] body, byte[] bytes);
-    public void handleMicrophoneRq(int subtype, String[] body, byte[] bytes);
-    public void handleDialogRq(int subtype, String[] body, byte[] bytes);
-    public void handleMicrophoneStop(int subtype, String[] body, byte[] bytes);
-    public void handleDialogStop(int subtype, String[] body, byte[] bytes);
+    public void handleMicrophone(int subtype, String[] body, byte[] bytes);
+    public void handleDialog(int subtype, String[] body, byte[] bytes);
     public void handleMouse(int subtype, String[] body, byte[] bytes);
     public void handleScreen(int subtype, String[] body, byte[] bytes);
 
