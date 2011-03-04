@@ -164,7 +164,6 @@ public class SessionFrame extends javax.swing.JFrame implements XSPConstants, UI
         jTextArea1 = new javax.swing.JTextArea();
         jButton1 = new javax.swing.JButton();
         jButton6 = new javax.swing.JButton();
-        jTextField2 = new javax.swing.JTextField();
         jCheckBox5 = new javax.swing.JCheckBox();
         jLabel11 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
@@ -240,14 +239,12 @@ public class SessionFrame extends javax.swing.JFrame implements XSPConstants, UI
         });
 
         jButton6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/caps.png"))); // NOI18N
-        jButton6.setText("Проверить возможность");
+        jButton6.setText("Проверить возможности");
         jButton6.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton6ActionPerformed(evt);
             }
         });
-
-        jTextField2.setText("PING");
 
         jCheckBox5.setSelected(true);
         jCheckBox5.setText("Журналировать все пакеты");
@@ -269,9 +266,7 @@ public class SessionFrame extends javax.swing.JFrame implements XSPConstants, UI
                         .addComponent(jCheckBox5)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel11)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 20, Short.MAX_VALUE)
-                        .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 116, Short.MAX_VALUE)
                         .addComponent(jButton6)))
                 .addContainerGap())
         );
@@ -284,7 +279,6 @@ public class SessionFrame extends javax.swing.JFrame implements XSPConstants, UI
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton1)
                     .addComponent(jButton6)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jCheckBox5)
                     .addComponent(jLabel11))
                 .addContainerGap())
@@ -835,7 +829,7 @@ public class SessionFrame extends javax.swing.JFrame implements XSPConstants, UI
     }//GEN-LAST:event_jTextField1KeyPressed
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
-        checkCaps(jTextField2.getText());
+        Sender.sendPack(os, CAPSCHECK, ASK, this);
     }//GEN-LAST:event_jButton6ActionPerformed
 
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
@@ -980,7 +974,6 @@ public class SessionFrame extends javax.swing.JFrame implements XSPConstants, UI
     private javax.swing.JTextArea jTextArea3;
     private javax.swing.JTextArea jTextArea4;
     private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
     private javax.swing.JTextField jTextField3;
     private javax.swing.JTextField jTextField4;
     // End of variables declaration//GEN-END:variables
@@ -1259,19 +1252,11 @@ public class SessionFrame extends javax.swing.JFrame implements XSPConstants, UI
         switch(subtype)
         {
             case ASK:
-                boolean flag = false;
-                for (int i=0; i<CAPS.length; i++)
-                {
-                    if (CAPS[i].toUpperCase().hashCode()==body[0].toUpperCase().hashCode()) flag=true;
-                }
-                if (flag) Sender.sendPack(os, CAPSCHECK, SUPPORTED, body[0], null, this);
-                else Sender.sendPack(os, CAPSCHECK, NOT_SUPPORTED, body[0], null, this);
+                Sender.sendPack(os, CAPSCHECK, TELL, CAPS, null, this);
                 break;
-            case SUPPORTED:
-                log("Supported: "+body[0]);
-                break;
-            case NOT_SUPPORTED:
-                log("Not supported: "+body[0]);
+            case TELL:
+                log("Поддерживаемые возможности:");
+                for (int i=0; i<body.length; i++) log(body[i]);
                 break;
             default:
                 log("CAPSCHECK: What the...?");

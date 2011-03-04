@@ -35,8 +35,7 @@ public interface XSPConstants
     final static int ANSWER = 1;
     // CAPSCHECK
     final static int ASK = 0;
-    final static int SUPPORTED = 1;
-    final static int NOT_SUPPORTED = 2;
+    final static int TELL = 1;
     // TERMINAL
     final static int FULL = 0;
     final static int ADD = 1;
@@ -49,6 +48,6 @@ public interface XSPConstants
     final static int STOP = 3;
 
     // Возможности клиента
-    final static String[] CAPS = {"PING","MESSAGE","TERMINAL","FILE",
-    "MICROPHONE","DIALOG"};
+    final static String[] CAPS = {"PING","CAPSCHECK","MESSAGE","TERMINAL",
+    "FILE","MICROPHONE","DIALOG"};
 }
