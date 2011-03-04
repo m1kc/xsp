@@ -48,6 +48,6 @@ public interface XSPConstants
     final static int STOP = 3;
 
     // Возможности клиента
-    final static String[] CAPS = {"PING","CAPSCHECK","MESSAGE","TERMINAL",
-    "FILE","MICROPHONE","DIALOG"};
+    final static String[] CAPS = {"PC/J2SE","PING","CAPSCHECK","MESSAGE",
+    "TERMINAL","FILE","MICROPHONE","DIALOG"};
 }

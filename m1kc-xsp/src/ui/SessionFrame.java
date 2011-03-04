@@ -1032,11 +1032,6 @@ public class SessionFrame extends javax.swing.JFrame implements XSPConstants, UI
         term = newTerm;
     }
 
-    public void checkCaps(String s)
-    {
-        Sender.sendPack(os, CAPSCHECK, ASK, s, null, this);
-    }
-
     public void sendFileRq()
     {
         File ff = new File(jTextField4.getText());
@@ -1255,8 +1250,9 @@ public class SessionFrame extends javax.swing.JFrame implements XSPConstants, UI
                 Sender.sendPack(os, CAPSCHECK, TELL, CAPS, null, this);
                 break;
             case TELL:
+                log("Платформа клиента: "+body[0]);
                 log("Поддерживаемые возможности:");
-                for (int i=0; i<body.length; i++) log(body[i]);
+                for (int i=1; i<body.length; i++) log(body[i]);
                 break;
             default:
                 log("CAPSCHECK: What the...?");
