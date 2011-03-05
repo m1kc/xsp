@@ -772,7 +772,7 @@ public class SessionFrame extends javax.swing.JFrame implements XSPConstants, UI
         jTextArea3.setEditable(false);
         jTextArea3.setLineWrap(true);
         jTextArea3.setRows(5);
-        jTextArea3.setText("XSP 1.0 - eXtensible socket-based protocol\n(c) m1kc project & TomClaw Software, 2011\nВсе права защищены.\n\n= Справка по вкладкам =\n\nОбщее - сюда выводятся диагностические сообщения. Здесь же можно выполнить PING и CAPSCHECK.\n\nЧат - он и в Африке чат. Окошко, кстати, всплывает при входящем сообщении.\n\nТерминал - совместное редактирование текста (при изменении содержимого терминала на одном компьютере оно меняется и на другом).\n\nЭксплоиты - отправка неверных пакетов. Они не должны рушить программу.\n\nФайлы - прием/передача файлов по протоколу DirectTransfer™.\n\nГолосовая связь - переговоры или вещание звука с использованием микрофона (протокол SolkinVoiceStreaming™).");
+        jTextArea3.setText("XSP 1.0 - eXtensible socket-based protocol\n(c) m1kc project & TomClaw Software, 2011\nВсе права защищены.\n\n= Справка по вкладкам =\n\nОбщее - сюда выводятся диагностические сообщения. Здесь же можно выполнить PING и CAPSCHECK.\n\nЧат - он и в Африке чат. Окошко, кстати, всплывает при входящем сообщении.\n\nТерминал - совместное редактирование текста (при изменении содержимого терминала на одном компьютере оно меняется и на другом).\n\nФайлы - прием/передача файлов по протоколу DirectTransfer™.\n\nГолосовая связь - переговоры или вещание звука с использованием микрофона (протокол SolkinVoiceStreaming™).\n\nУправление - удаленное управление компьютером.");
         jTextArea3.setWrapStyleWord(true);
         jScrollPane4.setViewportView(jTextArea3);
 
@@ -1250,9 +1250,12 @@ public class SessionFrame extends javax.swing.JFrame implements XSPConstants, UI
                 Sender.sendPack(os, CAPSCHECK, TELL, CAPS, null, this);
                 break;
             case TELL:
-                log("Платформа клиента: "+body[0]);
+                log("Тип устройства: "+body[0]);
+                log("Клиент: "+body[1]);
+                log("Реализация: "+body[2]);
+                log("Автор: "+body[3]);
                 log("Поддерживаемые возможности:");
-                for (int i=1; i<body.length; i++) log(body[i]);
+                for (int i=4; i<body.length; i++) log(body[i]);
                 break;
             default:
                 log("CAPSCHECK: What the...?");
