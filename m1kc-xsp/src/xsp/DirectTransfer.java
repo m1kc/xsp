@@ -89,6 +89,7 @@ public class DirectTransfer
                 if (startTime != System.currentTimeMillis()) speed = (int) (((c - fileOffset) * 1000 / (System.currentTimeMillis() - startTime)) / 1024);
                 u.receiveProgress(c,fileLength,speed);
             }
+            raf.close();
         } catch (IOException ex) {
             Logger.getLogger(DirectTransfer.class.getName()).log(Level.SEVERE, null, ex);
         }

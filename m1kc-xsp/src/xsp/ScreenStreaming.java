@@ -32,7 +32,7 @@ public class ScreenStreaming
                 ImageIO.setUseCache(false);
                 final int w = Toolkit.getDefaultToolkit().getScreenSize().width;
                 final int h = Toolkit.getDefaultToolkit().getScreenSize().height;
-                final int div = 2;
+                final int div = 4;
                 final int wx = w/div;
                 final int wy = h/div;
                 DataOutputStream dos = new DataOutputStream(os);

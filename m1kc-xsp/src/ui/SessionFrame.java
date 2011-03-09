@@ -1260,9 +1260,7 @@ public class SessionFrame extends javax.swing.JFrame implements XSPConstants, UI
             default:
                 log("CAPSCHECK: What the...?");
                 break;
-        }
-
-        
+        }        
     }
     
     public void handleMessage(int subtype, String[] body, byte[] bytes)

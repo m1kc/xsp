@@ -16,22 +16,6 @@ import java.util.logging.Logger;
 public class Sender implements XSPConstants
 {
 
-    /**
-     * @deprecated
-     */
-    public static void sendUTF(DataOutputStream os, int type, String body, UIProxy u)
-    {
-        sendPack(os, type, UNKNOWN, body, null, u);
-    }
-
-    /**
-     * @deprecated
-     */
-    public static void sendBytes(DataOutputStream os, int type, int subtype, byte[] body, UIProxy u)
-    {
-        sendPack(os, type, subtype, (String[])null, body, u);
-    }
-
     public static void sendPack(DataOutputStream os, int type, int subtype, UIProxy u)
     {
         sendPack(os, type, subtype, (String[])null, null, u);
