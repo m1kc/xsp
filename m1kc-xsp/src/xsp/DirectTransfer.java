@@ -43,6 +43,7 @@ public class DirectTransfer
                 dos.write(b);
                 dos.flush();
                 sent += b.length;
+
                 speed = System.currentTimeMillis() - starttime; // Время в мс
                 speed /= 1000; // Время в секундах
                 if (speed != 0) {
@@ -53,7 +54,7 @@ public class DirectTransfer
                 speed/=1024; // Скорость в Кб/сек
                 u.sendProgress(sent,size, (int) speed);
             }
-            u.sendDone();
+            u.sendDone(size);
         } catch (Throwable ex) {
             Logger.getLogger(DirectTransfer.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -90,9 +91,9 @@ public class DirectTransfer
                 u.receiveProgress(c,fileLength,speed);
             }
             raf.close();
+            u.receiveDone(fileLength);
         } catch (IOException ex) {
             Logger.getLogger(DirectTransfer.class.getName()).log(Level.SEVERE, null, ex);
         }
-        u.receiveDone();
     }
 }

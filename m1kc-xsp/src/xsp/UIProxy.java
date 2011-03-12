@@ -42,9 +42,9 @@ public interface UIProxy
     // DirectTransfer
 
     public void sendProgress(long sent, long size, int speed);
-    public void sendDone();
+    public void sendDone(long size);
     public void receiveProgress(long got, long size, int speed);
-    public void receiveDone();
+    public void receiveDone(long size);
 
     // ScreenStreaming
 

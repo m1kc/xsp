@@ -11,6 +11,11 @@
 
 package ui;
 
+import java.awt.Color;
+import java.io.InputStream;
+import java.net.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import xsp.*;
 
 /**
@@ -19,10 +24,22 @@ import xsp.*;
  */
 public class ConnectFrame extends javax.swing.JFrame {
 
+    Color fg;
+
     /** Creates new form ConnectFrame */
     public ConnectFrame() {
         initComponents();
+        fg = jTextField3.getForeground();
+        jTextField3.setForeground(Color.GRAY);
         setLocationRelativeTo(null);
+    }
+
+    public void disableEverything()
+    {
+        jButton1.setEnabled(false);
+        jButton2.setEnabled(false);
+        jTextField1.setEnabled(false);
+        jTextField2.setEnabled(false);
     }
 
     /** This method is called from within the constructor to
@@ -37,7 +54,7 @@ public class ConnectFrame extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         jButton1 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
+        jTextField3 = new javax.swing.JTextField();
         jPanel3 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         jTextField2 = new javax.swing.JTextField();
@@ -45,6 +62,7 @@ public class ConnectFrame extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         jTextField1 = new javax.swing.JTextField();
+        jButton3 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("XSP 1.0 - соединение");
@@ -61,12 +79,9 @@ public class ConnectFrame extends javax.swing.JFrame {
             }
         });
 
-        jButton3.setText("Developer");
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
-            }
-        });
+        jTextField3.setEditable(false);
+        jTextField3.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        jTextField3.setText("здесь появится ваш IP-адрес...");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -75,8 +90,8 @@ public class ConnectFrame extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jButton3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 237, Short.MAX_VALUE)
-                    .addComponent(jButton1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 237, Short.MAX_VALUE))
+                    .addComponent(jButton1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 237, Short.MAX_VALUE)
+                    .addComponent(jTextField3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 237, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
@@ -85,8 +100,8 @@ public class ConnectFrame extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jButton1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton3)
-                .addContainerGap(13, Short.MAX_VALUE))
+                .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jPanel1.add(jPanel2);
@@ -128,7 +143,7 @@ public class ConnectFrame extends javax.swing.JFrame {
                     .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton2)
-                .addContainerGap(15, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jPanel1.add(jPanel3);
@@ -139,6 +154,13 @@ public class ConnectFrame extends javax.swing.JFrame {
 
         jTextField1.setText("3214");
 
+        jButton3.setText("Developer");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -147,7 +169,10 @@ public class ConnectFrame extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 546, Short.MAX_VALUE)
-                    .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                        .addComponent(jLabel3)
+                        .addGap(197, 197, 197)
+                        .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, 237, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                         .addComponent(jLabel1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -162,9 +187,11 @@ public class ConnectFrame extends javax.swing.JFrame {
                     .addComponent(jLabel1)
                     .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 123, Short.MAX_VALUE)
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 120, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel3)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel3)
+                    .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
 
@@ -176,15 +203,33 @@ public class ConnectFrame extends javax.swing.JFrame {
             @Override
             public void run()
             {
-                jButton1.setEnabled(false);
-                jButton2.setEnabled(false);
-                jLabel3.setText("Сервер: соединяюсь...");
+                disableEverything();
+                jLabel3.setText("Сервер: жду соединения...");
                 Main.sf = new SessionFrame();
                 Session s = Connector.connectAsServer(Integer.parseInt(jTextField1.getText()), Main.sf);
                 Main.sf.init(s);
                 Main.sf.setVisible(true);
                 Main.sf.log("Сервер: клиент подключился.");
                 dispose();
+            }
+        }.start();
+
+        new Thread(){
+            @Override
+            public void run()
+            {
+                try {
+                    jTextField3.setText("запрос...");
+                    InputStream is = new URL("http://tomclaw.com/services/simple/getip.php").openConnection().getInputStream();
+                    while(is.available()==0) Thread.sleep(10);
+                    byte[] b = new byte[is.available()];
+                    is.read(b);
+                    String s = new String(b);
+                    jTextField3.setText(s);
+                    jTextField3.setForeground(fg);
+                } catch (Throwable ex) {
+                    Logger.getLogger(ConnectFrame.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         }.start();
     }//GEN-LAST:event_jButton1ActionPerformed
@@ -194,8 +239,7 @@ public class ConnectFrame extends javax.swing.JFrame {
             @Override
             public void run()
             {
-                jButton1.setEnabled(false);
-                jButton2.setEnabled(false);
+                disableEverything();
                 jLabel3.setText("Клиент: соединяюсь...");
                 Main.sf = new SessionFrame();
                 Session s = Connector.connectAsClient(jTextField2.getText(), Integer.parseInt(jTextField1.getText()), Main.sf);
@@ -229,6 +273,7 @@ public class ConnectFrame extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel3;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField2;
+    private javax.swing.JTextField jTextField3;
     // End of variables declaration//GEN-END:variables
 
 }

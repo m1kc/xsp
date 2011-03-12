@@ -15,11 +15,12 @@ public class Main {
     public static SessionFrame sf;
     public static OpenDialog od;
 
+    public static boolean developer = false;
+
     /**
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        boolean developer = false;
         for (int i=0; i<args.length; i++)
         {
             if (args[i].hashCode()=="--developer".hashCode()) developer = true;
