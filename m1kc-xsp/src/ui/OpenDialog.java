@@ -90,14 +90,6 @@ public class OpenDialog extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    public static String bestSize(long size)
-    {
-        if (size<1024L*10L) return ""+size+" байт";
-        if (size>=1024L*1024L*1024L*10L) return ""+size/(1024L*1024L*1024L)+" Гб";
-        if (size>=1024L*1024L*10L) return ""+size/(1024L*1024L)+" Мб";
-        return ""+size/1024L+" Кб";
-    }
-
     private void jFileChooser1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jFileChooser1ActionPerformed
         if (evt.getActionCommand().hashCode()=="ApproveSelection".hashCode())
         {
@@ -105,7 +97,7 @@ public class OpenDialog extends javax.swing.JFrame {
             {
                 if (target!=null) target.setText(jFileChooser1.getSelectedFile().getAbsolutePath());
                 try {
-                    if (sizeTarget!=null) sizeTarget.setText("Размер файла: "+bestSize(jFileChooser1.getSelectedFile().length()));
+                    if (sizeTarget!=null) sizeTarget.setText("Размер файла: "+Notation.bestSize(jFileChooser1.getSelectedFile().length()));
                 } catch (Throwable ex) {
                     Logger.getLogger(OpenDialog.class.getName()).log(Level.SEVERE, null, ex);
                 }

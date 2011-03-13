@@ -48,7 +48,7 @@ public class SessionFrame extends javax.swing.JFrame implements XSPConstants, UI
         if (!Main.developer) jMenuBar1.remove(jMenu2);
         updateTitle(defaultTitle);
         setSize(Toolkit.getDefaultToolkit().getScreenSize().width/2, Toolkit.getDefaultToolkit().getScreenSize().height/2);
-        if (getWidth()<900) setSize(900, getHeight());
+        if (getWidth()<950) setSize(950, getHeight());
         if (getHeight()<450) setSize(getWidth(), 450);
         setLocationRelativeTo(null);
         try {
@@ -105,14 +105,6 @@ public class SessionFrame extends javax.swing.JFrame implements XSPConstants, UI
         }.start();
     }
 
-    public static String bestSize(long size)
-    {
-        if (size<1024L*10L) return ""+size+" байт";
-        if (size>=1024L*1024L*1024L*10L) return ""+size/(1024L*1024L*1024L)+" Гб";
-        if (size>=1024L*1024L*10L) return ""+size/(1024L*1024L)+" Мб";
-        return ""+size/1024L+" Кб";
-    }
-
     public static byte[] getScreen(Rectangle r)
     {
         final ByteString bs = new ByteString();
@@ -150,8 +142,8 @@ public class SessionFrame extends javax.swing.JFrame implements XSPConstants, UI
 
     public void updateCounter()
     {
-        jLabel11.setText("Трафик: "+bestSize(traffic));
-        jMenu4.setText("Трафик: "+bestSize(traffic));
+        jLabel11.setText("Трафик: "+Notation.bestSize(traffic));
+        jMenu4.setText("Трафик: "+Notation.bestSize(traffic));
     }
 
     private void updateTitle(String s)
@@ -1559,9 +1551,15 @@ public class SessionFrame extends javax.swing.JFrame implements XSPConstants, UI
         updateCounter();
     }
 
-    public void sendProgress(long sent, long size, int speed)
+    public void sendFailed(Throwable ex)
     {
-        jLabel4.setText("Передано: "+bestSize(sent)+"/"+bestSize(size)+", скорость: "+speed+" Кб/сек");
+        jLabel4.setText("Ошибка при передаче: "+ex.getLocalizedMessage());
+        updateTitle(defaultTitle);
+    }
+
+    public void sendProgress(long sent, long size, long speed, long rest)
+    {
+        jLabel4.setText(Notation.formatAll("Передано: ", sent, size, speed, rest));
         jProgressBar1.setMaximum((int) (size / 1024));
         jProgressBar1.setValue((int) (sent / 1024));
         long percentage = 100 * sent / size;
@@ -1585,9 +1583,15 @@ public class SessionFrame extends javax.swing.JFrame implements XSPConstants, UI
         playSoundFromResource("/sound/login.wav");
     }
 
-    public void receiveProgress(long got, long size, int speed)
+    public void receiveFailed(Throwable ex)
     {
-        jLabel5.setText("Получено "+bestSize(got)+"/"+bestSize(size)+", скорость: "+speed+" Кб/сек");
+        jLabel5.setText("Ошибка при передаче: "+ex.getLocalizedMessage());
+        updateTitle(defaultTitle);
+    }
+
+    public void receiveProgress(long got, long size, long speed, long rest)
+    {
+        jLabel5.setText(Notation.formatAll("Получено: ", got, size, speed, rest));
         jProgressBar2.setMaximum((int) (size / 1024));
         jProgressBar2.setValue((int) (got / 1024));
         long percentage = 100 * got / size;

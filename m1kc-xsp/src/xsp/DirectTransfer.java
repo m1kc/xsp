@@ -33,7 +33,7 @@ public class DirectTransfer
             }
             long sent = 0;
             long starttime = System.currentTimeMillis();
-            long speed = 0;
+            long speed = 0, time = 0, fulltime = 0, rest = 0;
             byte[] b = new byte[1024 * 128];
             while (fis.available() > 0) {
                 if (fis.available() < b.length) {
@@ -44,19 +44,21 @@ public class DirectTransfer
                 dos.flush();
                 sent += b.length;
 
-                speed = System.currentTimeMillis() - starttime; // Время в мс
-                speed /= 1000; // Время в секундах
-                if (speed != 0) {
-                    speed = sent / speed;
-                } else {
-                    speed = 0; // Скорость в байт/сек
-                }
-                speed/=1024; // Скорость в Кб/сек
-                u.sendProgress(sent,size, (int) speed);
+                // Цифры
+                time = System.currentTimeMillis() - starttime; // Время в мс
+
+                if (time==0) speed=0;
+                else speed = 1000 * sent / time; // байты в секунду
+
+                fulltime = time * size / sent; // Полное время в мс
+                rest = fulltime - time; // Оставшееся время в мс
+
+                u.sendProgress(sent, size, speed, rest);
             }
             u.sendDone(size);
         } catch (Throwable ex) {
             Logger.getLogger(DirectTransfer.class.getName()).log(Level.SEVERE, null, ex);
+            u.sendFailed(ex);
         }
     }
 
@@ -79,7 +81,7 @@ public class DirectTransfer
             int buffLen = 0;
             byte[] buffer;
             long startTime = System.currentTimeMillis();
-            int speed = 0;
+            long speed = 0, fulltime = 0, time = 0, rest = 0;
             for (long c = fileOffset; c < fileLength; c += buffLen) {
                 buffer = new byte[1024*10];
                 buffLen = dis.read(buffer);
@@ -87,13 +89,30 @@ public class DirectTransfer
                     break;
                 }
                 raf.write(buffer, 0, buffLen);
-                if (startTime != System.currentTimeMillis()) speed = (int) (((c - fileOffset) * 1000 / (System.currentTimeMillis() - startTime)) / 1024);
-                u.receiveProgress(c,fileLength,speed);
+                
+                // Цифры
+                time = System.currentTimeMillis() - startTime; // Время в мс
+
+                if (time==0) speed=0;
+                else speed = 1000 * (c - fileOffset) / time; // байты в секунду
+
+                if (c - fileOffset == 0)
+                {
+                    fulltime = rest = 0;
+                }
+                else
+                {
+                    fulltime = time * (fileLength - fileOffset) / (c - fileOffset); // Полное время в мс
+                    rest = fulltime - time; // Оставшееся время в мс
+                }
+
+                u.receiveProgress(c,fileLength,speed,rest);
             }
             raf.close();
             u.receiveDone(fileLength);
         } catch (IOException ex) {
             Logger.getLogger(DirectTransfer.class.getName()).log(Level.SEVERE, null, ex);
+            u.receiveFailed(ex);
         }
     }
 }
