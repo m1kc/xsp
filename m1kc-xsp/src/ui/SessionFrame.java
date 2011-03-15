@@ -993,7 +993,7 @@ public class SessionFrame extends javax.swing.JFrame implements XSPConstants, UI
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
-        handleMessage(UNKNOWN, new String[]{"Эмулированое сообщение. Остерегайтесь подделок."}, null);
+        handleMessage(UNKNOWN, new String[]{"Эмулированное сообщение. Остерегайтесь подделок."}, null);
     }//GEN-LAST:event_jMenuItem2ActionPerformed
 
     private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
@@ -1475,8 +1475,8 @@ public class SessionFrame extends javax.swing.JFrame implements XSPConstants, UI
                 netSound.buffer = (Integer.parseInt(body[3]));
                 startVoiceStreaming();
                 startVoiceListening();
-                if (jCheckBox2.isSelected()) Sender.sendPack(os, MICROPHONE, AGREE, this);
-                else Sender.sendPack(os, MICROPHONE, DISAGREE, this);
+                if (jCheckBox2.isSelected()) Sender.sendPack(os, DIALOG, AGREE, this);
+                else Sender.sendPack(os, DIALOG, DISAGREE, this);
                 break;
             case AGREE:
                 startVoiceStreaming();
