@@ -385,7 +385,7 @@ public class SessionFrame extends javax.swing.JFrame implements XSPConstants, UI
         });
 
         jCheckBox1.setSelected(true);
-        jCheckBox1.setText("Принимать файлы");
+        jCheckBox1.setText("Принимать все файлы");
 
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
@@ -943,33 +943,7 @@ public class SessionFrame extends javax.swing.JFrame implements XSPConstants, UI
 }//GEN-LAST:event_jTextArea2KeyReleased
 
     private void jButton15ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton15ActionPerformed
-        //updateScreen(null);
         new ScreenStreaming().startStreaming(sos);
-        if (true) return;
-        new Thread(){
-            @Override
-            public void run()
-            {
-                final int w = Toolkit.getDefaultToolkit().getScreenSize().width;
-                final int h = Toolkit.getDefaultToolkit().getScreenSize().height;
-                final int sx = w/4;
-                final int sy = h/4;
-                while(true)
-                {
-                    long start = System.currentTimeMillis();
-                    for (int i=0; i<w; i+=sx)
-                        for (int j=0; j<h; j+=sy)
-                            updateScreen(new Rectangle(i,j,sx,sy));
-                    long ago = System.currentTimeMillis() - start;
-                    System.out.println(ago);
-                    try {
-                        Thread.sleep(100);
-                    } catch (InterruptedException ex) {
-                        Logger.getLogger(SessionFrame.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-                }
-            }
-        }.start();
     }//GEN-LAST:event_jButton15ActionPerformed
 
     private void jLabel10MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel10MousePressed
@@ -1256,13 +1230,6 @@ public class SessionFrame extends javax.swing.JFrame implements XSPConstants, UI
         Sender.sendPack(os, MOUSE, UNKNOWN, new String[]{""+x, ""+y, ""+event, ""+mask}, null, this);
     }
 
-    public void updateScreen(Rectangle r)
-    {
-        Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
-        if (r==null) Sender.sendPack(os, SCREEN, UNKNOWN, new String[]{""+d.width,""+d.height,"full"}, getScreen(r), this);
-        else Sender.sendPack(os, SCREEN, UNKNOWN, new String[]{""+d.width,""+d.height,"part",""+r.getX(),""+r.getY()}, getScreen(r), this);
-    }
-
     // РЕАЛИЗАЦИЯ UIProxy ======================================================
 
     // Обработка пакетов
@@ -1409,7 +1376,8 @@ public class SessionFrame extends javax.swing.JFrame implements XSPConstants, UI
         switch(subtype)
         {
             case REQUEST:
-                if (jCheckBox1.isSelected())
+                if (jCheckBox1.isSelected() ||
+                        JOptionPane.showConfirmDialog(this, "Принять файл?\n"+body[0], null, JOptionPane.YES_NO_OPTION)==JOptionPane.YES_OPTION)
                 {
                     Sender.sendPack(os, FILE, AGREE, body, null, this);
                     receiveFile();
