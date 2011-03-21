@@ -24,7 +24,6 @@ public interface XSPConstants
     final static int DIALOG = 7;
     // OLD
     final static int MOUSE = 1513;
-    final static int SCREEN = 1514;
 
     // Подтипы
 

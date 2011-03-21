@@ -37,7 +37,6 @@ public interface UIProxy
     public void handleMicrophone(int subtype, String[] body, byte[] bytes);
     public void handleDialog(int subtype, String[] body, byte[] bytes);
     public void handleMouse(int subtype, String[] body, byte[] bytes);
-    public void handleScreen(int subtype, String[] body, byte[] bytes);
 
     // DirectTransfer
 

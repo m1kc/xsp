@@ -1246,7 +1246,6 @@ public class SessionFrame extends javax.swing.JFrame implements XSPConstants, UI
 
         if (type==TERMINAL) return;  // Забить
         if (type==MOUSE) return;     // Тем более забить
-        if (type==SCREEN) return;    // Стопудово забить!
         if (jCheckBox5.isSelected())
         {
             StringBuilder z = new StringBuilder();
@@ -1480,31 +1479,6 @@ public class SessionFrame extends javax.swing.JFrame implements XSPConstants, UI
             if (z==MouseEvent.BUTTON2) robot.mouseRelease(InputEvent.BUTTON2_MASK);
             if (z==MouseEvent.BUTTON3) robot.mouseRelease(InputEvent.BUTTON3_MASK);
         }
-    }
-
-    public void handleScreen(int subtype, String[] body, byte[] bytes)
-    {
-        if (screen==null)
-        {
-            int w = (int) Double.parseDouble(body[0]);
-            int h = (int) Double.parseDouble(body[1]);
-            screen = new BufferedImage(w,h,BufferedImage.TYPE_INT_RGB);
-        }
-
-        if (body[2].hashCode()=="full".hashCode())
-        {
-            Image i = makeGoodImage(Toolkit.getDefaultToolkit().createImage(bytes));
-            screen.createGraphics().drawImage(i, 0, 0, null);
-        }
-        if (body[2].hashCode()=="part".hashCode())
-        {
-            int x = (int) Double.parseDouble(body[3]);
-            int y = (int) Double.parseDouble(body[4]);
-            Image i = makeGoodImage(Toolkit.getDefaultToolkit().createImage(bytes));
-            screen.getGraphics().drawImage(i, x, y, null);
-        }
-
-        jLabel10.setIcon(new ImageIcon(screen));
     }
 
     // DirectTransfer
