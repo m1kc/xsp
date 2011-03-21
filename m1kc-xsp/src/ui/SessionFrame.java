@@ -105,36 +105,6 @@ public class SessionFrame extends javax.swing.JFrame implements XSPConstants, UI
         }.start();
     }
 
-    public static byte[] getScreen(Rectangle r)
-    {
-        final ByteString bs = new ByteString();
-        OutputStream s = new OutputStream() {
-            @Override
-            public void write(int b) throws IOException
-            {
-                bs.append(new byte[]{(byte)b});
-            }
-
-            @Override
-            public void write(byte[] b)
-            {
-                bs.append(b);
-            }
-        };
-
-        BufferedImage ss;
-        if (r==null) ss = robot.createScreenCapture(new Rectangle(Toolkit.getDefaultToolkit().getScreenSize()));
-        else ss = robot.createScreenCapture(r);
-
-        try {
-            ImageIO.write(ss, "GIF", s);
-        } catch (IOException ex) {
-            Logger.getLogger(SessionFrame.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
-        return bs.byteString;
-    }
-
     public static Image makeGoodImage(Image i)
     {
         return new ImageIcon(i).getImage();
