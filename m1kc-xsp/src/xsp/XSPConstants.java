@@ -48,6 +48,7 @@ public interface XSPConstants
     final static int STOP = 3;
     // PAINT
     final static int LINE = 0;
+    final static int RESET = 1;
 
     // Возможности клиента
     final static String[] CAPS = {"PC","XSP 1.0","J2SE",

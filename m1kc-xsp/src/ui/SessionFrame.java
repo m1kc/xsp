@@ -42,6 +42,7 @@ public class SessionFrame extends javax.swing.JFrame implements XSPConstants, UI
     int lastX = Integer.MIN_VALUE,lastY = Integer.MIN_VALUE;
     Graphics g;
     BufferedImage paintbox;
+    Color color;
 
     /** Creates new form MainFrame */
     public SessionFrame()
@@ -65,6 +66,7 @@ public class SessionFrame extends javax.swing.JFrame implements XSPConstants, UI
         paintbox = new BufferedImage(jLabel12.getWidth(),jLabel12.getHeight(),BufferedImage.TYPE_INT_ARGB);
         g = paintbox.getGraphics();
         jLabel12.setIcon(new ImageIcon(paintbox));
+        color = Color.BLACK;
     }
 
     public void init(Session session)
@@ -197,6 +199,12 @@ public class SessionFrame extends javax.swing.JFrame implements XSPConstants, UI
         jLabel6 = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
         jLabel12 = new javax.swing.JLabel();
+        jButton3 = new javax.swing.JButton();
+        jButton4 = new javax.swing.JButton();
+        jButton5 = new javax.swing.JButton();
+        jButton10 = new javax.swing.JButton();
+        jButton17 = new javax.swing.JButton();
+        jButton18 = new javax.swing.JButton();
         jPanel15 = new javax.swing.JPanel();
         jCheckBox6 = new javax.swing.JCheckBox();
         jCheckBox7 = new javax.swing.JCheckBox();
@@ -713,20 +721,83 @@ public class SessionFrame extends javax.swing.JFrame implements XSPConstants, UI
             }
         });
 
+        jButton3.setText("Очистить");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
+
+        jButton4.setText("черный");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
+
+        jButton5.setText("белый");
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton5ActionPerformed(evt);
+            }
+        });
+
+        jButton10.setText("красный");
+        jButton10.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton10ActionPerformed(evt);
+            }
+        });
+
+        jButton17.setText("зеленый");
+        jButton17.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton17ActionPerformed(evt);
+            }
+        });
+
+        jButton18.setText("синий");
+        jButton18.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton18ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel12, javax.swing.GroupLayout.DEFAULT_SIZE, 882, Short.MAX_VALUE)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel12, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 882, Short.MAX_VALUE)
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addComponent(jButton4)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton5)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton10)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton17)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton18)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 447, Short.MAX_VALUE)
+                        .addComponent(jButton3)))
                 .addContainerGap())
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel12, javax.swing.GroupLayout.DEFAULT_SIZE, 362, Short.MAX_VALUE)
+                .addComponent(jLabel12, javax.swing.GroupLayout.DEFAULT_SIZE, 326, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton3)
+                    .addComponent(jButton4)
+                    .addComponent(jButton5)
+                    .addComponent(jButton10)
+                    .addComponent(jButton17)
+                    .addComponent(jButton18))
                 .addContainerGap())
         );
 
@@ -1000,10 +1071,10 @@ public class SessionFrame extends javax.swing.JFrame implements XSPConstants, UI
             lastX = evt.getX();
             lastY = evt.getY();
         }
-        g.setColor(Color.BLACK);
+        g.setColor(color);
         g.drawLine(lastX, lastY, evt.getX(), evt.getY());
         jLabel12.setIcon(new ImageIcon(paintbox));
-        Sender.sendPack(os, PAINT, LINE, new String[]{""+lastX,""+lastY,""+evt.getX(),""+evt.getY()}, null, this);
+        Sender.sendPack(os, PAINT, LINE, new String[]{""+lastX,""+lastY,""+evt.getX(),""+evt.getY(),""+color.getRGB()}, null, this);
         lastX = evt.getX();
         lastY = evt.getY();
     }//GEN-LAST:event_jLabel12MouseDragged
@@ -1021,16 +1092,49 @@ public class SessionFrame extends javax.swing.JFrame implements XSPConstants, UI
         jLabel12.setIcon(new ImageIcon(paintbox));
     }//GEN-LAST:event_jLabel12ComponentResized
 
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        paintbox = new BufferedImage(jLabel12.getWidth(),jLabel12.getHeight(),BufferedImage.TYPE_INT_ARGB);
+        g = paintbox.getGraphics();
+        jLabel12.setIcon(new ImageIcon(paintbox));
+        Sender.sendPack(os, PAINT, RESET, this);
+    }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        color = Color.BLACK;
+    }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+        color = Color.WHITE;
+    }//GEN-LAST:event_jButton5ActionPerformed
+
+    private void jButton10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton10ActionPerformed
+        color = Color.RED;
+    }//GEN-LAST:event_jButton10ActionPerformed
+
+    private void jButton17ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton17ActionPerformed
+        color = Color.GREEN;
+    }//GEN-LAST:event_jButton17ActionPerformed
+
+    private void jButton18ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton18ActionPerformed
+        color = Color.BLUE;
+    }//GEN-LAST:event_jButton18ActionPerformed
+
     // <editor-fold defaultstate="collapsed" desc="Generated Code">
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton10;
     private javax.swing.JButton jButton11;
     private javax.swing.JButton jButton12;
     private javax.swing.JButton jButton13;
     private javax.swing.JButton jButton14;
     private javax.swing.JButton jButton15;
     private javax.swing.JButton jButton16;
+    private javax.swing.JButton jButton17;
+    private javax.swing.JButton jButton18;
     private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
+    private javax.swing.JButton jButton4;
+    private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
     private javax.swing.JButton jButton7;
     private javax.swing.JButton jButton8;
@@ -1291,6 +1395,7 @@ public class SessionFrame extends javax.swing.JFrame implements XSPConstants, UI
 
         if (type==TERMINAL) return;  // Забить
         if (type==MOUSE) return;     // Тем более забить
+        if (type==PAINT) return;     // Тем более забить
         if (jCheckBox5.isSelected())
         {
             StringBuilder z = new StringBuilder();
@@ -1516,8 +1621,13 @@ public class SessionFrame extends javax.swing.JFrame implements XSPConstants, UI
                 int y1 = Integer.parseInt(body[1]);
                 int x2 = Integer.parseInt(body[2]);
                 int y2 = Integer.parseInt(body[3]);
-                g.setColor(Color.BLACK);
+                g.setColor(new Color(Integer.parseInt(body[4])));
                 g.drawLine(x1, y1, x2, y2);
+                jLabel12.setIcon(new ImageIcon(paintbox));
+                break;
+            case RESET:
+                paintbox = new BufferedImage(jLabel12.getWidth(),jLabel12.getHeight(),BufferedImage.TYPE_INT_ARGB);
+                g = paintbox.getGraphics();
                 jLabel12.setIcon(new ImageIcon(paintbox));
                 break;
             default:
