@@ -119,6 +119,10 @@ public class Session extends Thread implements XSPConstants
             case DIALOG:
                 uiproxy.handleDialog(subtype, body, bytes);
                 break;
+            case PAINT:
+                uiproxy.handlePaint(subtype, body, bytes);
+                break;
+
             case MOUSE:
                 uiproxy.handleMouse(subtype, body, bytes);
                 break;

@@ -36,6 +36,8 @@ public interface UIProxy
     public void handleFile(int subtype, String[] body, byte[] bytes);
     public void handleMicrophone(int subtype, String[] body, byte[] bytes);
     public void handleDialog(int subtype, String[] body, byte[] bytes);
+    public void handlePaint(int subtype, String[] body, byte[] bytes);
+
     public void handleMouse(int subtype, String[] body, byte[] bytes);
 
     // DirectTransfer

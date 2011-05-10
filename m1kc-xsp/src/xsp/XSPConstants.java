@@ -22,6 +22,7 @@ public interface XSPConstants
     final static int FILE = 5;
     final static int MICROPHONE = 6;
     final static int DIALOG = 7;
+    final static int PAINT = 8;
     // OLD
     final static int MOUSE = 1513;
 
@@ -45,9 +46,11 @@ public interface XSPConstants
     final static int DISAGREE = 2;
     // MICROPHONE, DIALOG
     final static int STOP = 3;
+    // PAINT
+    final static int LINE = 0;
 
     // Возможности клиента
     final static String[] CAPS = {"PC","XSP 1.0","J2SE",
     "m1kc project & TomClaw Software","PING","CAPSCHECK","MESSAGE",
-    "TERMINAL","FILE","MICROPHONE","DIALOG"};
+    "TERMINAL","FILE","MICROPHONE","DIALOG","PAINT"};
 }

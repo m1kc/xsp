@@ -16,7 +16,6 @@ import java.awt.event.*;
 import java.awt.image.*;
 import java.io.*;
 import java.util.logging.*;
-import javax.imageio.*;
 import javax.sound.sampled.*;
 import javax.swing.*;
 import xsp.*;
@@ -40,22 +39,32 @@ public class SessionFrame extends javax.swing.JFrame implements XSPConstants, UI
     NetSound netSound;
     static Robot robot;
     BufferedImage screen;
+    int lastX = Integer.MIN_VALUE,lastY = Integer.MIN_VALUE;
+    Graphics g;
+    BufferedImage paintbox;
 
     /** Creates new form MainFrame */
     public SessionFrame()
     {
         initComponents();
-        if (!Main.developer) jMenuBar1.remove(jMenu2);
+        if (!Main.developer)
+        {
+            jMenuBar1.remove(jMenu2);
+            jTabbedPane1.remove(jPanel15);
+        }
         updateTitle(defaultTitle);
         setSize(Toolkit.getDefaultToolkit().getScreenSize().width/2, Toolkit.getDefaultToolkit().getScreenSize().height/2);
         if (getWidth()<950) setSize(950, getHeight());
-        if (getHeight()<450) setSize(getWidth(), 450);
+        if (getHeight()<500) setSize(getWidth(), 500);
         setLocationRelativeTo(null);
         try {
             robot = new Robot();
         } catch (AWTException ex) {
             Logger.getLogger(SessionFrame.class.getName()).log(Level.SEVERE, null, ex);
         }
+        paintbox = new BufferedImage(jLabel12.getWidth(),jLabel12.getHeight(),BufferedImage.TYPE_INT_ARGB);
+        g = paintbox.getGraphics();
+        jLabel12.setIcon(new ImageIcon(paintbox));
     }
 
     public void init(Session session)
@@ -186,6 +195,8 @@ public class SessionFrame extends javax.swing.JFrame implements XSPConstants, UI
         jButton13 = new javax.swing.JButton();
         jPanel11 = new javax.swing.JPanel();
         jLabel6 = new javax.swing.JLabel();
+        jPanel3 = new javax.swing.JPanel();
+        jLabel12 = new javax.swing.JLabel();
         jPanel15 = new javax.swing.JPanel();
         jCheckBox6 = new javax.swing.JCheckBox();
         jCheckBox7 = new javax.swing.JCheckBox();
@@ -246,14 +257,14 @@ public class SessionFrame extends javax.swing.JFrame implements XSPConstants, UI
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 734, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 882, Short.MAX_VALUE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jButton1)
                         .addGap(18, 18, 18)
                         .addComponent(jCheckBox5)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel11)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 124, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 249, Short.MAX_VALUE)
                         .addComponent(jButton6)))
                 .addContainerGap())
         );
@@ -261,7 +272,7 @@ public class SessionFrame extends javax.swing.JFrame implements XSPConstants, UI
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 286, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 320, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton1)
@@ -287,7 +298,7 @@ public class SessionFrame extends javax.swing.JFrame implements XSPConstants, UI
             }
         });
 
-        jTextArea4.setColumns(20);
+        jTextArea4.setColumns(5);
         jTextArea4.setEditable(false);
         jTextArea4.setLineWrap(true);
         jTextArea4.setRows(5);
@@ -301,9 +312,9 @@ public class SessionFrame extends javax.swing.JFrame implements XSPConstants, UI
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 734, Short.MAX_VALUE)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 882, Short.MAX_VALUE)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(jTextField1, javax.swing.GroupLayout.DEFAULT_SIZE, 612, Short.MAX_VALUE)
+                        .addComponent(jTextField1, javax.swing.GroupLayout.DEFAULT_SIZE, 759, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton2)))
                 .addContainerGap())
@@ -312,7 +323,7 @@ public class SessionFrame extends javax.swing.JFrame implements XSPConstants, UI
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 286, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 320, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -366,7 +377,7 @@ public class SessionFrame extends javax.swing.JFrame implements XSPConstants, UI
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel1)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
-                        .addComponent(jTextField3, javax.swing.GroupLayout.DEFAULT_SIZE, 244, Short.MAX_VALUE)
+                        .addComponent(jTextField3, javax.swing.GroupLayout.DEFAULT_SIZE, 313, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton7))
                     .addComponent(jCheckBox1))
@@ -383,7 +394,7 @@ public class SessionFrame extends javax.swing.JFrame implements XSPConstants, UI
                     .addComponent(jButton7))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jCheckBox1)
-                .addContainerGap(50, Short.MAX_VALUE))
+                .addContainerGap(64, Short.MAX_VALUE))
         );
 
         jPanel5.add(jPanel6);
@@ -417,13 +428,13 @@ public class SessionFrame extends javax.swing.JFrame implements XSPConstants, UI
             .addGroup(jPanel7Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, 343, Short.MAX_VALUE)
+                    .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, 417, Short.MAX_VALUE)
                     .addComponent(jLabel2)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel7Layout.createSequentialGroup()
-                        .addComponent(jTextField4, javax.swing.GroupLayout.DEFAULT_SIZE, 244, Short.MAX_VALUE)
+                        .addComponent(jTextField4, javax.swing.GroupLayout.DEFAULT_SIZE, 313, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton8))
-                    .addComponent(jButton9, javax.swing.GroupLayout.DEFAULT_SIZE, 343, Short.MAX_VALUE))
+                    .addComponent(jButton9, javax.swing.GroupLayout.DEFAULT_SIZE, 417, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jPanel7Layout.setVerticalGroup(
@@ -439,7 +450,7 @@ public class SessionFrame extends javax.swing.JFrame implements XSPConstants, UI
                 .addComponent(jLabel3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton9)
-                .addContainerGap(13, Short.MAX_VALUE))
+                .addContainerGap(28, Short.MAX_VALUE))
         );
 
         jPanel5.add(jPanel7);
@@ -455,7 +466,7 @@ public class SessionFrame extends javax.swing.JFrame implements XSPConstants, UI
             .addGroup(jPanel13Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jProgressBar2, javax.swing.GroupLayout.DEFAULT_SIZE, 343, Short.MAX_VALUE)
+                    .addComponent(jProgressBar2, javax.swing.GroupLayout.DEFAULT_SIZE, 417, Short.MAX_VALUE)
                     .addComponent(jLabel5))
                 .addContainerGap())
         );
@@ -466,7 +477,7 @@ public class SessionFrame extends javax.swing.JFrame implements XSPConstants, UI
                 .addComponent(jLabel5)
                 .addGap(18, 18, 18)
                 .addComponent(jProgressBar2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(82, Short.MAX_VALUE))
+                .addContainerGap(98, Short.MAX_VALUE))
         );
 
         jPanel5.add(jPanel13);
@@ -482,7 +493,7 @@ public class SessionFrame extends javax.swing.JFrame implements XSPConstants, UI
             .addGroup(jPanel14Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jProgressBar1, javax.swing.GroupLayout.DEFAULT_SIZE, 343, Short.MAX_VALUE)
+                    .addComponent(jProgressBar1, javax.swing.GroupLayout.DEFAULT_SIZE, 417, Short.MAX_VALUE)
                     .addComponent(jLabel4))
                 .addContainerGap())
         );
@@ -493,7 +504,7 @@ public class SessionFrame extends javax.swing.JFrame implements XSPConstants, UI
                 .addComponent(jLabel4)
                 .addGap(18, 18, 18)
                 .addComponent(jProgressBar1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(82, Short.MAX_VALUE))
+                .addContainerGap(98, Short.MAX_VALUE))
         );
 
         jPanel5.add(jPanel14);
@@ -535,7 +546,7 @@ public class SessionFrame extends javax.swing.JFrame implements XSPConstants, UI
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton14))
                     .addComponent(jCheckBox2))
-                .addContainerGap(24, Short.MAX_VALUE))
+                .addContainerGap(91, Short.MAX_VALUE))
         );
         jPanel9Layout.setVerticalGroup(
             jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -546,7 +557,7 @@ public class SessionFrame extends javax.swing.JFrame implements XSPConstants, UI
                 .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton11)
                     .addComponent(jButton14))
-                .addContainerGap(73, Short.MAX_VALUE))
+                .addContainerGap(88, Short.MAX_VALUE))
         );
 
         jPanel8.add(jPanel9);
@@ -578,16 +589,16 @@ public class SessionFrame extends javax.swing.JFrame implements XSPConstants, UI
                     .addGroup(jPanel10Layout.createSequentialGroup()
                         .addComponent(jLabel7)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jComboBox1, 0, 269, Short.MAX_VALUE))
+                        .addComponent(jComboBox1, 0, 345, Short.MAX_VALUE))
                     .addGroup(jPanel10Layout.createSequentialGroup()
                         .addComponent(jLabel8)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jComboBox2, 0, 301, Short.MAX_VALUE))
+                        .addComponent(jComboBox2, 0, 376, Short.MAX_VALUE))
                     .addComponent(jCheckBox4)
                     .addGroup(jPanel10Layout.createSequentialGroup()
                         .addComponent(jLabel9)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jComboBox3, 0, 284, Short.MAX_VALUE)))
+                        .addComponent(jComboBox3, 0, 356, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel10Layout.setVerticalGroup(
@@ -607,7 +618,7 @@ public class SessionFrame extends javax.swing.JFrame implements XSPConstants, UI
                 .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel9)
                     .addComponent(jComboBox3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(16, Short.MAX_VALUE))
+                .addContainerGap(28, Short.MAX_VALUE))
         );
 
         jPanel8.add(jPanel10);
@@ -645,7 +656,7 @@ public class SessionFrame extends javax.swing.JFrame implements XSPConstants, UI
                         .addComponent(jButton12)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton13)))
-                .addContainerGap(46, Short.MAX_VALUE))
+                .addContainerGap(119, Short.MAX_VALUE))
         );
         jPanel12Layout.setVerticalGroup(
             jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -656,7 +667,7 @@ public class SessionFrame extends javax.swing.JFrame implements XSPConstants, UI
                 .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton12)
                     .addComponent(jButton13))
-                .addContainerGap(73, Short.MAX_VALUE))
+                .addContainerGap(88, Short.MAX_VALUE))
         );
 
         jPanel8.add(jPanel12);
@@ -672,19 +683,54 @@ public class SessionFrame extends javax.swing.JFrame implements XSPConstants, UI
             .addGroup(jPanel11Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel6)
-                .addContainerGap(243, Short.MAX_VALUE))
+                .addContainerGap(317, Short.MAX_VALUE))
         );
         jPanel11Layout.setVerticalGroup(
             jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel11Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel6)
-                .addContainerGap(120, Short.MAX_VALUE))
+                .addContainerGap(136, Short.MAX_VALUE))
         );
 
         jPanel8.add(jPanel11);
 
         jTabbedPane1.addTab("Голосовая связь ", new javax.swing.ImageIcon(getClass().getResource("/image/calls.png")), jPanel8); // NOI18N
+
+        jLabel12.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                jLabel12MouseReleased(evt);
+            }
+        });
+        jLabel12.addComponentListener(new java.awt.event.ComponentAdapter() {
+            public void componentResized(java.awt.event.ComponentEvent evt) {
+                jLabel12ComponentResized(evt);
+            }
+        });
+        jLabel12.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
+            public void mouseDragged(java.awt.event.MouseEvent evt) {
+                jLabel12MouseDragged(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel12, javax.swing.GroupLayout.DEFAULT_SIZE, 882, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel12, javax.swing.GroupLayout.DEFAULT_SIZE, 362, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
+        jTabbedPane1.addTab("Рисование", new javax.swing.ImageIcon(getClass().getResource("/image/logs.png")), jPanel3); // NOI18N
 
         jCheckBox6.setSelected(true);
         jCheckBox6.setText("Разрешить управление этим компьютером");
@@ -736,7 +782,7 @@ public class SessionFrame extends javax.swing.JFrame implements XSPConstants, UI
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton16))
                     .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 247, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(141, Short.MAX_VALUE))
+                .addContainerGap(271, Short.MAX_VALUE))
         );
         jPanel15Layout.setVerticalGroup(
             jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -750,7 +796,7 @@ public class SessionFrame extends javax.swing.JFrame implements XSPConstants, UI
                 .addComponent(jCheckBox7)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(137, Short.MAX_VALUE))
+                .addContainerGap(168, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Управление ", new javax.swing.ImageIcon(getClass().getResource("/image/logs.png")), jPanel15); // NOI18N
@@ -769,14 +815,14 @@ public class SessionFrame extends javax.swing.JFrame implements XSPConstants, UI
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 734, Short.MAX_VALUE)
+                .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 882, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 328, Short.MAX_VALUE)
+                .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 362, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -846,14 +892,14 @@ public class SessionFrame extends javax.swing.JFrame implements XSPConstants, UI
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 770, Short.MAX_VALUE)
+                .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 914, Short.MAX_VALUE)
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 395, Short.MAX_VALUE)
+                .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 424, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -948,6 +994,33 @@ public class SessionFrame extends javax.swing.JFrame implements XSPConstants, UI
         Sender.sendPack(os, CAPSCHECK, 100500, this);
     }//GEN-LAST:event_jMenuItem4ActionPerformed
 
+    private void jLabel12MouseDragged(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel12MouseDragged
+        if (lastX==Integer.MIN_VALUE && lastY==Integer.MIN_VALUE)
+        {
+            lastX = evt.getX();
+            lastY = evt.getY();
+        }
+        g.setColor(Color.BLACK);
+        g.drawLine(lastX, lastY, evt.getX(), evt.getY());
+        jLabel12.setIcon(new ImageIcon(paintbox));
+        Sender.sendPack(os, PAINT, LINE, new String[]{""+lastX,""+lastY,""+evt.getX(),""+evt.getY()}, null, this);
+        lastX = evt.getX();
+        lastY = evt.getY();
+    }//GEN-LAST:event_jLabel12MouseDragged
+
+    private void jLabel12MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel12MouseReleased
+        lastX = Integer.MIN_VALUE;
+        lastY = Integer.MIN_VALUE;
+    }//GEN-LAST:event_jLabel12MouseReleased
+
+    private void jLabel12ComponentResized(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_jLabel12ComponentResized
+        BufferedImage oldPaintbox = paintbox;
+        paintbox = new BufferedImage(jLabel12.getWidth(),jLabel12.getHeight(),BufferedImage.TYPE_INT_ARGB);
+        g = paintbox.getGraphics();
+        g.drawImage(oldPaintbox, 0, 0, null);
+        jLabel12.setIcon(new ImageIcon(paintbox));
+    }//GEN-LAST:event_jLabel12ComponentResized
+
     // <editor-fold defaultstate="collapsed" desc="Generated Code">
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
@@ -976,6 +1049,7 @@ public class SessionFrame extends javax.swing.JFrame implements XSPConstants, UI
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -1002,6 +1076,7 @@ public class SessionFrame extends javax.swing.JFrame implements XSPConstants, UI
     private javax.swing.JPanel jPanel14;
     private javax.swing.JPanel jPanel15;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
@@ -1428,6 +1503,25 @@ public class SessionFrame extends javax.swing.JFrame implements XSPConstants, UI
                 break;
             default:
                 log("MICROPHONE: What the...?");
+                break;
+        }
+    }
+
+    public void handlePaint(int subtype, String[] body, byte[] bytes)
+    {
+        switch(subtype)
+        {
+            case LINE:
+                int x1 = Integer.parseInt(body[0]);
+                int y1 = Integer.parseInt(body[1]);
+                int x2 = Integer.parseInt(body[2]);
+                int y2 = Integer.parseInt(body[3]);
+                g.setColor(Color.BLACK);
+                g.drawLine(x1, y1, x2, y2);
+                jLabel12.setIcon(new ImageIcon(paintbox));
+                break;
+            default:
+                log("PAINT: What the...?");
                 break;
         }
     }
