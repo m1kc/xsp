@@ -1,6 +1,7 @@
 XSP is an extensible socket-based protocol and XSP 1.0 is its implementation written on Java.
 
 To build it using Ant, type:
+
     ant jar
 
 Authors:
