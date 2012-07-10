@@ -23,7 +23,7 @@ public class DirectTransfer
             // Протокол: имя файла
             dos.writeUTF(f.getName());
             // Протокол: размер
-            long size = fis.available();
+            long size = f.length();
             dos.writeLong(size);
             // Протокол: начальная точка
             dos.writeLong(start);
