@@ -35,7 +35,7 @@ public class SessionFrame extends javax.swing.JFrame implements XSPConstants, UI
 
     long traffic = 0;
     long pingTime = 0;
-    String term = "";
+    String terminalText = "";
     NetSound netSound;
     static Robot robot;
     BufferedImage screen;
@@ -89,7 +89,8 @@ public class SessionFrame extends javax.swing.JFrame implements XSPConstants, UI
         return this;
     }
 
-    public static void playSoundFromResource(final String filename) {
+    public static void playSoundFromResource(final String filename)
+    {
         new Thread(){
             @Override
             public void run()
@@ -123,7 +124,6 @@ public class SessionFrame extends javax.swing.JFrame implements XSPConstants, UI
 
     public void updateCounter()
     {
-        jLabel11.setText("Трафик: "+Notation.bestSize(traffic));
         jMenu4.setText("Трафик: "+Notation.bestSize(traffic));
     }
 
@@ -153,7 +153,6 @@ public class SessionFrame extends javax.swing.JFrame implements XSPConstants, UI
         jButton1 = new javax.swing.JButton();
         jButton6 = new javax.swing.JButton();
         jCheckBox5 = new javax.swing.JCheckBox();
-        jLabel11 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         jTextField1 = new javax.swing.JTextField();
         jButton2 = new javax.swing.JButton();
@@ -260,9 +259,6 @@ public class SessionFrame extends javax.swing.JFrame implements XSPConstants, UI
         jCheckBox5.setSelected(true);
         jCheckBox5.setText("Журналировать все пакеты");
 
-        jLabel11.setText("Трафик: N/A");
-        jLabel11.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
-
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -275,9 +271,7 @@ public class SessionFrame extends javax.swing.JFrame implements XSPConstants, UI
                         .addComponent(jButton1)
                         .addGap(18, 18, 18)
                         .addComponent(jCheckBox5)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel11)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 239, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 342, Short.MAX_VALUE)
                         .addComponent(jButton6)))
                 .addContainerGap())
         );
@@ -290,8 +284,7 @@ public class SessionFrame extends javax.swing.JFrame implements XSPConstants, UI
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton1)
                     .addComponent(jButton6)
-                    .addComponent(jCheckBox5)
-                    .addComponent(jLabel11))
+                    .addComponent(jCheckBox5))
                 .addContainerGap())
         );
 
@@ -1212,7 +1205,6 @@ public class SessionFrame extends javax.swing.JFrame implements XSPConstants, UI
     private javax.swing.JComboBox jComboBox3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
-    private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -1299,7 +1291,7 @@ public class SessionFrame extends javax.swing.JFrame implements XSPConstants, UI
         String newTerm = jTextArea2.getText();
         int caret = jTextArea2.getCaretPosition();
 
-        int delta = newTerm.length()-term.length();
+        int delta = newTerm.length()-terminalText.length();
         if (delta>0)
         {
             String diff = newTerm.substring(caret-delta, caret);
@@ -1309,12 +1301,12 @@ public class SessionFrame extends javax.swing.JFrame implements XSPConstants, UI
         {
             Sender.sendPack(os, TERMINAL, DEL, new String[]{""+caret, ""+(-delta)}, null, this);
         }
-        if ((delta==0) && (newTerm.hashCode() != term.hashCode()))
+        if ((delta==0) && (newTerm.hashCode() != terminalText.hashCode()))
         {
             Sender.sendPack(os, TERMINAL, FULL, new String[]{""+jTextArea2.getCaretPosition(), jTextArea2.getText()}, null, this);
         }
 
-        term = newTerm;
+        terminalText = newTerm;
     }
 
     public void sendFileRq()
@@ -1448,7 +1440,7 @@ public class SessionFrame extends javax.swing.JFrame implements XSPConstants, UI
         traffic+=4; // тип - int, 4 bytes
         traffic+=4; // подтип - int, 4 bytes
         traffic+=4; // utf.length - int, 4 bytes
-        if (utf != null) for (int i=0; i<utf.length; i++) traffic+=utf[i].length()*2;
+        if (utf != null) for (String s : utf) traffic+=s.length()*2;
         traffic+=4; // bytes.length - int, 4 bytes
         if (bytes != null) traffic+=bytes.length;
         updateCounter();
@@ -1578,7 +1570,7 @@ public class SessionFrame extends javax.swing.JFrame implements XSPConstants, UI
                 log("TERMINAL: What the...?");
                 break;
         }
-        term = jTextArea2.getText();
+        terminalText = jTextArea2.getText();
     }
 
     public void handleFile(int subtype, String[] body, byte[] bytes) {
