@@ -2,17 +2,27 @@
 
 XSP is an open extensible socket-based protocol and XSP 1.0 is its implementation written on Java.
 
-## Building XSP
+## Building and running
+
+For some technical reasons, sources are distributed as a NetBeans project. But you won't need NetBeans in the most cases. In fact, it's only needed to edit GUI, in other cases you can use any text editor you'd like to.
+
+Requirements:
+
+* Java
+* J2ME SDK
+* Ant
 
 The simpliest build method is to use NetBeans.
 
-To build it using Ant, type:
+To build it using Ant, just type:
 
     ant jar
 
 To run it:
 
     java -jar dist/XSP.jar
+
+Or you can just double-click on `XSP.jar` (it will be placed in the `dist` folder) if your desktop environment is smart enough.
     
 To run it in developer mode (which allows you to open UI without establishing a connection, to emulate packet receiving and to use experimental features):
 
