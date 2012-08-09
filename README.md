@@ -1,8 +1,6 @@
-# XSP 1.0
+# XSP 1.0 [![Build Status](https://secure.travis-ci.org/m1kc/xsp-1.0.png?branch=master)](http://travis-ci.org/m1kc/xsp-1.0)
 
 XSP is an open extensible socket-based protocol and XSP 1.0 is its implementation written on Java.
-
-[![Build Status](https://secure.travis-ci.org/m1kc/xsp-1.0.png?branch=master)](http://travis-ci.org/m1kc/xsp-1.0)
 
 ## Building XSP
 
