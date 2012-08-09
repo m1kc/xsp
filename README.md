@@ -2,6 +2,14 @@
 
 XSP is an open extensible socket-based protocol and XSP 1.0 is its implementation written on Java.
 
+## Features
+
+* Text messaging
+* File transfer (it is very high-speed because connection is direct)
+* Voice chat and sound streaming
+* Cooperative drawing
+* Controlling the remote desktop (experimental)
+
 ## Building and running
 
 For some technical reasons, sources are distributed as a NetBeans project. But you won't need NetBeans in the most cases. In fact, it's only needed to edit GUI, in other cases you can use any text editor you'd like to.
