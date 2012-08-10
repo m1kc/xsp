@@ -32,7 +32,7 @@ public class ScreenStreaming
                 ImageIO.setUseCache(false);
                 final int w = Toolkit.getDefaultToolkit().getScreenSize().width;
                 final int h = Toolkit.getDefaultToolkit().getScreenSize().height;
-                final int div = 4;
+                final int div = 2;
                 final int wx = w/div;
                 final int wy = h/div;
                 DataOutputStream dos = new DataOutputStream(os);
@@ -43,11 +43,11 @@ public class ScreenStreaming
                     Logger.getLogger(ScreenStreaming.class.getName()).log(Level.SEVERE, null, ex);
                 }
                 outBuf = new BufferedImage[div][div];//robot.createScreenCapture(new Rectangle(Toolkit.getDefaultToolkit().getScreenSize()));
-                for (int i=0; i<w; i+=wx)
+                for (int i=0; i<div; i++)
                 {
-                    for (int j=0; j<h; j+=wy)
+                    for (int j=0; j<div; j++)
                     {
-                        outBuf[i/wx][j/wy] = robot.createScreenCapture(new Rectangle(i,j,wx,wy));
+                        outBuf[i][j] = robot.createScreenCapture(new Rectangle(i*wx,j*wy,wx,wy));
                     }
                 }
                 streaming = true;
@@ -65,13 +65,13 @@ public class ScreenStreaming
 
                     long time = System.currentTimeMillis();
 
-                    for (int i=0; i<w; i+=wx)
+                    for (int i=0; i<div; i++)
                     {
-                        for (int j=0; j<h; j+=wy)
+                        for (int j=0; j<div; j++)
                         {
                             try {
-                                BufferedImage img = robot.createScreenCapture(new Rectangle(i,j,wx,wy));
-                                BufferedImage comp = outBuf[i/wx][j/wy];
+                                BufferedImage img = robot.createScreenCapture(new Rectangle(i*wx,j*wy,wx,wy));
+                                BufferedImage comp = outBuf[i][j];
                                 boolean flag = true;
                                 for (int ii = 0; ii<img.getWidth(); ii++)
                                     for (int jj = 0; jj<img.getHeight(); jj++)
@@ -80,10 +80,10 @@ public class ScreenStreaming
                                 {
                                     dos.writeInt(w);
                                     dos.writeInt(h);
-                                    dos.writeInt(i);
-                                    dos.writeInt(j);
+                                    dos.writeInt(i*wx);
+                                    dos.writeInt(j*wy);
                                     ImageIO.write(img, "GIF", os);
-                                    outBuf[i/wx][j/wy] = img;
+                                    outBuf[i][j] = img;
                                     //System.out.println("Tansmitted: "+i+","+j);
                                 }
                             } catch (IOException ex) {
@@ -93,7 +93,7 @@ public class ScreenStreaming
                     }
                     System.out.println("full transfer: "+(System.currentTimeMillis()-time));
                     try {
-                        Thread.sleep(250);
+                        Thread.sleep(50);
                     } catch (InterruptedException ex) {
                         Logger.getLogger(ScreenStreaming.class.getName()).log(Level.SEVERE, null, ex);
                     }
