@@ -20,7 +20,7 @@ Requirements:
 * J2ME SDK
 * Ant
 
-The simpliest build method is to use NetBeans.
+The simplest build method is to use NetBeans.
 
 To build it using Ant, just type:
 
