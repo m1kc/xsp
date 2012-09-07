@@ -53,3 +53,4 @@ https://github.com/m1kc/xsp-1.0/wiki
 See also:
 http://sourceforge.net/projects/m1kc-xsp/
 
+We use Glyphicons (http://glyphicons.com).
