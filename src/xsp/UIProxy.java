@@ -20,7 +20,7 @@ public interface UIProxy
     // Обработка пакетов
 
     public void packReceived(int type, int subtype, String[] utf, byte[] bytes);
-    public void packSent(int type, int subtype, String[] utf, byte[] bytes);
+    public void packetSent(int type, int subtype, String[] utf, byte[] bytes);
 
     // Обработка ошибочных пакетов
 

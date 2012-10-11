@@ -1044,7 +1044,7 @@ public class SessionFrame extends javax.swing.JFrame implements XSPConstants, UI
     }//GEN-LAST:event_jTextField1KeyPressed
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
-        Sender.sendPack(os, CAPSCHECK, ASK, this);
+        Sender.sendPacket(os, CAPSCHECK, ASK, this);
     }//GEN-LAST:event_jButton6ActionPerformed
 
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
@@ -1111,11 +1111,11 @@ public class SessionFrame extends javax.swing.JFrame implements XSPConstants, UI
     }//GEN-LAST:event_jMenuItem2ActionPerformed
 
     private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
-        Sender.sendPack(os, 100500, 250, this);
+        Sender.sendPacket(os, 100500, 250, this);
     }//GEN-LAST:event_jMenuItem3ActionPerformed
 
     private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
-        Sender.sendPack(os, CAPSCHECK, 100500, this);
+        Sender.sendPacket(os, CAPSCHECK, 100500, this);
     }//GEN-LAST:event_jMenuItem4ActionPerformed
 
     private void jLabel12MouseDragged(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel12MouseDragged
@@ -1127,7 +1127,7 @@ public class SessionFrame extends javax.swing.JFrame implements XSPConstants, UI
         g.setColor(color);
         g.drawLine(lastX, lastY, evt.getX(), evt.getY());
         jLabel12.setIcon(new ImageIcon(paintbox));
-        Sender.sendPack(os, PAINT, LINE, new String[]{""+lastX,""+lastY,""+evt.getX(),""+evt.getY(),""+color.getRGB()}, null, this);
+        Sender.sendPacket(os, PAINT, LINE, new String[]{""+lastX,""+lastY,""+evt.getX(),""+evt.getY(),""+color.getRGB()}, null, this);
         lastX = evt.getX();
         lastY = evt.getY();
     }//GEN-LAST:event_jLabel12MouseDragged
@@ -1149,7 +1149,7 @@ public class SessionFrame extends javax.swing.JFrame implements XSPConstants, UI
         paintbox = new BufferedImage(jLabel12.getWidth(),jLabel12.getHeight(),BufferedImage.TYPE_INT_ARGB);
         g = paintbox.getGraphics();
         jLabel12.setIcon(new ImageIcon(paintbox));
-        Sender.sendPack(os, PAINT, RESET, this);
+        Sender.sendPacket(os, PAINT, RESET, this);
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
@@ -1277,13 +1277,13 @@ public class SessionFrame extends javax.swing.JFrame implements XSPConstants, UI
     {
         log("Trying to ping...");
         pingTime = System.currentTimeMillis();
-        Sender.sendPack(os, PING, CALL, this);
+        Sender.sendPacket(os, PING, CALL, this);
     }
 
     public void sendMessage(String s)
     {
         chat(s,false);
-        Sender.sendPack(os, MESSAGE, UNKNOWN, s, null, this);
+        Sender.sendPacket(os, MESSAGE, UNKNOWN, s, null, this);
     }
 
     public void updateTerminal()
@@ -1295,15 +1295,15 @@ public class SessionFrame extends javax.swing.JFrame implements XSPConstants, UI
         if (delta>0)
         {
             String diff = newTerm.substring(caret-delta, caret);
-            Sender.sendPack(os, TERMINAL, ADD, new String[]{""+(caret-delta), diff}, null, this);
+            Sender.sendPacket(os, TERMINAL, ADD, new String[]{""+(caret-delta), diff}, null, this);
         }
         if (delta<0)
         {
-            Sender.sendPack(os, TERMINAL, DEL, new String[]{""+caret, ""+(-delta)}, null, this);
+            Sender.sendPacket(os, TERMINAL, DEL, new String[]{""+caret, ""+(-delta)}, null, this);
         }
         if ((delta==0) && (newTerm.hashCode() != terminalText.hashCode()))
         {
-            Sender.sendPack(os, TERMINAL, FULL, new String[]{""+jTextArea2.getCaretPosition(), jTextArea2.getText()}, null, this);
+            Sender.sendPacket(os, TERMINAL, FULL, new String[]{""+jTextArea2.getCaretPosition(), jTextArea2.getText()}, null, this);
         }
 
         terminalText = newTerm;
@@ -1312,7 +1312,7 @@ public class SessionFrame extends javax.swing.JFrame implements XSPConstants, UI
     public void sendFileRq()
     {
         File ff = new File(jTextField4.getText());
-        Sender.sendPack(os, FILE, REQUEST, ff.getName(), null, this);
+        Sender.sendPacket(os, FILE, REQUEST, ff.getName(), null, this);
     }
 
     public void sendFile()
@@ -1350,7 +1350,7 @@ public class SessionFrame extends javax.swing.JFrame implements XSPConstants, UI
         {
             netSound.buffer = -1;
         }
-        Sender.sendPack(os, MICROPHONE, REQUEST, new String[]{""+netSound.sampleRate,""+netSound.sampleSizeInBits,""+netSound.channels,""+netSound.buffer}, null, this);
+        Sender.sendPacket(os, MICROPHONE, REQUEST, new String[]{""+netSound.sampleRate,""+netSound.sampleSizeInBits,""+netSound.channels,""+netSound.buffer}, null, this);
     }
 
     public void sendDialogRq()
@@ -1366,17 +1366,17 @@ public class SessionFrame extends javax.swing.JFrame implements XSPConstants, UI
         {
             netSound.buffer = -1;
         }
-        Sender.sendPack(os, DIALOG, REQUEST, new String[]{""+netSound.sampleRate,""+netSound.sampleSizeInBits,""+netSound.channels,""+netSound.buffer}, null, this);
+        Sender.sendPacket(os, DIALOG, REQUEST, new String[]{""+netSound.sampleRate,""+netSound.sampleSizeInBits,""+netSound.channels,""+netSound.buffer}, null, this);
     }
 
     public void sendMicrophoneStop()
     {
-        Sender.sendPack(os, MICROPHONE, STOP, this);
+        Sender.sendPacket(os, MICROPHONE, STOP, this);
     }
 
     public void sendDialogStop()
     {
-        Sender.sendPack(os, DIALOG, STOP, this);
+        Sender.sendPacket(os, DIALOG, STOP, this);
     }
 
     public void startVoiceStreaming()
@@ -1428,7 +1428,7 @@ public class SessionFrame extends javax.swing.JFrame implements XSPConstants, UI
 
     public void sendMouse(int x,int y,String event,int mask)
     {
-        Sender.sendPack(os, MOUSE, UNKNOWN, new String[]{""+x, ""+y, ""+event, ""+mask}, null, this);
+        Sender.sendPacket(os, MOUSE, UNKNOWN, new String[]{""+x, ""+y, ""+event, ""+mask}, null, this);
     }
 
     // РЕАЛИЗАЦИЯ UIProxy ======================================================
@@ -1467,7 +1467,7 @@ public class SessionFrame extends javax.swing.JFrame implements XSPConstants, UI
         logPack(true, type, subtype, utf, bytes);        
     }
 
-    public void packSent(int type, int subtype, String[] utf, byte[] bytes)
+    public void packetSent(int type, int subtype, String[] utf, byte[] bytes)
     {
         logPack(false, type, subtype, utf, bytes);
     }
@@ -1483,7 +1483,7 @@ public class SessionFrame extends javax.swing.JFrame implements XSPConstants, UI
 
     public void errorUnknownType(int type, int subtype) {
         log("Неизвестный тип пакета: "+type);
-        Sender.sendPack(os, SERVICE, UNKNOWN, "Unknown packet type", null, this);
+        Sender.sendPacket(os, SERVICE, UNKNOWN, "Unknown packet type", null, this);
     }
 
     // Обработка пакетов
@@ -1500,7 +1500,7 @@ public class SessionFrame extends javax.swing.JFrame implements XSPConstants, UI
         switch(subtype)
         {
             case CALL:
-                Sender.sendPack(os, PING, ANSWER, this);
+                Sender.sendPacket(os, PING, ANSWER, this);
                 log("Командир, нас пингуют!");
                 break;
             case ANSWER:
@@ -1517,7 +1517,7 @@ public class SessionFrame extends javax.swing.JFrame implements XSPConstants, UI
         switch(subtype)
         {
             case ASK:
-                Sender.sendPack(os, CAPSCHECK, TELL, CAPS, null, this);
+                Sender.sendPacket(os, CAPSCHECK, TELL, CAPS, null, this);
                 break;
             case TELL:
                 log("Тип устройства: "+body[0]);
@@ -1580,12 +1580,12 @@ public class SessionFrame extends javax.swing.JFrame implements XSPConstants, UI
                 if (jCheckBox1.isSelected() ||
                         JOptionPane.showConfirmDialog(this, "Принять файл?\n"+body[0], null, JOptionPane.YES_NO_OPTION)==JOptionPane.YES_OPTION)
                 {
-                    Sender.sendPack(os, FILE, AGREE, body, null, this);
+                    Sender.sendPacket(os, FILE, AGREE, body, null, this);
                     receiveFile();
                 }
                 else
                 {
-                    Sender.sendPack(os, FILE, DISAGREE, body, null, this);
+                    Sender.sendPacket(os, FILE, DISAGREE, body, null, this);
                 }
                 break;
             case AGREE:
@@ -1612,8 +1612,8 @@ public class SessionFrame extends javax.swing.JFrame implements XSPConstants, UI
                 netSound.channels = (Integer.parseInt(body[2]));
                 netSound.buffer = (Integer.parseInt(body[3]));
                 startVoiceListening();
-                if (jCheckBox2.isSelected()) Sender.sendPack(os, MICROPHONE, AGREE, this);
-                else Sender.sendPack(os, MICROPHONE, DISAGREE, this);
+                if (jCheckBox2.isSelected()) Sender.sendPacket(os, MICROPHONE, AGREE, this);
+                else Sender.sendPacket(os, MICROPHONE, DISAGREE, this);
                 break;
             case AGREE:
                 startVoiceStreaming();
@@ -1644,8 +1644,8 @@ public class SessionFrame extends javax.swing.JFrame implements XSPConstants, UI
                 netSound.buffer = (Integer.parseInt(body[3]));
                 startVoiceStreaming();
                 startVoiceListening();
-                if (jCheckBox2.isSelected()) Sender.sendPack(os, DIALOG, AGREE, this);
-                else Sender.sendPack(os, DIALOG, DISAGREE, this);
+                if (jCheckBox2.isSelected()) Sender.sendPacket(os, DIALOG, AGREE, this);
+                else Sender.sendPacket(os, DIALOG, DISAGREE, this);
                 break;
             case AGREE:
                 startVoiceStreaming();

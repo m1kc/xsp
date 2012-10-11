@@ -2,6 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
+
 package xsp;
 
 import java.io.*;
@@ -55,7 +56,6 @@ public class Session extends Thread implements XSPConstants
             {
                 if (is.available() > 0)
                 {
-
                     // Next generation:
                     // [int:тип][int:подтип][int:кол-во UTF][UTF]...[UTF][int:кол-во байт][byte[]:байты]
 
