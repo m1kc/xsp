@@ -1,21 +1,14 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package xsp;
 
 import java.io.*;
 import java.util.logging.*;
 
 /**
- *
  * @author m1kc
  */
-public class DirectTransfer
-{
-    public static void sendFile(String filename, OutputStream os, long start, UIProxy u)
-    {
+public class DirectTransfer {
+
+    public static void sendFile(String filename, OutputStream os, long start, UIProxy u) {
         try {
             File f = new File(filename);
             DataOutputStream dos = new DataOutputStream(os);
@@ -47,7 +40,7 @@ public class DirectTransfer
                 // Цифры
                 time = System.currentTimeMillis() - starttime; // Время в мс
 
-                if (time==0) speed=0;
+                if (time == 0) speed = 0;
                 else speed = 1000 * sent / time; // байты в секунду
 
                 fulltime = time * size / sent; // Полное время в мс
@@ -62,8 +55,7 @@ public class DirectTransfer
         }
     }
 
-    public static void receiveFile(String filePath, InputStream is, UIProxy u)
-    {
+    public static void receiveFile(String filePath, InputStream is, UIProxy u) {
         try {
             DataInputStream dis = new DataInputStream(is);
             String fileName = dis.readUTF();
@@ -83,30 +75,27 @@ public class DirectTransfer
             long startTime = System.currentTimeMillis();
             long speed = 0, fulltime = 0, time = 0, rest = 0;
             for (long c = fileOffset; c < fileLength; c += buffLen) {
-                buffer = new byte[1024*10];
+                buffer = new byte[1024 * 10];
                 buffLen = dis.read(buffer);
                 if (buffLen < 0) {
                     break;
                 }
                 raf.write(buffer, 0, buffLen);
-                
+
                 // Цифры
                 time = System.currentTimeMillis() - startTime; // Время в мс
 
-                if (time==0) speed=0;
+                if (time == 0) speed = 0;
                 else speed = 1000 * (c - fileOffset) / time; // байты в секунду
 
-                if (c - fileOffset == 0)
-                {
+                if (c - fileOffset == 0) {
                     fulltime = rest = 0;
-                }
-                else
-                {
+                } else {
                     fulltime = time * (fileLength - fileOffset) / (c - fileOffset); // Полное время в мс
                     rest = fulltime - time; // Оставшееся время в мс
                 }
 
-                u.receiveProgress(c,fileLength,speed,rest);
+                u.receiveProgress(c, fileLength, speed, rest);
             }
             raf.close();
             u.receiveDone(fileLength);

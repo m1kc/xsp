@@ -1,16 +1,9 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package xsp;
 
 /**
- *
  * @author m1kc
  */
-public interface XSPConstants
-{
+public interface XSPConstants {
 
     // Типы пакетов
 
@@ -51,7 +44,7 @@ public interface XSPConstants
     final static int RESET = 1;
 
     // Возможности клиента
-    final static String[] CAPS = {"PC","XSP 1.0","J2SE",
-    "m1kc project & TomClaw Software","PING","CAPSCHECK","MESSAGE",
-    "TERMINAL","FILE","MICROPHONE","DIALOG","PAINT"};
+    final static String[] CAPS = {"PC", "XSP 1.0", "J2SE",
+            "m1kc project & TomClaw Software", "PING", "CAPSCHECK", "MESSAGE",
+            "TERMINAL", "FILE", "MICROPHONE", "DIALOG", "PAINT"};
 }

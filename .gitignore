@@ -8,3 +8,9 @@
 # NetBeans folders #
 build/
 dist/
+
+# IDE files
+*.iml
+.idea/
+out/
+nbproject/
