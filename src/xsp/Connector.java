@@ -1,8 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package xsp;
 
 import java.io.IOException;
@@ -11,47 +6,26 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- *
  * @author m1kc
  */
-public class Connector
-{
-    public static Session connectAsServer(int port, UIProxy u)
-    {
-        Socket mainSocket = null;
-        Socket fileSocket = null;
-        Socket voiceSocket = null;
-        Socket screenSocket = null;
-        try {
-            ServerSocket server = new ServerSocket(port);
-            mainSocket = server.accept();
-            fileSocket = server.accept();
-            voiceSocket = server.accept();
-            screenSocket = server.accept();
-        } catch (IOException ex) {
-            Logger.getLogger(Connector.class.getName()).log(Level.SEVERE, null, ex);
-        }
+public class Connector {
+
+    public static Session connectAsServer(int port, UIProxy u) throws IOException {
+        ServerSocket server = new ServerSocket(port);
+        Socket mainSocket = server.accept();
+        Socket fileSocket = server.accept();
+        Socket voiceSocket = server.accept();
+        Socket screenSocket = server.accept();
         Session ss = new Session(mainSocket, fileSocket, voiceSocket, screenSocket, u);
         ss.start();
         return ss;
     }
 
-    public static Session connectAsClient(String host, int port, UIProxy u)
-    {
-        Socket mainSocket = null;
-        Socket fileSocket = null;
-        Socket voiceSocket = null;
-        Socket screenSocket = null;
-        try {
-            mainSocket = new Socket(host, port);
-            fileSocket = new Socket(host, port);
-            voiceSocket = new Socket(host, port);
-            screenSocket = new Socket(host, port);
-        } catch (UnknownHostException ex) {
-            Logger.getLogger(Connector.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
-            Logger.getLogger(Connector.class.getName()).log(Level.SEVERE, null, ex);
-        }
+    public static Session connectAsClient(String host, int port, UIProxy u) throws IOException {
+        Socket mainSocket = new Socket(host, port);
+        Socket fileSocket = new Socket(host, port);
+        Socket voiceSocket = new Socket(host, port);
+        Socket screenSocket = new Socket(host, port);
         Session ss = new Session(mainSocket, fileSocket, voiceSocket, screenSocket, u);
         ss.start();
         return ss;

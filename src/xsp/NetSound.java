@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package xsp;
 
 import java.io.*;
@@ -10,7 +6,6 @@ import javax.sound.sampled.*;
 import javax.swing.*;
 
 /**
- *
  * @author solkin
  */
 public class NetSound {
@@ -20,7 +15,9 @@ public class NetSound {
     public JProgressBar melodyProgress;
     public int outputBufferSize = 256;//2048;
     public int inputBufferSize = 256;//2048;
-    /** Microphone settings **/
+    /**
+     * Microphone settings
+     **/
     public float sampleRate = 4000;
     //8000,11025,16000,22050,44100
     public int sampleSizeInBits = 8;
@@ -33,7 +30,9 @@ public class NetSound {
     //true,false
     public int frameSize = 8;
     public float frameRate = 4000;
-    /** Connections **/
+    /**
+     * Connections
+     **/
     private Socket socket;
     public OutputStream outputStream;
     public InputStream inputStream;
@@ -43,7 +42,7 @@ public class NetSound {
     // Буфер
     public int buffer = -1;
 
-    public void connectRemote(String host, int port) throws UnknownHostException, IOException {
+    public void connectRemote(String host, int port) throws IOException {
         socket = new Socket(host, port);
         openStreams();
     }
@@ -60,10 +59,7 @@ public class NetSound {
     }
 
     public boolean isConnected() {
-        if (inputStream != null && outputStream != null) {
-            return true;
-        }
-        return false;
+        return inputStream != null && outputStream != null;
     }
 
     public void closeConnection() throws IOException {
@@ -77,7 +73,7 @@ public class NetSound {
         byte[] data = new byte[outputBufferSize];
         long dataCounter = 0;
 
-        if(!isConnected()) {
+        if (!isConnected()) {
             return;
         }
 
@@ -89,11 +85,13 @@ public class NetSound {
         targetDataLine.start();
 
         long startTime = System.currentTimeMillis();
-        while (true)
-        {
-            if (mustStopOutput) { mustStopOutput=false; break; }
+        while (true) {
+            if (mustStopOutput) {
+                mustStopOutput = false;
+                break;
+            }
             num = targetDataLine.read(data, 0, data.length);
-            if (num==-1) break;
+            if (num == -1) break;
             outputStream.write(data, 0, num);
             outputStream.flush();
             dataCounter += num;
@@ -112,26 +110,24 @@ public class NetSound {
         byte[] data = new byte[inputBufferSize];
         long dataCounter = 0;
 
-        if(!isConnected()) {
+        if (!isConnected()) {
             return;
         }
 
         DataLine.Info dataLineInfo = new DataLine.Info(SourceDataLine.class, audioFormat);
         SourceDataLine sourceDataLine = AudioSystem.getSourceDataLine(audioFormat);
 
-        if (buffer<=0) sourceDataLine.open(audioFormat, dataLineInfo.getMinBufferSize());
+        if (buffer <= 0) sourceDataLine.open(audioFormat, dataLineInfo.getMinBufferSize());
         else sourceDataLine.open(audioFormat, 1000);
         sourceDataLine.start();
 
         long startTime = System.currentTimeMillis();
-        while (true)
-        {
+        while (true) {
             num = inputStream.read(data);
-            if (num==-1) break;
-            if (mustStopInput)
-            {
-                while(inputStream.available()>0) inputStream.read();
-                mustStopInput=false;
+            if (num == -1) break;
+            if (mustStopInput) {
+                while (inputStream.available() > 0) inputStream.read();
+                mustStopInput = false;
                 break;
             }
             sourceDataLine.write(data, 0, num);
@@ -146,11 +142,11 @@ public class NetSound {
         System.gc();
     }
 
-    public void broadcastFormattedSound(String fileName) throws FileNotFoundException, IOException {
+    public void broadcastFormattedSound(String fileName) throws IOException {
         File file = new File(fileName);
         long fileSize = file.length();
         FileInputStream fis = new FileInputStream(file);
-        if(!isConnected()) {
+        if (!isConnected()) {
             return;
         }
         int num;
@@ -170,7 +166,7 @@ public class NetSound {
     }
 
     public void listenFormattedSound() throws IOException, UnsupportedAudioFileException, LineUnavailableException {
-        if(!isConnected()) {
+        if (!isConnected()) {
             return;
         }
         BufferedInputStream bis = new BufferedInputStream(inputStream);
